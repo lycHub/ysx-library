@@ -1,0 +1,13 @@
+{
+  "name": "vue-next-tree",
+  "version": "4.0.7",
+  "scripts": {
+    "build": "vue-tsc --noEmit && vite build"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.25"
+  },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts"
+}

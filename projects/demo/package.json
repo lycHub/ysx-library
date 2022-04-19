@@ -1,0 +1,16 @@
+{
+  "name": "virtual-tree-demo",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.25"
+  },
+  "dependencies": {
+    "vue-next-tree": "workspace:^4.0.7"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "ysx",
+  "version": "1.0.0",
+  "description": "vue3 tree virtual-tree",
+  "main": "index.js",
+  "private":"true",
+  "scripts": {
+    "start:demo": "pnpm -C ./projects/demo start"
+  },
+  "keywords": ["vue3", "tree"],
+  "author": "ysx",
+  "license": "ISC",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.0",
+    "vue-tsc": "^0.29.8",
+    "vue": "^3.2.25"
+  }
+}
