@@ -12,6 +12,7 @@ interface TreeNodeOptions {
   hasChildren?: boolean;
   children?: TreeNodeOptions[];
   parentKey?: NodeKey | null;
+  parentKeys?: NodeKey[];
 }
 
 interface TreeInstance {
@@ -26,7 +27,4 @@ interface TreeNodeInstance {
   halfChecked: () => boolean;
 }
 
-type TypeWithNull<T> = T | null;
-type TypeWithUndefined<T> = T | undefined;
-
-export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, TypeWithUndefined, TypeWithNull };
+export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance };
