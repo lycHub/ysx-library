@@ -1,14 +1,13 @@
 .vir-checkbox { /*  var(--) */
   display: inline-block;
   cursor: pointer;
+  user-select: none;
 }
 
 .vir-checkbox .inner {
   display: inline-block;
   vertical-align: text-bottom;
   position: relative;
-  top: 0;
-  left: 0;
   width: 16px;
   height: 16px;
   direction: ltr;
@@ -38,6 +37,7 @@
 
 .vir-checkbox .content {
   display: inline-block;
+  margin-left: 4px;
 }
 
 .vir-checkbox.half-checked .inner:after {

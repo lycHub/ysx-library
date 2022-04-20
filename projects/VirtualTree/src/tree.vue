@@ -1,7 +1,7 @@
 <template>
-  <div class="vir-tree-container">
+  <div class="vir-tree">
 vir-tree-container
-<vir-checkbox v-model="checked" />
+<vir-checkbox v-model="checked">abc</vir-checkbox>
   </div>
 </template>
 
