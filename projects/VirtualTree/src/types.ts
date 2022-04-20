@@ -1,3 +1,5 @@
+import { BaseTreeNode } from "./baseTreeNode";
+
 type NodeKey = string | number;
 
 /*
@@ -27,4 +29,7 @@ interface TreeNodeInstance {
   halfChecked: () => boolean;
 }
 
-export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance };
+
+type KeyNodeMap = Record<NodeKey, BaseTreeNode>;
+
+export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap };

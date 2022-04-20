@@ -3,6 +3,7 @@
   App
   <VirTree
     :source="list"
+    :default-expanded-keys="defaultExpandedKeys"
   />
 </template>
 
@@ -28,7 +29,9 @@
       return list;
     }
 
-    let list = $ref(recursion());
+    const list = $ref(recursion());
+
+    const defaultExpandedKeys = $ref(['0-1']);
 
     onMounted(() => {
       
