@@ -1,6 +1,5 @@
 <template>
   <div class="demo-box">
-    <button @click="reset">reset</button>
     <div class="form-item" style="width: 206px;">
       value: {{ value }}
       <vir-checkbox v-model="value" />
@@ -10,7 +9,7 @@
 
 <script lang="ts">
   import { defineComponent, ref } from 'vue';
-  import VirCheckbox from './VirCheckbox';
+  import VirCheckbox from './index.vue';
 
   export default defineComponent({
     name: 'CheckboxDemo',

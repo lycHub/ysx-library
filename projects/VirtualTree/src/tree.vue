@@ -1,11 +1,18 @@
 <template>
   <div class="vir-tree">
-    aaa
-    <!-- <TreeNode
+    <div class="vir-tree-wrap">
+      <tree-node
         v-for="node in visibleTreeNodeList"
         :key="node.key"
-        v-bind="node.treeNodeProps"
-      /> -->
+        :node="node"
+        :show-checkbox="showCheckbox"
+        :selected-keys="selectedKeys"
+        :disabled-keys="disabledKeys"
+        :expanded-keys="expandedKeys"
+        :checked-keys="checkedKeys"
+        :half-checked-keys="halfCheckedKeys"
+      />
+    </div>
   </div>
 </template>
 
@@ -14,6 +21,8 @@ import { PropType, watch } from 'vue';
 import { useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
 import { KeyNodeMap, NodeKey, TreeNodeOptions } from './types';
+import { SelectionModel } from './selection';
+import TreeNode from './node.vue';
 
  const props = defineProps({
     source: {
@@ -63,18 +72,52 @@ import { KeyNodeMap, NodeKey, TreeNodeOptions } from './types';
   }, {
     immediate: true
   });
+  const expandedKeys = new SelectionModel<NodeKey>(true);
+  watch(() => props.defaultExpandedKeys, newVal => {
+    expandedKeys.clear();
+    expandedKeys.select(...newVal);
+    console.log('wat defaultExpandedKeys :>> ', newVal, expandedKeys.selected);
+  }, {
+    immediate: true
+  });
+  
+  const selectedKeys = new SelectionModel<NodeKey>(true);
+  watch(() => props.defaultSelectedKey, newVal => {
+    selectedKeys.clear();
+    selectedKeys.select(newVal);
+  }, {
+    immediate: true
+  });
+  
+  const disabledKeys = new SelectionModel<NodeKey>(true);
+  watch(() => props.defaultDisabledKeys, newVal => {
+    disabledKeys.clear();
+    disabledKeys.select(...newVal);
+  }, {
+    immediate: true
+  });
+  
+  
+  const checkedKeys = new SelectionModel<NodeKey>(true);
+   const halfCheckedKeys = new SelectionModel<NodeKey>(true, []);
+  watch(() => props.defaultCheckedKeys, newVal => {
+    checkedKeys.clear();
+    checkedKeys.select(...newVal);
+    halfCheckedKeys.clear();
+  }, {
+    immediate: true
+  });
+  
+ 
 
-  const expandedKeysSet = new Set(props.defaultExpandedKeys);
+
 
   const visibleTreeNodeList = $computed(() => {
     return flattenTreeData.filter((node) => {
       const isRoot = !node.parentKey;
-      const isVisibleNode = node.parentKeys.every(key => expandedKeysSet.has(key));
+      const isVisibleNode = node.parentKeys.every(key => expandedKeys.isSelected(key));
       return isRoot || isVisibleNode;
     });
   });
   console.log('visibleTreeNodeList :>> ', visibleTreeNodeList);
 </script>
-
-<style scoped>
-</style>

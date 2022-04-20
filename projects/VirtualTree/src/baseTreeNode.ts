@@ -17,7 +17,7 @@ export class BaseTreeNode {
     this.level = parent ? parent.level + 1 : 0;
   }
 
-  get isLeaf() {
-    return this.children.length === 0;
+  get hasChildren() {
+    return this.children.length > 0;
   }
 }

@@ -3,6 +3,7 @@
   App
   <VirTree
     :source="list"
+    show-checkbox
     :default-expanded-keys="defaultExpandedKeys"
   />
 </template>
@@ -31,8 +32,10 @@
 
     const list = $ref(recursion());
 
-    const defaultExpandedKeys = $ref(['0-1']);
-
+    let defaultExpandedKeys = $ref(['0-1']);
+    setTimeout(() => {
+      // defaultExpandedKeys = [];
+    }, 2000)
     onMounted(() => {
       
     });
@@ -44,7 +47,6 @@
   -webkit-font-smoothing: antialiased;
 
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
