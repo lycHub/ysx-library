@@ -1,4 +1,4 @@
-import { defineComponent, PropType, toRefs, watch } from 'vue';
+import { defineComponent, PropType, toRefs, watch, reactive } from 'vue';
 import { BaseTreeNode } from './baseTreeNode';
 import { TreeContext } from "./types";
 
@@ -14,16 +14,15 @@ export default defineComponent({
             required: true
         },
     },
-    setup(props) {
-        // const { context, node } = $(toRefs(props));
-        const { loading, key } = props.node;
-        const expanded = $computed(() => props.context.expandedKeys.has(props.node.key));
-        // console.log('expanded 22 :>> ', props.node.key,  expanded);
+    setup({ context, node }) {
+        const { loading, key } = node;
+        const { expandedKeys, renderIcon, slots } = context;
+        const expanded = $computed(() => expandedKeys.has(key));
         return () => {
-            return props.context.renderIcon
-            ? props.context.renderIcon({ node: props.node, loading, expanded, })
-            : props.context.slots.icon
-            ? props.context.slots.icon({ node: props.node, loading, expanded, })
+            return renderIcon
+            ? renderIcon({ node, loading, expanded })
+            : slots.icon
+            ? slots.icon({ node, loading, expanded })
             : <div class="def-arrow">
                 {
                     loading ? <i class="iconfont iconloading ico-loading" /> : <i class="iconfont iconExpand"></i>
