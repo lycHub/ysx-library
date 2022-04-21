@@ -5,6 +5,8 @@
     :source="list"
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
+    :default-disabled-keys="defaultDisabledKeys"
+    :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
     :default-checked-keys="defaultCheckedKeys"
   />
@@ -32,9 +34,11 @@
       return list;
     }
 
-    const showCheckbox = true;
+    const showCheckbox = false;
     const checkStrictly = false;
     let list = $ref(recursion());
+    let defaultDisabledKeys = $ref(['0-3-1']);
+    let defaultSelectedKey = $ref('');
     let defaultExpandedKeys = $ref(['0-1-1']);
     let defaultCheckedKeys = $ref<string[]>(['0-1-0', '0-1-1', '0-1-2', '0-1-3', '0-1-4',]);
     setTimeout(() => {

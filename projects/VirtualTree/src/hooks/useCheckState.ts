@@ -105,12 +105,9 @@ function updateUpwards(options: {
       // console.log('indeterminate :>> ', indeterminate, checked, checkedKeys.has(parentKey));
       if (checked !== checkedKeys.has(parentKey) || indeterminate !== halfCheckedKeys.has(parentKey)) { // 父节点变了的话，就还要继续向上更新
         // this.checkedNodeKeys.value.toggle(parentKey);
-        if (checked) {
-          checkedKeys[addOrDelete(checked)](parentKey);
-        }
-        if (indeterminate) {
-          halfCheckedKeys[addOrDelete(indeterminate)](parentKey);
-        }
+        
+        checkedKeys[addOrDelete(checked)](parentKey);
+        halfCheckedKeys[addOrDelete(indeterminate)](parentKey);
         update(parentNode);
       }
     }
@@ -152,4 +149,4 @@ function getStateFromNodes(options: {
 
 
 
-export { useCheckState };
+export { useCheckState, updateCheckedState };

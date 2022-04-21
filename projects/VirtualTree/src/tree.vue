@@ -12,6 +12,8 @@
         :checked-keys="checkedKeys"
         :half-checked-keys="halfCheckedKeys"
         @toggleExpand="toggleExpand"
+        @selectChange="selectChange"
+        @checkChange="checkChange"
       />
     </div>
   </div>
@@ -21,11 +23,12 @@
 import { PropType, reactive, ref, watch, watchEffect } from 'vue';
 import { useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
-import { KeyNodeMap, NodeKey, TreeNodeOptions } from './types';
+import { EventParams, KeyNodeMap, NodeKey, SelectEventParams, TreeNodeOptions } from './types';
 import { SelectionModel } from './selection';
 import TreeNode from './node.vue';
-import { useCheckState, testWatch } from './hooks/useCheckState';
+import { updateCheckedState, useCheckState } from './hooks/useCheckState';
 import { addOrDelete } from './utils';
+import { TypeWithUndefined } from './utils/types';
 
 const props = defineProps({
   source: {
@@ -60,8 +63,9 @@ const props = defineProps({
 
 
   const emit = defineEmits<{
-    (e: 'checkChange', value:{ status: boolean; node: BaseTreeNode }): void;
-    (e: 'toggleExpand', value: { status: boolean; node: BaseTreeNode }): void;
+    (e: 'selectChange', value: SelectEventParams): void;
+    (e: 'checkChange', value: EventParams): void;
+    (e: 'toggleExpand', value: EventParams): void;
   }>();
 
 let treeData = $ref<BaseTreeNode[]>([]);
@@ -80,15 +84,7 @@ watch(() => props.source, newVal => {
   immediate: true
 });
 
-let selectedKeys = new Set<NodeKey>();
-watch(() => props.defaultSelectedKey, newVal => {
-  selectedKeys.clear();
-  selectedKeys = new Set([newVal]);
-}, {
-  immediate: true
-});
-
-let disabledKeys = new Set<NodeKey>();
+let disabledKeys = $ref(new Set<NodeKey>());
 watch(() => props.defaultDisabledKeys, newVal => {
   disabledKeys.clear();
   disabledKeys = new Set(newVal);
@@ -141,7 +137,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
 });
 
   let loading = $ref(false);
-  const toggleExpand = (node: BaseTreeNode) => {
+  function toggleExpand(node: BaseTreeNode) {
       if (loading) return;
       const expanded = expandedKeys.has(node.key);
       expandedKeys[addOrDelete(!expanded)](node.key);
@@ -161,16 +157,43 @@ watch(() => props.defaultExpandedKeys, newVal => {
             });
           } */
       }
-      emit('toggleExpand', { status: expandedKeys.has(node.nodeKey), node });
+      console.log('expanded :>> ', !expanded);
+      emit('toggleExpand', { state: !expanded, node });
     }
 
-    function expandNode(node: BaseTreeNode) {
-      console.log('expandNode :>> ', expandedKeys);
-      // expandedKeys
+
+    let selectedKeys = $ref(new Set<NodeKey>());
+    watch(() => props.defaultSelectedKey, newVal => {
+      selectedKeys.clear();
+      selectedKeys.add(newVal);
+    }, {
+      immediate: true
+    });
+    function selectChange(node: BaseTreeNode) {
+      const preSelectedNode = key2TreeNode[Array.from(selectedKeys.values())[0]];
+      let currentNode: TypeWithUndefined<BaseTreeNode>;
+      if (selectedKeys.has(node.key)) {
+        selectedKeys.clear();
+      } else {
+        selectedKeys.clear();
+        selectedKeys.add(node.key);
+        currentNode = node;
+      }
+      emit('selectChange', { preSelectedNode, node: currentNode });
     }
 
-    function collapseNode(node: BaseTreeNode) {
 
+
+    function checkChange(node: BaseTreeNode) {
+      const newChecked = !checkedKeys.has(node.key);
+      updateCheckedState({
+        node,
+        checked: newChecked,
+        checkedKeys,
+        halfCheckedKeys,
+        key2TreeNode
+      });
+      emit('checkChange', { state: newChecked, node });
     }
 
 

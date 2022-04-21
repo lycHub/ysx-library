@@ -19,7 +19,7 @@
       @change="handleCheckChange">
         <span class="node-title">{{ props.node.name }}</span>
     </vir-check-box>
-    <div class="node-content node-text" v-else>
+    <div class="node-content node-text" v-else @click="handleSelect">
       <span :class="titleCls">{{ props.node.name }}</span>
     </div>
     </div>
@@ -78,7 +78,8 @@ import { NodeKey } from './types';
 
 
   const emit = defineEmits<{
-    (e: 'checkChange', value: [boolean, BaseTreeNode]): void;
+    (e: 'selectChange', value: BaseTreeNode): void;
+    (e: 'checkChange', value: BaseTreeNode): void;
     (e: 'toggleExpand', value: BaseTreeNode): void;
   }>();
 
@@ -97,8 +98,15 @@ import { NodeKey } from './types';
     });
 
 
-    const handleCheckChange = (checked: boolean) => {
-      emit('checkChange', [checked, props.node]);
+   const handleSelect = (event: MouseEvent) => {
+      event.stopPropagation();
+      if (!props.disabledKeys.has(props.node.key)) {
+        emit('selectChange', props.node);
+      }
+    }
+
+    const handleCheckChange = () => {
+      emit('checkChange', props.node);
     }
 
     const handleExpand = () => {

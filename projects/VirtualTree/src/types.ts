@@ -1,4 +1,5 @@
-import { BaseTreeNode } from "./baseTreeNode";
+import { BaseTreeNode } from './baseTreeNode';
+import { TypeWithUndefined } from './utils/types';
 
 type NodeKey = string | number;
 
@@ -32,4 +33,16 @@ interface TreeNodeInstance {
 
 type KeyNodeMap = Record<NodeKey, BaseTreeNode>;
 
-export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap };
+
+interface EventParams {
+  state: boolean;
+  node: BaseTreeNode;
+}
+
+
+interface SelectEventParams {
+  preSelectedNode: TypeWithUndefined<BaseTreeNode>;
+  node: TypeWithUndefined<BaseTreeNode>;
+}
+
+export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams };
