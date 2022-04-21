@@ -1,20 +1,29 @@
 
 <template>
   App
-  <VirTree
+  <vir-tree
     :source="list"
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
+    :render-node="renderNode"
+    :render-icon="renderIcon"
     :default-disabled-keys="defaultDisabledKeys"
     :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
-    :default-checked-keys="defaultCheckedKeys"
-  />
+    :default-checked-keys="defaultCheckedKeys">
+    <template #node="node">
+      <b style="color: green;"><i>{{ node.name }}</i></b>
+    </template>
+    <template #icon="{ loading, expanded }">
+      <span>ico-{{ expanded }}</span>
+    </template>
+  </vir-tree>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
   import { onMounted } from 'vue';
   import { TreeNodeOptions, VirTree } from 'vue-next-tree';
+import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
 
   function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
@@ -50,6 +59,14 @@
     onMounted(() => {
       
     });
+
+
+    function renderNode(node: BaseTreeNode) {
+      return <div style="padding: 0 4px;"><b style="color: #f60;">{ node.name }</b></div>
+    }
+    function renderIcon({ expanded }: any) {
+      return <div>i-{ expanded.toString() }</div>;
+    }
 </script>
 
 <style>

@@ -3,10 +3,7 @@
 
     <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <template v-if="props.node.hasChildren">
-        <div class="def-arrow">
-          <i class="iconfont iconloading ico-loading" v-if="props.node.loading" />
-          <i class="iconfont iconExpand" v-else></i>
-        </div>
+         <render-icon :context="treeContext" :node="props.node" />
       </template>
     </div>
 
@@ -17,10 +14,10 @@
       :modelValue="props.checkedKeys.has(props.node.key)"
       :halfChecked="props.halfCheckedKeys.has(props.node.key)"
       @change="handleCheckChange">
-        <span class="node-title">{{ props.node.name }}</span>
+        <render-node title-cls="node-title" :context="treeContext" :node="props.node" />
     </vir-check-box>
     <div class="node-content node-text" v-else @click="handleSelect">
-      <span :class="titleCls">{{ props.node.name }}</span>
+      <render-node :title-cls="titleCls" :context="treeContext" :node="props.node" />
     </div>
     </div>
 </template>
@@ -33,10 +30,13 @@
 </script>
 
 <script setup lang="ts">
-import { PropType, watch, Slot, defineComponent } from 'vue';
+import { PropType, Slot, defineComponent, inject } from 'vue';
 import VirCheckBox from './checkbox/index.vue';
+import RenderNode from './renderNode';
+import renderIcon from './renderIcon';
 import { BaseTreeNode } from './baseTreeNode';
 import { NodeKey } from './types';
+import { TreeInjectionKey } from './context';
 
  const props = defineProps({
    node: {
@@ -68,12 +68,7 @@ import { NodeKey } from './types';
     showCheckbox: {
       type: Boolean,
       default: false
-    },
-    // checkStrictly: {
-    //   type: Boolean,
-    //   default: false
-    // },
-    // render: Function
+    }
   });
 
 
@@ -82,6 +77,8 @@ import { NodeKey } from './types';
     (e: 'checkChange', value: BaseTreeNode): void;
     (e: 'toggleExpand', value: BaseTreeNode): void;
   }>();
+
+  const treeContext = inject(TreeInjectionKey)!;
 
   const indent = 18;
   const paddingLeft = props.node.level * indent + 'px';

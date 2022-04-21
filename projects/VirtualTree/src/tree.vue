@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, reactive, ref, watch, watchEffect } from 'vue';
+import { PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
 import { useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
 import { EventParams, KeyNodeMap, NodeKey, SelectEventParams, TreeNodeOptions } from './types';
@@ -29,6 +29,7 @@ import TreeNode from './node.vue';
 import { updateCheckedState, useCheckState } from './hooks/useCheckState';
 import { addOrDelete } from './utils';
 import { TypeWithUndefined } from './utils/types';
+import { TreeInjectionKey } from './context';
 
 const props = defineProps({
   source: {
@@ -59,6 +60,12 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  renderNode: {
+    type: Function as PropType<(node: BaseTreeNode) => JSX.Element>
+  },
+  renderIcon: {
+    type: Function as PropType<(params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element>
+  }
 });
 
 
@@ -157,7 +164,6 @@ watch(() => props.defaultExpandedKeys, newVal => {
             });
           } */
       }
-      console.log('expanded :>> ', !expanded);
       emit('toggleExpand', { state: !expanded, node });
     }
 
@@ -195,6 +201,12 @@ watch(() => props.defaultExpandedKeys, newVal => {
       });
       emit('checkChange', { state: newChecked, node });
     }
-
-
+    
+    const context = reactive({
+      renderNode: props.renderNode,
+      renderIcon: props.renderIcon,
+      slots: useSlots(),
+      expandedKeys
+    });
+    provide(TreeInjectionKey, context);
 </script>

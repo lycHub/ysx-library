@@ -1,3 +1,4 @@
+import { Slots } from 'vue';
 import { BaseTreeNode } from './baseTreeNode';
 import { TypeWithUndefined } from './utils/types';
 
@@ -45,4 +46,17 @@ interface SelectEventParams {
   node: TypeWithUndefined<BaseTreeNode>;
 }
 
-export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams };
+
+type TreeContext = Readonly<{
+  renderNode: TypeWithUndefined<(node: BaseTreeNode) => JSX.Element>;
+  renderIcon: TypeWithUndefined<(params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element>;
+  slots: Slots;
+  expandedKeys: Set<NodeKey>;
+  // getSelectedNode: () => TypeWithUndefined<BaseTreeNode>;
+  // getCheckedNodes: () => BaseTreeNode[];
+  // getHalfCheckedNodes: () => BaseTreeNode[];
+  // getExpandedKeys: () => NodeKey[];
+}>;
+
+
+export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, TreeContext };
