@@ -51,7 +51,7 @@ type TreeContext = Readonly<{
   renderNode: TypeWithUndefined<(node: BaseTreeNode) => JSX.Element>;
   renderIcon: TypeWithUndefined<(params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element>;
   slots: Slots;
-  // expandedKeys: Set<NodeKey>;
+  expandedKeys: Set<NodeKey>;
   // getSelectedNode: () => TypeWithUndefined<BaseTreeNode>;
   // getCheckedNodes: () => BaseTreeNode[];
   // getHalfCheckedNodes: () => BaseTreeNode[];
