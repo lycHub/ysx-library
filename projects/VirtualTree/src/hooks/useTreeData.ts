@@ -47,4 +47,4 @@ function getKey2TreeNode(flattenTreeData: BaseTreeNode[]) {
   return key2TreeNode;
 }
 
-export { useTreeData };
+export { useTreeData, coerceTreeNodes, getFlattenTreeData, getKey2TreeNode };

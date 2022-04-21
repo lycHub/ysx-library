@@ -3,7 +3,8 @@
   App
   <VirTree
     :source="list"
-    show-checkbox
+    :show-checkbox="showCheckbox"
+    :check-strictly="checkStrictly"
     :default-expanded-keys="defaultExpandedKeys"
     :default-checked-keys="defaultCheckedKeys"
   />
@@ -31,13 +32,14 @@
       return list;
     }
 
+    const showCheckbox = true;
+    const checkStrictly = false;
     let list = $ref(recursion());
-
-    let defaultExpandedKeys = $ref(['0-1']);
-    let defaultCheckedKeys = $ref<string[]>([]);
+    let defaultExpandedKeys = $ref(['0-1', '0-1-1']);
+    let defaultCheckedKeys = $ref<string[]>(['0-1-0', '0-1-1', '0-1-2', '0-1-3', '0-1-4',]);
     setTimeout(() => {
       // defaultExpandedKeys = [];
-      defaultCheckedKeys = ['0-1'];
+      // defaultCheckedKeys = ['0-2'];
       console.log('object :>> ');
       // list = [];
     }, 2000)

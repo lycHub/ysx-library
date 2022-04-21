@@ -66,41 +66,49 @@ watch(() => props.source, newVal => {
   flattenTreeData = result.flattenTreeData;
   key2TreeNode = result.key2TreeNode;
   // console.log('flattenTreeData :>> ', flattenTreeData);
+  // console.log('key2TreeNode :>> ', key2TreeNode);
   // console.log('treeData :>> ', treeData);
 }, {
   immediate: true
 });
-const expandedKeys = new SelectionModel<NodeKey>(true);
+let expandedKeys = new Set<NodeKey>();
 watch(() => props.defaultExpandedKeys, newVal => {
   expandedKeys.clear();
-  expandedKeys.select(...newVal);
+  expandedKeys = new Set(newVal);
 }, {
   immediate: true
 });
 
-const selectedKeys = new SelectionModel<NodeKey>(true);
+let selectedKeys = new Set<NodeKey>();
 watch(() => props.defaultSelectedKey, newVal => {
   selectedKeys.clear();
-  selectedKeys.select(newVal);
+  selectedKeys = new Set([newVal]);
 }, {
   immediate: true
 });
 
-const disabledKeys = new SelectionModel<NodeKey>(true);
+let disabledKeys = new Set<NodeKey>();
 watch(() => props.defaultDisabledKeys, newVal => {
   disabledKeys.clear();
-  disabledKeys.select(...newVal);
+  disabledKeys = new Set(newVal);
 }, {
   immediate: true
 });
 
 
-const checkedKeys = $ref(new SelectionModel<NodeKey>(true));
-const halfCheckedKeys = $ref(new SelectionModel<NodeKey>(true, []));
+const checkedKeys = $ref(new Set<NodeKey>());
+const halfCheckedKeys = $ref(new Set<NodeKey>());
 
 watch(() => props.defaultCheckedKeys, newVal => {
   console.log('wat checked :>> ');
-  useCheckState(newVal, checkedKeys, halfCheckedKeys);
+  if (props.showCheckbox) {
+    useCheckState(newVal, {
+      checkedKeys,
+      halfCheckedKeys,
+      checkStrictly: props.checkStrictly,
+      key2TreeNode
+    });
+  }
 }, {
   immediate: true
 });
@@ -114,7 +122,7 @@ watchEffect(() => { // 只会调用一次
 const visibleTreeNodeList = $computed(() => {
   return flattenTreeData.filter((node) => {
     const isRoot = !node.parentKey;
-    const isVisibleNode = node.parentKeys.every(key => expandedKeys.isSelected(key));
+    const isVisibleNode = node.parentKeys.every(key => expandedKeys.has(key));
     return isRoot || isVisibleNode;
   });
 });
