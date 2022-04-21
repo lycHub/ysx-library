@@ -5,6 +5,7 @@
     :source="list"
     show-checkbox
     :default-expanded-keys="defaultExpandedKeys"
+    :default-checked-keys="defaultCheckedKeys"
   />
 </template>
 
@@ -30,11 +31,15 @@
       return list;
     }
 
-    const list = $ref(recursion());
+    let list = $ref(recursion());
 
     let defaultExpandedKeys = $ref(['0-1']);
+    let defaultCheckedKeys = $ref<string[]>([]);
     setTimeout(() => {
       // defaultExpandedKeys = [];
+      defaultCheckedKeys = ['0-1'];
+      console.log('object :>> ');
+      // list = [];
     }, 2000)
     onMounted(() => {
       
