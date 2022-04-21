@@ -11,6 +11,7 @@
         :expanded-keys="expandedKeys"
         :checked-keys="checkedKeys"
         :half-checked-keys="halfCheckedKeys"
+        @toggleExpand="toggleExpand"
       />
     </div>
   </div>
@@ -24,6 +25,7 @@ import { KeyNodeMap, NodeKey, TreeNodeOptions } from './types';
 import { SelectionModel } from './selection';
 import TreeNode from './node.vue';
 import { useCheckState, testWatch } from './hooks/useCheckState';
+import { addOrDelete } from './utils';
 
 const props = defineProps({
   source: {
@@ -56,6 +58,12 @@ const props = defineProps({
   },
 });
 
+
+  const emit = defineEmits<{
+    (e: 'checkChange', value:{ status: boolean; node: BaseTreeNode }): void;
+    (e: 'toggleExpand', value: { status: boolean; node: BaseTreeNode }): void;
+  }>();
+
 let treeData = $ref<BaseTreeNode[]>([]);
 let flattenTreeData = $ref<BaseTreeNode[]>([]);
 let key2TreeNode = $ref<KeyNodeMap>({});
@@ -68,13 +76,6 @@ watch(() => props.source, newVal => {
   // console.log('flattenTreeData :>> ', flattenTreeData);
   // console.log('key2TreeNode :>> ', key2TreeNode);
   // console.log('treeData :>> ', treeData);
-}, {
-  immediate: true
-});
-let expandedKeys = new Set<NodeKey>();
-watch(() => props.defaultExpandedKeys, newVal => {
-  expandedKeys.clear();
-  expandedKeys = new Set(newVal);
 }, {
   immediate: true
 });
@@ -121,6 +122,7 @@ watchEffect(() => { // 只会调用一次
 
 
 const visibleTreeNodeList = $computed(() => {
+  // console.log('visibleTreeNodeList :>> ', expandedKeys);
   return flattenTreeData.filter((node) => {
     const isRoot = !node.parentKey;
     const isVisibleNode = node.parentKeys.every(key => expandedKeys.has(key));
@@ -128,4 +130,48 @@ const visibleTreeNodeList = $computed(() => {
   });
 });
   // console.log('visibleTreeNodeList :>> ', visibleTreeNodeList);
+
+
+let expandedKeys = $ref(new Set<NodeKey>());
+watch(() => props.defaultExpandedKeys, newVal => {
+  expandedKeys.clear();
+  expandedKeys = new Set(newVal);
+}, {
+  immediate: true
+});
+
+  let loading = $ref(false);
+  const toggleExpand = (node: BaseTreeNode) => {
+      if (loading) return;
+      const expanded = expandedKeys.has(node.key);
+      expandedKeys[addOrDelete(!expanded)](node.key);
+      // service.expandedKeys.value.toggle(node.nodeKey);
+      if (!expanded && !node.children.length) {
+        console.log('懒加载 :>> ');
+         /* if (props.loadData) {
+            node.loading = true;
+            loading.value = true;
+            // this.$forceUpdate();
+            props.loadData(node, children => {
+              node.loading = false;
+              loading.value = false;
+              if (children.length) {
+                expandNode(node, children);
+              }
+            });
+          } */
+      }
+      emit('toggleExpand', { status: expandedKeys.has(node.nodeKey), node });
+    }
+
+    function expandNode(node: BaseTreeNode) {
+      console.log('expandNode :>> ', expandedKeys);
+      // expandedKeys
+    }
+
+    function collapseNode(node: BaseTreeNode) {
+
+    }
+
+
 </script>

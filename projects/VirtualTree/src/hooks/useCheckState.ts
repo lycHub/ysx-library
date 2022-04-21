@@ -1,17 +1,13 @@
 
 import { KeyNodeMap, NodeKey } from '../types';
 import { BaseTreeNode } from '../baseTreeNode';
+import { addOrDelete } from '../utils';
 
 interface CurrentState {
   checkedKeys: Set<NodeKey>,
   halfCheckedKeys: Set<NodeKey>,
   checkStrictly: boolean;
   key2TreeNode: KeyNodeMap;
-}
-
-
-function checkFunc(checked: boolean): 'add' | 'delete' {
-  return checked ? 'add' : 'delete';
 }
 
 function useCheckState(defaultCheckedKeys: NodeKey[], { checkedKeys, halfCheckedKeys, checkStrictly, key2TreeNode }: CurrentState) {
@@ -50,7 +46,7 @@ function updateCheckedState(options: {
   key2TreeNode: KeyNodeMap;
 }) {
   const { node, checked, checkedKeys, halfCheckedKeys, key2TreeNode } = options;
-  checkedKeys[checkFunc(checked)](node.key)
+  checkedKeys[addOrDelete(checked)](node.key)
   halfCheckedKeys.delete(node.key);
   updateChildrenCheckState({
     node,
@@ -74,7 +70,7 @@ function updateChildrenCheckState(options: {
   halfCheckedKeys: Set<NodeKey>;
 }) {
   const { node, checked, checkedKeys, halfCheckedKeys } = options;
-  const setFunc = checkFunc(checked);
+  const setFunc = addOrDelete(checked);
   const update = (list: BaseTreeNode[]) => {
     if (list.length) {
       list.forEach(child => {
@@ -110,10 +106,10 @@ function updateUpwards(options: {
       if (checked !== checkedKeys.has(parentKey) || indeterminate !== halfCheckedKeys.has(parentKey)) { // 父节点变了的话，就还要继续向上更新
         // this.checkedNodeKeys.value.toggle(parentKey);
         if (checked) {
-          checkedKeys[checkFunc(checked)](parentKey);
+          checkedKeys[addOrDelete(checked)](parentKey);
         }
         if (indeterminate) {
-          halfCheckedKeys[checkFunc(indeterminate)](parentKey);
+          halfCheckedKeys[addOrDelete(indeterminate)](parentKey);
         }
         update(parentNode);
       }

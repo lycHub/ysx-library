@@ -14,7 +14,7 @@
   import { onMounted } from 'vue';
   import { TreeNodeOptions, VirTree } from 'vue-next-tree';
 
-  function recursion(path = '0', level = 2, h = 6): TreeNodeOptions[] {
+  function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
       for (let i = 0; i < h; i += 1) {
         const nodeKey = `${path}-${i}`;
@@ -35,7 +35,7 @@
     const showCheckbox = true;
     const checkStrictly = false;
     let list = $ref(recursion());
-    let defaultExpandedKeys = $ref(['0-1', '0-1-1']);
+    let defaultExpandedKeys = $ref(['0-1-1']);
     let defaultCheckedKeys = $ref<string[]>(['0-1-0', '0-1-1', '0-1-2', '0-1-3', '0-1-4',]);
     setTimeout(() => {
       // defaultExpandedKeys = [];

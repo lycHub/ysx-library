@@ -1,5 +1,5 @@
 <template>
-  <div class="vir-tree-node" :style="{ paddingLeft }">
+  <div class="vir-tree-node" :style="{ paddingLeft }" @click="handleExpand">
 
     <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <template v-if="props.node.hasChildren">
@@ -78,7 +78,8 @@ import { NodeKey } from './types';
 
 
   const emit = defineEmits<{
-    (e: 'checkChange', value: [boolean, BaseTreeNode]): void
+    (e: 'checkChange', value: [boolean, BaseTreeNode]): void;
+    (e: 'toggleExpand', value: BaseTreeNode): void;
   }>();
 
   const indent = 18;
@@ -99,4 +100,10 @@ import { NodeKey } from './types';
     const handleCheckChange = (checked: boolean) => {
       emit('checkChange', [checked, props.node]);
     }
+
+    const handleExpand = () => {
+      emit('toggleExpand', props.node);
+    }
+
+
 </script>
