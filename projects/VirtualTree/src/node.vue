@@ -3,7 +3,7 @@
 
     <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <template v-if="props.node.hasChildren">
-         <render-icon :context="treeContext" :node="props.node" />
+         <render-icon :context="treeContext" :node="props.node" :expanded="expanded" />
       </template>
     </div>
 
@@ -82,6 +82,8 @@ import { TreeInjectionKey } from './context';
 
   const indent = 18;
   const paddingLeft = props.node.level * indent + 'px';
+
+  const expanded = $computed(() => props.expandedKeys.has(props.node.key));
 
   const titleCls = $computed(() => {
       let result = 'node-title';

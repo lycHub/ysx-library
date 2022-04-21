@@ -206,7 +206,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
       renderNode: props.renderNode,
       renderIcon: props.renderIcon,
       slots: useSlots(),
-      expandedKeys
-    });
+      // expandedKeys
+    })
     provide(TreeInjectionKey, context);
 </script>

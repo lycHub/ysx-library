@@ -34,8 +34,8 @@
   display: block;
 }
 
-
-.vir-tree-node .node-arrow.expanded .iconfont {
+/* .iconfont */
+.vir-tree-node .node-arrow.expanded {
   transform: rotate(90deg);
 }
 
