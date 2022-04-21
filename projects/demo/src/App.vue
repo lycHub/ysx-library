@@ -14,9 +14,9 @@
   import { onMounted } from 'vue';
   import { TreeNodeOptions, VirTree } from 'vue-next-tree';
 
-  function recursion(path = '0', level = 2): TreeNodeOptions[] {
+  function recursion(path = '0', level = 2, h = 6): TreeNodeOptions[] {
       const list = [];
-      for (let i = 0; i < 6; i += 1) {
+      for (let i = 0; i < h; i += 1) {
         const nodeKey = `${path}-${i}`;
         const treeNode: TreeNodeOptions  = {
           nodeKey,
@@ -41,7 +41,7 @@
       // defaultExpandedKeys = [];
       // defaultCheckedKeys = ['0-2'];
       console.log('object :>> ');
-      // list = [];
+      // list = recursion('0', 3, 4);
     }, 2000)
     onMounted(() => {
       

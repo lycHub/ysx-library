@@ -102,6 +102,7 @@ const halfCheckedKeys = $ref(new Set<NodeKey>());
 watch(() => props.defaultCheckedKeys, newVal => {
   console.log('wat checked :>> ');
   if (props.showCheckbox) {
+    // todo: 懒加载会改变key2TreeNode，重新调用useCheckState
     useCheckState(newVal, {
       checkedKeys,
       halfCheckedKeys,
