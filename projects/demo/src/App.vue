@@ -34,6 +34,7 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
         };
 
         if (level > 0) {
+          console.log('level :>> ');
           // treeNode.children = recursion(nodeKey, level - 1);
         }
         list.push(treeNode);
@@ -51,7 +52,6 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
     setTimeout(() => {
       // defaultExpandedKeys = [];
       // defaultCheckedKeys = ['0-2'];
-      console.log('object :>> ');
       // list = recursion('0', 3, 4);
     }, 2000)
     onMounted(() => {

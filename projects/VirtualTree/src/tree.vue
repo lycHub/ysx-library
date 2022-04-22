@@ -88,7 +88,7 @@ watch(() => props.source, newVal => {
     treeData = result.treeData;
     flattenTreeData = result.flattenTreeData;
     key2TreeNode = result.key2TreeNode;
-    // console.log('flattenTreeData :>> ', flattenTreeData);
+    console.log('flattenTreeData :>> ', flattenTreeData);
     // console.log('key2TreeNode :>> ', key2TreeNode);
     // console.log('treeData :>> ', treeData);
   }
@@ -109,7 +109,7 @@ const checkedKeys = $ref(new Set<NodeKey>());
 const halfCheckedKeys = $ref(new Set<NodeKey>());
 
 watch(() => props.defaultCheckedKeys, newVal => {
-  console.log('wat checked :>> ');
+  console.log('wat defaultCheckedKeys :>> ', newVal);
   if (props.showCheckbox) {
     // todo: 懒加载会改变key2TreeNode，重新调用useCheckState
     useCheckState(newVal, {
@@ -156,6 +156,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
       expandedKeys[addOrDelete(state)](node.key);
       // service.expandedKeys.value.toggle(node.nodeKey);
       if (state && !node.children.length && props.loadData) {
+        console.log('loadData :>> ');
         node.loading = true;
         loading = true;
         props.loadData(node, children => {
@@ -163,6 +164,12 @@ watch(() => props.defaultExpandedKeys, newVal => {
           loading = false;
           if (children.length) {
             lazyLoad(node, children);
+            /* useCheckState([...checkedKeys], {
+              checkedKeys,
+              halfCheckedKeys,
+              checkStrictly: props.checkStrictly,
+              key2TreeNode
+            }); */
           } else {
             node.children = [];
             node.hasChildren = false;
