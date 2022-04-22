@@ -1,4 +1,4 @@
-import { defineComponent, PropType, toRefs, watch, reactive } from "vue";
+import { defineComponent, PropType, toRefs, renderSlot } from "vue";
 import { BaseTreeNode } from "./baseTreeNode";
 import { TreeContext } from "./types";
 
@@ -22,7 +22,7 @@ export default defineComponent({
         return renderIcon
         ? renderIcon({ node, loading, expanded })
         : slots.icon
-        ? slots.icon({ node, loading, expanded })
+        ? renderSlot(slots, 'icon', { node, loading, expanded })
         : <div class="def-arrow">
             {
                 loading ? <i class="iconfont iconloading ico-loading" /> : <i class="iconfont iconExpand"></i>

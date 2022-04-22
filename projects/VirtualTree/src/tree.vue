@@ -20,11 +20,10 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, nextTick, PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
+import { nextTick, PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
 import { coerceTreeNodes, getFlattenTreeData, getKey2TreeNode, useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
-import { EventParams, KeyNodeMap, LoadDataFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions } from './types';
-import { SelectionModel } from './selection';
+import { EventParams, KeyNodeMap, LoadDataFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions, VirtualConfig } from './types';
 import TreeNode from './node.vue';
 import { updateCheckedState, useCheckState } from './hooks/useCheckState';
 import { addOrDelete } from './utils';
@@ -60,15 +59,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  renderNode: {
-    type: Function as PropType<RenderNodeFunc>
-  },
-  renderIcon: {
-    type: Function as PropType<RenderIconFunc>
-  },
-  loadData: {
-    type: Function as PropType<LoadDataFunc>,
-  }
+  renderNode: Function as PropType<RenderNodeFunc>,
+  renderIcon: Function as PropType<RenderIconFunc>,
+  loadData: Function as PropType<LoadDataFunc>,
+  virtual: Object as PropType<VirtualConfig>
 });
 
 

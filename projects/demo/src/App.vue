@@ -13,7 +13,6 @@
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
     :load-data="loadData"
-    :render-node="renderNode"
     :default-disabled-keys="defaultDisabledKeys"
     :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
@@ -22,9 +21,12 @@
     @select-change="selectChange"
     @check-change="checkChange"
   >
-    <template #node="node">
+    <template #node="{ node }">
       <b style="color: green;"><i>{{ node.name }}</i></b>
     </template>
+    <!-- <template #icon="{ expanded }">
+      <b style="color: green;"><i>{{expanded}}</i></b>
+    </template> -->
   </VirTree>
 </template>
 
@@ -89,6 +91,7 @@
       }
 
     function renderNode(node: BaseTreeNode) {
+      console.log('node :>> ', node);
       return <div style="padding: 0 4px;"><b style="color: #f60;">{ node.name }</b></div>
     }
 

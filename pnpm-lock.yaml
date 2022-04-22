@@ -19,8 +19,10 @@ importers:
   projects/VirtualTree:
     specifiers:
       '@vitejs/plugin-vue-jsx': ^1.3.10
+      vue-virtual-scroller: ^2.0.0-alpha.1
     dependencies:
       '@vitejs/plugin-vue-jsx': 1.3.10
+      vue-virtual-scroller: 2.0.0-alpha.1_vue@3.2.32
 
   projects/demo:
     specifiers:
@@ -1080,6 +1082,10 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
+  /mitt/2.1.0:
+    resolution: {integrity: sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg==}
+    dev: false
+
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: false
@@ -1457,6 +1463,22 @@ packages:
       vscode-typescript-languageservice: 0.29.8
     dev: true
 
+  /vue-observe-visibility/2.0.0-alpha.1_vue@3.2.32:
+    resolution: {integrity: sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.32
+    dev: false
+
+  /vue-resize/2.0.0-alpha.1_vue@3.2.32:
+    resolution: {integrity: sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.32
+    dev: false
+
   /vue-tsc/0.29.8_typescript@4.6.3:
     resolution: {integrity: sha512-pT0wLRjvRuSmB+J4WJT6uuV9mO0KtSSXEAtaVXZQzyk5+DJdbLIQTbRce/TXSkfqt1l1WogO78RjtOJFiMCgfQ==}
     hasBin: true
@@ -1467,6 +1489,17 @@ packages:
       typescript: 4.6.3
       vscode-vue-languageservice: 0.29.8
     dev: true
+
+  /vue-virtual-scroller/2.0.0-alpha.1_vue@3.2.32:
+    resolution: {integrity: sha512-Mn5w3Qe06t7c3Imm2RHD43RACab1CCWplpdgzq+/FWJcpQtcGKd5vDep8i+nIwFtzFLsWAqEK0RzM7KrfAcBng==}
+    peerDependencies:
+      vue: ^3.0.11
+    dependencies:
+      mitt: 2.1.0
+      vue: 3.2.32
+      vue-observe-visibility: 2.0.0-alpha.1_vue@3.2.32
+      vue-resize: 2.0.0-alpha.1_vue@3.2.32
+    dev: false
 
   /vue/3.2.32:
     resolution: {integrity: sha512-6L3jKZApF042OgbCkh+HcFeAkiYi3Lovi8wNhWqIK98Pi5efAMLZzRHgi91v+60oIRxdJsGS9sTMsb+yDpY8Eg==}
