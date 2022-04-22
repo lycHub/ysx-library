@@ -6,6 +6,7 @@ export class BaseTreeNode {
   readonly name: string;
   readonly level: number;
   loading = false;
+  hasChildren = false;
   children: BaseTreeNode[] = [];
   parentKey: TypeWithUndefined<NodeKey>;
   parentKeys: NodeKey[] = [];
@@ -15,9 +16,5 @@ export class BaseTreeNode {
     this.parentKey = parent?.key;
     this.parentKeys = parent ? [...parent.parentKeys, parent.key] : [];
     this.level = parent ? parent.level + 1 : 0;
-  }
-
-  get hasChildren() {
-    return this.children.length > 0;
   }
 }

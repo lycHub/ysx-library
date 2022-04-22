@@ -47,9 +47,14 @@ interface SelectEventParams {
 }
 
 
+type RenderNodeFunc = (node: BaseTreeNode) => JSX.Element;
+type RenderIconFunc =(params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element;
+type LoadDataFunc = (node: BaseTreeNode, callback: (children: TreeNodeOptions[]) => void) => void;
+
+
 type TreeContext = Readonly<{
-  renderNode: TypeWithUndefined<(node: BaseTreeNode) => JSX.Element>;
-  renderIcon: TypeWithUndefined<(params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element>;
+  renderNode: TypeWithUndefined<RenderNodeFunc>;
+  renderIcon: TypeWithUndefined<RenderIconFunc>;
   slots: Slots;
   expandedKeys: Set<NodeKey>;
   // getSelectedNode: () => TypeWithUndefined<BaseTreeNode>;
@@ -59,4 +64,4 @@ type TreeContext = Readonly<{
 }>;
 
 
-export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, TreeContext };
+export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, RenderNodeFunc, RenderIconFunc, LoadDataFunc, TreeContext };

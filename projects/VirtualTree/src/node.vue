@@ -1,10 +1,8 @@
 <template>
   <div class="vir-tree-node" :style="{ paddingLeft }" @click="handleExpand">
 
-    <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
-      <template v-if="props.node.hasChildren">
-         <render-icon :context="treeContext" :node="props.node" />
-      </template>
+    <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']" v-if="props.node.hasChildren">
+      <render-icon :context="treeContext" :node="props.node" />
     </div>
 
     <vir-check-box
@@ -19,7 +17,7 @@
     <div class="node-content node-text" v-else @click="handleSelect">
       <render-node :title-cls="titleCls" :context="treeContext" :node="props.node" />
     </div>
-    </div>
+  </div>
 </template>
 
 
@@ -64,7 +62,6 @@ import { TreeInjectionKey } from './context';
      type: Set as PropType<Set<NodeKey>>,
       required: true
     },
-    // iconSlot: Function as PropType<Slot>,
     showCheckbox: {
       type: Boolean,
       default: false

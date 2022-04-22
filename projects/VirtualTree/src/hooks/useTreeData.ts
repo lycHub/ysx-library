@@ -10,12 +10,12 @@ function useTreeData(source: TreeNodeOptions[]) {
 }
 
 
-
 function coerceTreeNodes(source: TreeNodeOptions[]): BaseTreeNode[] {
     const dig = (list: TreeNodeOptions[], parent?: BaseTreeNode): BaseTreeNode[] => {
       return list.map(item => {
         const node = item instanceof BaseTreeNode ? item : new BaseTreeNode(item, parent);
         node.children = item.children?.length ? dig(item.children, node) : [];
+        node.hasChildren = item.hasChildren || node.children.length > 0;
         return node;
       });
     }
@@ -32,7 +32,6 @@ function getFlattenTreeData(tree: BaseTreeNode[]): BaseTreeNode[] {
     });
   }
   dig(tree);
-
   return nodes;
 }
 

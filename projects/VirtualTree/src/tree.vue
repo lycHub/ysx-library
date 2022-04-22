@@ -23,7 +23,7 @@
 import { PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
 import { useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
-import { EventParams, KeyNodeMap, NodeKey, SelectEventParams, TreeNodeOptions } from './types';
+import { EventParams, KeyNodeMap, LoadDataFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions } from './types';
 import { SelectionModel } from './selection';
 import TreeNode from './node.vue';
 import { updateCheckedState, useCheckState } from './hooks/useCheckState';
@@ -61,10 +61,13 @@ const props = defineProps({
     default: false
   },
   renderNode: {
-    type: Function as PropType<(node: BaseTreeNode) => JSX.Element>
+    type: Function as PropType<RenderNodeFunc>
   },
   renderIcon: {
-    type: Function as PropType<(params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element>
+    type: Function as PropType<RenderIconFunc>
+  },
+  loadData: {
+    type: Function as PropType<LoadDataFunc>,
   }
 });
 
@@ -149,22 +152,27 @@ watch(() => props.defaultExpandedKeys, newVal => {
       const expanded = expandedKeys.has(node.key);
       expandedKeys[addOrDelete(!expanded)](node.key);
       // service.expandedKeys.value.toggle(node.nodeKey);
-      if (!expanded && !node.children.length) {
+      if (!expanded && !node.children.length && props.loadData) {
         console.log('懒加载 :>> ');
-         /* if (props.loadData) {
-            node.loading = true;
-            loading.value = true;
-            // this.$forceUpdate();
-            props.loadData(node, children => {
-              node.loading = false;
-              loading.value = false;
-              if (children.length) {
-                expandNode(node, children);
-              }
-            });
-          } */
+        node.loading = true;
+        loading = true;
+        props.loadData(node, children => {
+          node.loading = false;
+          loading = false;
+          if (children.length) {
+            lazyLoad(node, children);
+          } else {
+            node.children = [];
+            node.hasChildren = false;
+          }
+        });
       }
       emit('toggleExpand', { state: !expanded, node });
+    }
+
+
+    function lazyLoad(node: BaseTreeNode, children: TreeNodeOptions[]) {
+      console.log('lazyLoad :>> ', node, children);
     }
 
 

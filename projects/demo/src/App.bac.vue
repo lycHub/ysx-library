@@ -5,14 +5,17 @@
     :source="list"
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
-    :load-data="loadData"
     :render-node="renderNode"
+    :render-icon="renderIcon"
     :default-disabled-keys="defaultDisabledKeys"
     :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
     :default-checked-keys="defaultCheckedKeys">
     <template #node="node">
       <b style="color: green;"><i>{{ node.name }}</i></b>
+    </template>
+    <template #icon="{ loading, expanded }">
+      <span>ico-{{ expanded }}</span>
     </template>
   </vir-tree>
 </template>
@@ -29,12 +32,11 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
         const treeNode: TreeNodeOptions  = {
           nodeKey,
           name: nodeKey,
-          children: [],
-          hasChildren: true
+          children: []
         };
 
         if (level > 0) {
-          // treeNode.children = recursion(nodeKey, level - 1);
+          treeNode.children = recursion(nodeKey, level - 1);
         }
         list.push(treeNode);
       }
@@ -59,25 +61,11 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
     });
 
 
-    function loadData(node: BaseTreeNode, callback: (children: TreeNodeOptions[]) => void) {
-        const result: TreeNodeOptions[] = [];
-        for (let i = 0; i < 2; i += 1) {
-          const nodeKey = `${node.key}-${i}`;
-          const treeNode: TreeNodeOptions  = {
-            nodeKey,
-            name: nodeKey,
-            children: []
-          };
-          result.push(treeNode);
-        }
-        setTimeout(() => {
-          callback(result);
-        }, 500);
-      }
-
-
     function renderNode(node: BaseTreeNode) {
       return <div style="padding: 0 4px;"><b style="color: #f60;">{ node.name }</b></div>
+    }
+    function renderIcon({ expanded }: any) {
+      return <div>i-{ expanded.toString() }</div>;
     }
 </script>
 
