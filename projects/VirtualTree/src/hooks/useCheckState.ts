@@ -27,6 +27,8 @@ function useCheckState(defaultCheckedKeys: NodeKey[], { checkedKeys, halfChecked
             halfCheckedKeys,
             key2TreeNode
           });
+        } else {
+          checkedKeys.add(key);
         }
       }
     });

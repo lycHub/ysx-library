@@ -109,7 +109,7 @@ const checkedKeys = $ref(new Set<NodeKey>());
 const halfCheckedKeys = $ref(new Set<NodeKey>());
 
 watch(() => props.defaultCheckedKeys, newVal => {
-  console.log('wat defaultCheckedKeys :>> ', newVal);
+  // console.log('wat defaultCheckedKeys :>> ', newVal);
   if (props.showCheckbox) {
     // todo: 懒加载会改变key2TreeNode，重新调用useCheckState
     useCheckState(newVal, {
@@ -118,6 +118,7 @@ watch(() => props.defaultCheckedKeys, newVal => {
       checkStrictly: props.checkStrictly,
       key2TreeNode
     });
+    // console.log('checkedKeys :>> ', checkedKeys);
   }
 }, {
   immediate: true
@@ -164,12 +165,12 @@ watch(() => props.defaultExpandedKeys, newVal => {
           loading = false;
           if (children.length) {
             lazyLoad(node, children);
-            /* useCheckState([...checkedKeys], {
+            useCheckState([...checkedKeys], {
               checkedKeys,
               halfCheckedKeys,
               checkStrictly: props.checkStrictly,
               key2TreeNode
-            }); */
+            });
           } else {
             node.children = [];
             node.hasChildren = false;
