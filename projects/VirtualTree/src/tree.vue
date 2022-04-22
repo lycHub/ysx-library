@@ -149,8 +149,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
 });
 
   let loading = $ref(false);
-  const ins = getCurrentInstance();
-  console.log('ins :>> ', ins);
+  
   // state: 点击后的展开状态
   function toggleExpand({ state, node }: EventParams) {
       if (loading) return;
@@ -160,19 +159,13 @@ watch(() => props.defaultExpandedKeys, newVal => {
         node.loading = true;
         loading = true;
         props.loadData(node, children => {
-          // await nextTick();
           node.loading = false;
           loading = false;
-           
           if (children.length) {
             lazyLoad(node, children);
           } else {
             node.children = [];
             node.hasChildren = false;
-          }
-          // forceUpdate();
-          if (ins?.proxy) {
-            // ins.proxy.$forceUpdate()
           }
          
         });
@@ -193,7 +186,9 @@ watch(() => props.defaultExpandedKeys, newVal => {
       // console.log('childrenFlattenData :>> ', childrenFlattenData, expandedKeys);
       childrenFlattenData.forEach(item => {
         if (expandedKeys.has(item.key)) {
-          toggleExpand({ state: true, node: item });
+          nextTick(() => {
+            toggleExpand({ state: true, node: item });
+          });
         }
       })
     }
