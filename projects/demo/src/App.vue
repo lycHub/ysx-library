@@ -41,7 +41,7 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
       return list;
     }
 
-    const showCheckbox = false;
+    const showCheckbox = true;
     const checkStrictly = false;
     let list = $ref(recursion());
     let defaultDisabledKeys = $ref(['0-3-1']);

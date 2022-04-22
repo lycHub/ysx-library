@@ -184,13 +184,12 @@ watch(() => props.defaultExpandedKeys, newVal => {
       const key2ChildrenNode = getKey2TreeNode(childrenFlattenData);
       Object.assign(key2TreeNode, key2ChildrenNode);
       // console.log('childrenFlattenData :>> ', childrenFlattenData, expandedKeys);
-      childrenFlattenData.forEach(item => {
+      childrenFlattenData.forEach(async item => {
         if (expandedKeys.has(item.key)) {
-          nextTick(() => {
-            toggleExpand({ state: true, node: item });
-          });
+          await nextTick();
+          toggleExpand({ state: true, node: item });
         }
-      })
+      });
     }
 
 
