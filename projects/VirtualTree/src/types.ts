@@ -19,13 +19,6 @@ interface TreeNodeOptions {
   parentKeys?: NodeKey[];
 }
 
-interface TreeInstance {
-  getSelectedNode: () => TreeNodeOptions | undefined;
-  getCheckedNodes: () => TreeNodeOptions[];
-  getHalfCheckedNodes: () => TreeNodeOptions[];
-  getExpandedKeys: () => NodeKey[];
-}
-
 interface TreeNodeInstance {
   rawNode: TreeNodeOptions;
   halfChecked: () => boolean;
@@ -57,11 +50,11 @@ type TreeContext = Readonly<{
   renderIcon: TypeWithUndefined<RenderIconFunc>;
   slots: Slots;
   expandedKeys: Set<NodeKey>;
-  // getSelectedNode: () => TypeWithUndefined<BaseTreeNode>;
-  // getCheckedNodes: () => BaseTreeNode[];
-  // getHalfCheckedNodes: () => BaseTreeNode[];
-  // getExpandedKeys: () => NodeKey[];
+  getSelectedNode: () => TypeWithUndefined<BaseTreeNode>;
+  getCheckedNodes: () => BaseTreeNode[];
+  getHalfCheckedNodes: () => BaseTreeNode[];
+  getExpandedKeys: () => NodeKey[];
 }>;
 
 
-export type { TreeNodeOptions, NodeKey, TreeInstance, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, RenderNodeFunc, RenderIconFunc, LoadDataFunc, TreeContext };
+export type { TreeNodeOptions, NodeKey, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, RenderNodeFunc, RenderIconFunc, LoadDataFunc, TreeContext };

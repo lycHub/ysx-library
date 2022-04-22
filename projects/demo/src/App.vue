@@ -1,7 +1,14 @@
 
 <template>
   App
-  <vir-tree
+  <div class="btn">
+    <button @click="getExpandedKeys">获取展开节点</button>
+    <button @click="getSelectedNode">获取选中节点</button>
+    <button @click="getCheckedNodes">获取勾选节点</button>
+    <button @click="getHalfCheckedNodes">获取半选节点</button>
+  </div>
+  <VirTree
+    ref="virTree"
     :source="list"
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
@@ -10,17 +17,20 @@
     :default-disabled-keys="defaultDisabledKeys"
     :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
-    :default-checked-keys="defaultCheckedKeys">
+    :default-checked-keys="defaultCheckedKeys"
+    @expand-change="expandChange"
+    @select-change="selectChange"
+    @check-change="checkChange"
+  >
     <template #node="node">
       <b style="color: green;"><i>{{ node.name }}</i></b>
     </template>
-  </vir-tree>
+  </VirTree>
 </template>
 
 <script setup lang="tsx">
-  import { onMounted } from 'vue';
-  import { TreeNodeOptions, VirTree } from 'vue-next-tree';
-import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
+  import { onMounted, ref } from 'vue';
+  import { BaseTreeNode, EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from 'vue-next-tree';
 
   function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
@@ -34,7 +44,6 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
         };
 
         if (level > 0) {
-          console.log('level :>> ');
           // treeNode.children = recursion(nodeKey, level - 1);
         }
         list.push(treeNode);
@@ -44,6 +53,8 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
 
     const showCheckbox = true;
     const checkStrictly = false;
+
+
     let list = $ref(recursion());
     let defaultDisabledKeys = $ref(['0-3-1']);
     let defaultSelectedKey = $ref('');
@@ -77,10 +88,41 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
         }, 500);
       }
 
-
     function renderNode(node: BaseTreeNode) {
       return <div style="padding: 0 4px;"><b style="color: #f60;">{ node.name }</b></div>
     }
+
+
+    function expandChange(arg: EventParams) {
+        console.log('expandChange :>> ', arg);
+      }
+      function selectChange(arg: SelectEventParams) {
+        console.log('selectChange :>> ', arg);
+      }
+      function checkChange(arg: EventParams) {
+        console.log('checkChange :>> ', arg);
+      }
+     
+      // 
+      const virTree = $ref<TreeContext>();
+      const getExpandedKeys = () => {
+        console.log('getExpandedKeys :>> ');
+		    const keys = virTree!.getExpandedKeys();
+        console.log('expanded keys', keys);
+      }
+      
+      const getSelectedNode = () => {
+		    const node = virTree!.getSelectedNode();
+        console.log('selected node', node);
+      }
+      const getCheckedNodes = () => {
+		    const node = virTree!.getCheckedNodes();
+        console.log('checked nodes', node);
+      }
+      const getHalfCheckedNodes = () => {
+		    const node = virTree!.getHalfCheckedNodes();
+        console.log('half checked nodes', node);
+      }
 </script>
 
 <style>

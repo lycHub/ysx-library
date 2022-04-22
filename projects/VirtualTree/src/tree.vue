@@ -75,8 +75,14 @@ const props = defineProps({
   const emit = defineEmits<{
     (e: 'selectChange', value: SelectEventParams): void;
     (e: 'checkChange', value: EventParams): void;
-    (e: 'toggleExpand', value: EventParams): void;
+    (e: 'expandChange', value: EventParams): void;
   }>();
+  defineExpose({
+    getExpandedKeys: () => [...expandedKeys],
+    getSelectedNode: () => selectedNode,
+    getCheckedNodes: () => Array.from(checkedKeys).map(key => key2TreeNode[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
+    getHalfCheckedNodes: () => Array.from(halfCheckedKeys).map(key => key2TreeNode[key]),
+  });
 
 let treeData = $ref<BaseTreeNode[]>([]);
 let flattenTreeData = $ref<BaseTreeNode[]>([]);
@@ -88,7 +94,7 @@ watch(() => props.source, newVal => {
     treeData = result.treeData;
     flattenTreeData = result.flattenTreeData;
     key2TreeNode = result.key2TreeNode;
-    console.log('flattenTreeData :>> ', flattenTreeData);
+    // console.log('flattenTreeData :>> ', flattenTreeData);
     // console.log('key2TreeNode :>> ', key2TreeNode);
     // console.log('treeData :>> ', treeData);
   }
@@ -157,7 +163,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
       expandedKeys[addOrDelete(state)](node.key);
       // service.expandedKeys.value.toggle(node.nodeKey);
       if (state && !node.children.length && props.loadData) {
-        console.log('loadData :>> ');
+        // console.log('loadData :>> ');
         node.loading = true;
         loading = true;
         props.loadData(node, children => {
@@ -178,7 +184,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
          
         });
       }
-      emit('toggleExpand', { state, node });
+      emit('expandChange', { state, node });
     }
 
 
@@ -208,8 +214,9 @@ watch(() => props.defaultExpandedKeys, newVal => {
     }, {
       immediate: true
     });
+     const selectedNode = $computed(() => key2TreeNode[Array.from(selectedKeys.values())[0]]);
     function selectChange(node: BaseTreeNode) {
-      const preSelectedNode = key2TreeNode[Array.from(selectedKeys.values())[0]];
+      const preSelectedNode = selectedNode;
       let currentNode: TypeWithUndefined<BaseTreeNode>;
       if (selectedKeys.has(node.key)) {
         selectedKeys.clear();
@@ -220,6 +227,9 @@ watch(() => props.defaultExpandedKeys, newVal => {
       }
       emit('selectChange', { preSelectedNode, node: currentNode });
     }
+
+
+   
 
 
 
