@@ -20,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
-import { useTreeData } from './hooks/useTreeData';
+import { getCurrentInstance, nextTick, PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
+import { coerceTreeNodes, getFlattenTreeData, getKey2TreeNode, useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
 import { EventParams, KeyNodeMap, LoadDataFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions } from './types';
 import { SelectionModel } from './selection';
@@ -83,13 +83,15 @@ let flattenTreeData = $ref<BaseTreeNode[]>([]);
 let key2TreeNode = $ref<KeyNodeMap>({});
 watch(() => props.source, newVal => {
   // console.log('wat source :>> '); // todo reset states
-  const result = useTreeData(newVal);
-  treeData = result.treeData;
-  flattenTreeData = result.flattenTreeData;
-  key2TreeNode = result.key2TreeNode;
-  // console.log('flattenTreeData :>> ', flattenTreeData);
-  // console.log('key2TreeNode :>> ', key2TreeNode);
-  // console.log('treeData :>> ', treeData);
+  if (newVal.length) {
+    const result = useTreeData(newVal);
+    treeData = result.treeData;
+    flattenTreeData = result.flattenTreeData;
+    key2TreeNode = result.key2TreeNode;
+    // console.log('flattenTreeData :>> ', flattenTreeData);
+    // console.log('key2TreeNode :>> ', key2TreeNode);
+    // console.log('treeData :>> ', treeData);
+  }
 }, {
   immediate: true
 });
@@ -147,32 +149,53 @@ watch(() => props.defaultExpandedKeys, newVal => {
 });
 
   let loading = $ref(false);
-  function toggleExpand(node: BaseTreeNode) {
+  const ins = getCurrentInstance();
+  console.log('ins :>> ', ins);
+  // state: 点击后的展开状态
+  function toggleExpand({ state, node }: EventParams) {
       if (loading) return;
-      const expanded = expandedKeys.has(node.key);
-      expandedKeys[addOrDelete(!expanded)](node.key);
+      expandedKeys[addOrDelete(state)](node.key);
       // service.expandedKeys.value.toggle(node.nodeKey);
-      if (!expanded && !node.children.length && props.loadData) {
-        console.log('懒加载 :>> ');
+      if (state && !node.children.length && props.loadData) {
         node.loading = true;
         loading = true;
         props.loadData(node, children => {
+          // await nextTick();
           node.loading = false;
           loading = false;
+           
           if (children.length) {
             lazyLoad(node, children);
           } else {
             node.children = [];
             node.hasChildren = false;
           }
+          // forceUpdate();
+          if (ins?.proxy) {
+            // ins.proxy.$forceUpdate()
+          }
+         
         });
       }
-      emit('toggleExpand', { state: !expanded, node });
+      emit('toggleExpand', { state, node });
     }
 
 
     function lazyLoad(node: BaseTreeNode, children: TreeNodeOptions[]) {
-      console.log('lazyLoad :>> ', node, children);
+      // console.log('lazyLoad :>> ', node, children);
+      const indexInFlattenData = flattenTreeData.findIndex(item => item.key === node.key);
+      const childrenData = coerceTreeNodes(children, node);
+      node.children = childrenData;
+      const childrenFlattenData = getFlattenTreeData(childrenData);
+      flattenTreeData.splice(indexInFlattenData + 1, 0, ...childrenFlattenData);
+      const key2ChildrenNode = getKey2TreeNode(childrenFlattenData);
+      Object.assign(key2TreeNode, key2ChildrenNode);
+      // console.log('childrenFlattenData :>> ', childrenFlattenData, expandedKeys);
+      childrenFlattenData.forEach(item => {
+        if (expandedKeys.has(item.key)) {
+          toggleExpand({ state: true, node: item });
+        }
+      })
     }
 
 

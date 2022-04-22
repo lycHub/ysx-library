@@ -15,9 +15,12 @@ export default defineComponent({
         },
     },
     setup({ context, node }) {
-        const { loading, key } = node;
+        const { loading, key } = $(toRefs(node));
         const { expandedKeys, renderIcon, slots } = context;
         const expanded = $computed(() => expandedKeys.has(key));
+        watch(() => loading, newVal => {
+            console.log('wat loading :>> ', newVal, key);
+        });
         return () => {
             return renderIcon
             ? renderIcon({ node, loading, expanded })

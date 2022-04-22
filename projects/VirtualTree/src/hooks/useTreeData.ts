@@ -10,16 +10,16 @@ function useTreeData(source: TreeNodeOptions[]) {
 }
 
 
-function coerceTreeNodes(source: TreeNodeOptions[]): BaseTreeNode[] {
-    const dig = (list: TreeNodeOptions[], parent?: BaseTreeNode): BaseTreeNode[] => {
+function coerceTreeNodes(source: TreeNodeOptions[], parent?: BaseTreeNode): BaseTreeNode[] {
+    const dig = (list: TreeNodeOptions[], parentNode?: BaseTreeNode): BaseTreeNode[] => {
       return list.map(item => {
-        const node = item instanceof BaseTreeNode ? item : new BaseTreeNode(item, parent);
+        const node = item instanceof BaseTreeNode ? item : new BaseTreeNode(item, parentNode);
         node.children = item.children?.length ? dig(item.children, node) : [];
         node.hasChildren = item.hasChildren || node.children.length > 0;
         return node;
       });
     }
-    const nodes = dig(source || []);
+    const nodes = dig(source, parent);
     return nodes;
 }
 

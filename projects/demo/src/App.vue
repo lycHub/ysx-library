@@ -66,7 +66,8 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
           const treeNode: TreeNodeOptions  = {
             nodeKey,
             name: nodeKey,
-            children: []
+            children: [],
+            hasChildren: true
           };
           result.push(treeNode);
         }

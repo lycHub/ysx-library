@@ -1,8 +1,8 @@
 <template>
   <div class="vir-tree-node" :style="{ paddingLeft }" @click="handleExpand">
 
-    <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']" v-if="props.node.hasChildren">
-      <render-icon :context="treeContext" :node="props.node" />
+    <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
+      <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
     </div>
 
     <vir-check-box
@@ -33,7 +33,7 @@ import VirCheckBox from './checkbox/index.vue';
 import RenderNode from './renderNode';
 import renderIcon from './renderIcon';
 import { BaseTreeNode } from './baseTreeNode';
-import { NodeKey } from './types';
+import { EventParams, NodeKey } from './types';
 import { TreeInjectionKey } from './context';
 
  const props = defineProps({
@@ -72,7 +72,7 @@ import { TreeInjectionKey } from './context';
   const emit = defineEmits<{
     (e: 'selectChange', value: BaseTreeNode): void;
     (e: 'checkChange', value: BaseTreeNode): void;
-    (e: 'toggleExpand', value: BaseTreeNode): void;
+    (e: 'toggleExpand', value: EventParams): void;
   }>();
 
   const treeContext = inject(TreeInjectionKey)!;
@@ -92,6 +92,10 @@ import { TreeInjectionKey } from './context';
     });
 
 
+
+    const showArrow = $computed(() => props.node.hasChildren);
+
+
    const handleSelect = (event: MouseEvent) => {
       event.stopPropagation();
       if (!props.disabledKeys.has(props.node.key)) {
@@ -104,7 +108,12 @@ import { TreeInjectionKey } from './context';
     }
 
     const handleExpand = () => {
-      emit('toggleExpand', props.node);
+      if (showArrow) {
+        emit('toggleExpand', {
+          state: !treeContext.expandedKeys.has(props.node.key),
+          node: props.node
+        });
+      }
     }
 
 
