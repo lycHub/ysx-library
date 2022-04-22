@@ -12,7 +12,7 @@
     :source="list"
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
-    :virtual="{ height: 200 }"
+    :load-data="loadData"
     :default-disabled-keys="defaultDisabledKeys"
     :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
@@ -24,8 +24,8 @@
 </template>
 
 <script setup lang="tsx">
-  import { onMounted } from 'vue';
-  import { EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from 'vue-next-tree';
+  import { onMounted, ref } from 'vue';
+  import { BaseTreeNode, EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from 'vue-next-tree';
 
   function recursion(path = '0', level = 3, h = 10): TreeNodeOptions[] {
       const list = [];
@@ -39,7 +39,7 @@
         };
 
         if (level > 0) {
-          treeNode.children = recursion(nodeKey, level - 1);
+          // treeNode.children = recursion(nodeKey, level - 1);
         }
         list.push(treeNode);
       }
@@ -64,6 +64,29 @@
     onMounted(() => {
       
     });
+
+
+    function loadData(node: BaseTreeNode, callback: (children: TreeNodeOptions[]) => void) {
+        const result: TreeNodeOptions[] = [];
+        for (let i = 0; i < 2; i += 1) {
+          const nodeKey = `${node.key}-${i}`;
+          const treeNode: TreeNodeOptions  = {
+            nodeKey,
+            name: nodeKey,
+            children: [],
+            hasChildren: true
+          };
+          result.push(treeNode);
+        }
+        setTimeout(() => {
+          callback(result);
+        }, 500);
+      }
+
+    function renderNode(node: BaseTreeNode) {
+      console.log('node :>> ', node);
+      return <div style="padding: 0 4px;"><b style="color: #f60;">{ node.name }</b></div>
+    }
 
 
     function expandChange(arg: EventParams) {

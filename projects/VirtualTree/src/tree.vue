@@ -1,10 +1,33 @@
 <template>
   <div class="vir-tree">
-    <div class="vir-tree-wrap">
+    <RecycleScroller
+        v-if="virtual?.height"
+        class="vir-tree-wrap"
+        :style="{ height: virtual.height + 'px', border: '1px solid' }"
+        :items="visibleList"
+        :item-size="26"
+        key-field="key"
+        v-slot="{ item }">
+        <tree-node
+          :node="item"
+          :key="item.key"
+          :show-checkbox="showCheckbox"
+          :selected-keys="selectedKeys"
+          :disabled-keys="disabledKeys"
+          :expanded-keys="expandedKeys"
+          :checked-keys="checkedKeys"
+          :half-checked-keys="halfCheckedKeys"
+          @toggleExpand="toggleExpand"
+          @selectChange="selectChange"
+          @checkChange="checkChange"
+        />
+    </RecycleScroller>
+
+    <div class="vir-tree-wrap" v-else>
       <tree-node
-        v-for="node in visibleTreeNodeList"
-        :key="node.key"
-        :node="node"
+        v-for="item of visibleList"
+        :key="item.key"
+        :node="item"
         :show-checkbox="showCheckbox"
         :selected-keys="selectedKeys"
         :disabled-keys="disabledKeys"
@@ -21,6 +44,7 @@
 
 <script setup lang="ts">
 import { nextTick, PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
+import { RecycleScroller } from 'vue-virtual-scroller';
 import { coerceTreeNodes, getFlattenTreeData, getKey2TreeNode, useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
 import { EventParams, KeyNodeMap, LoadDataFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions, VirtualConfig } from './types';
@@ -130,15 +154,13 @@ watchEffect(() => { // 只会调用一次
 });
 
 
-const visibleTreeNodeList = $computed(() => {
-  // console.log('visibleTreeNodeList :>> ', expandedKeys);
+const visibleList = $computed(() => {
   return flattenTreeData.filter((node) => {
     const isRoot = !node.parentKey;
     const isVisibleNode = node.parentKeys.every(key => expandedKeys.has(key));
     return isRoot || isVisibleNode;
   });
 });
-  // console.log('visibleTreeNodeList :>> ', visibleTreeNodeList);
 
 
 let expandedKeys = $ref(new Set<NodeKey>());

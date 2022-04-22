@@ -58,8 +58,7 @@ type TreeContext = Readonly<{
 
 
 interface VirtualConfig {
-  size: number;
-  remain: number;
+  height: number;
 }
 
 export type { TreeNodeOptions, NodeKey, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, RenderNodeFunc, RenderIconFunc, LoadDataFunc, TreeContext, VirtualConfig };
