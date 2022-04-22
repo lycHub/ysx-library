@@ -24,10 +24,10 @@
 </template>
 
 <script setup lang="tsx">
-  import { onMounted, ref } from 'vue';
+  import { onMounted } from 'vue';
   import { BaseTreeNode, EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from 'vue-next-tree';
 
-  function recursion(path = '0', level = 3, h = 10): TreeNodeOptions[] {
+  function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
       for (let i = 0; i < h; i += 1) {
         const nodeKey = `${path}-${i}`;

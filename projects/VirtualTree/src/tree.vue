@@ -43,7 +43,8 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, PropType, provide, reactive, ref, useSlots, watch, watchEffect } from 'vue';
+import { nextTick, PropType, provide, shallowReactive, toRaw, useSlots, watch, watchEffect } from 'vue';
+// @ts-ignore
 import { RecycleScroller } from 'vue-virtual-scroller';
 import { coerceTreeNodes, getFlattenTreeData, getKey2TreeNode, useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
@@ -95,12 +96,6 @@ const props = defineProps({
     (e: 'checkChange', value: EventParams): void;
     (e: 'expandChange', value: EventParams): void;
   }>();
-  defineExpose({
-    getExpandedKeys: () => [...expandedKeys],
-    getSelectedNode: () => selectedNode,
-    getCheckedNodes: () => Array.from(checkedKeys).map(key => key2TreeNode[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
-    getHalfCheckedNodes: () => Array.from(halfCheckedKeys).map(key => key2TreeNode[key]),
-  });
 
 let treeData = $ref<BaseTreeNode[]>([]);
 let flattenTreeData = $ref<BaseTreeNode[]>([]);
@@ -261,11 +256,17 @@ watch(() => props.defaultExpandedKeys, newVal => {
       emit('checkChange', { state: newChecked, node });
     }
     
-    const context = reactive({
+    const context = shallowReactive({
       renderNode: props.renderNode,
       renderIcon: props.renderIcon,
       slots: useSlots(),
-      expandedKeys
-    })
+      expandedKeys,
+      getExpandedKeys: () => [...expandedKeys],
+      getSelectedNode: () => selectedNode,
+      getCheckedNodes: () => Array.from(checkedKeys).map(key => key2TreeNode[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
+      getHalfCheckedNodes: () => Array.from(halfCheckedKeys).map(key => key2TreeNode[key]),
+    });
+    
+    defineExpose(toRaw(context));
     provide(TreeInjectionKey, context);
 </script>

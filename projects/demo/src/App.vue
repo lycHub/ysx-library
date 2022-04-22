@@ -19,8 +19,8 @@
     :default-checked-keys="defaultCheckedKeys"
     @expand-change="expandChange"
     @select-change="selectChange"
-    @check-change="checkChange"
-  />
+    @check-change="checkChange">
+  </VirTree>
 </template>
 
 <script setup lang="tsx">

@@ -5,7 +5,8 @@
   "main": "index.js",
   "private":"true",
   "scripts": {
-    "start:demo": "pnpm -C ./projects/demo start"
+    "start:demo": "pnpm -C ./projects/demo start",
+    "build:demo": "pnpm -C ./projects/demo build"
   },
   "keywords": ["vue3", "tree"],
   "author": "ysx",
