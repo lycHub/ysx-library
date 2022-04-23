@@ -14,8 +14,8 @@ export default defineConfig({
     lib: {
       // entry: join(dirname(import.meta.url), 'src/index.ts'),
       entry: 'src/index.ts',
-      name: 'VueNextTree',
-      fileName: (format) => `vue-next-tree.${format}.js`
+      name: 'VueVirtualTree',
+      fileName: format => `vue-virtual-tree.${format}.js`
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖

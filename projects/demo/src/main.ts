@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
-import App from './App.vue';
+// import App from './App.vue';
 // import AppLazy from './App.lazy.vue';
+import AppBac from './App.bac.vue';
 
-import 'vue-next-tree/style.css';
-createApp(App).mount('#app');
+import '@ysx/vue-virtual-tree/style.css';
+createApp(AppBac).mount('#app');

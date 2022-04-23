@@ -22,8 +22,7 @@
 
 <script setup lang="tsx">
   import { onMounted } from 'vue';
-  import { TreeNodeOptions, VirTree } from 'vue-next-tree';
-import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
+  import { TreeNodeOptions, VirTree, BaseTreeNode } from '@ysx/vue-virtual-tree';
 
   function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
@@ -53,7 +52,6 @@ import { BaseTreeNode } from '../../VirtualTree/src/baseTreeNode';
     setTimeout(() => {
       // defaultExpandedKeys = [];
       // defaultCheckedKeys = ['0-2'];
-      console.log('object :>> ');
       // list = recursion('0', 3, 4);
     }, 2000)
     onMounted(() => {

@@ -23,7 +23,7 @@
         />
     </RecycleScroller>
 
-    <div class="vir-tree-wrap" v-else>
+    <div class="vir-tree-wrap" v-else style="border: 1px solid red;">
       <tree-node
         v-for="item of visibleList"
         :key="item.key"
