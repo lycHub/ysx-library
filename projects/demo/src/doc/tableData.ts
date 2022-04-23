@@ -73,82 +73,89 @@ const propData = [
   {
     argument: 'loadData',
     description: '异步加载',
-    type: '(node: TreeNodeOptions, callback: (children: TreeNodeOptions[]) => void) => void',
+    type: 'LoadDataFunc',
     defaultValue: 'undefined'
   },
   {
-    argument: 'render',
+    argument: 'renderNode',
     description: '自定义渲染节点',
-    type: '() => JSX.Element',
+    type: 'RenderNodeFunc',
+    defaultValue: 'undefined'
+  },
+  {
+    argument: 'renderIcon',
+    description: '自定义渲染节点',
+    type: 'RenderIconFunc',
     defaultValue: 'undefined'
   },
   {
     argument: 'defaultExpandedKeys',
     description: '默认展开的nodeKey数组',
-    type: 'Array<string | number>',
-    defaultValue: '[]',
-    version: '4.0.0'
+    type: 'NodeKey[]',
+    defaultValue: '[]'
   },
   {
     argument: 'defaultDisabledKeys',
     description: '默认禁用的nodeKey数组',
-    type: 'Array<string | number>',
-    defaultValue: '[]',
-    version: '4.0.0'
+    type: 'NodeKey[]',
+    defaultValue: '[]'
   },
   {
     argument: 'defaultCheckedKeys',
     description: '默认勾选的nodeKey数组',
-    type: 'Array<string | number>',
-    defaultValue: '[]',
-    version: '4.0.0'
+    type: 'NodeKey[]',
+    defaultValue: '[]'
   },
   {
     argument: 'defaultSelectedKey',
     description: '默认选中的nodeKey',
-    type: 'string | number',
-    defaultValue: '',
-    version: '4.0.0'
+    type: 'NodeKey',
+    defaultValue: ''
+  },
+  {
+    argument: 'virtual',
+    description: '虚拟树配置，传入则表示开启虚拟树, size是每个node高度，remain是显示多少个node, 滚动高度 = size * remain',
+    type: 'VirtualConfig',
+    defaultValue: ''
   },
 ];
 const eventData = [
   {
     name: 'selectChange',
     description: '选择节点时触发',
-    type: '{ preSelectedNode: TreeNodeOptions; node: TreeNodeOptions; }，preSelectedNode和node分别是之前选中和当前选中的节点'
+    type: 'SelectEventParams，preSelectedNode和node分别是之前选中和当前选中的节点'
   },
   {
     name: 'checkChange',
     description: '勾选节点时触发',
-    type: '{ checked: boolean; node: TreeNodeOptions }'
+    type: 'EventParams'
   },
   {
     name: 'toggleExpand',
     description: '展开收起时触发',
-    type: '{ status: boolean; node: TreeNodeOptions; }，status是当前的展开状态'
+    type: 'EventParams'
   }
 ];
 const methodData = [
   {
     name: 'getSelectedNode',
     description: '获取选中的节点',
-    type: '() => TreeNodeOptions | undefined'
+    type: '() => BaseTreeNode | undefined'
   },
   {
     name: 'getCheckedNodes',
     description: '获取已勾选的节点',
-    type: '() => TreeNodeOptions'
+    type: '() => BaseTreeNode[]'
   },
   {
     name: 'getHalfCheckedNodes',
     description: '获取半勾选的节点',
-    type: '() => TreeNodeOptions'
+    type: '() => BaseTreeNode[]'
   },
   {
     name: 'getExpandedKeys',
     description: '获取已展开的nodeKeys',
-    type: '() => Array<string | number>',
-    version: '4.0.0'
+    type: '() => NodeKey[]'
   }
 ];
 const nodeOptionData = [
@@ -164,60 +171,29 @@ const nodeOptionData = [
   },
   {
     argument: 'hasChildren',
-    description: '必传，用于判断是否还有children，控制展开图标的显示',
+    description: '懒加载时必传，用于控制展开图标的显示和触发懒加载',
     type: 'boolean'
-  },
-  {
-    argument: 'level',
-    description: '层级，内部计算',
-    type: 'number'
-  },
-  {
-    argument: 'loading',
-    description: '是否正在加载数据',
-    type: 'boolean',
-    defaultValue: 'false'
-  },
-  {
-    argument: 'disabled',
-    description: '是否禁用',
-    type: 'boolean',
-    defaultValue: 'false',
-    version: '4.0.0已废弃'
-  },
-  {
-    argument: 'expanded',
-    description: '是否展开',
-    type: 'boolean',
-    defaultValue: 'false',
-    version: '4.0.0已废弃'
-  },
-  {
-    argument: 'selected',
-    description: '是否选中',
-    type: 'boolean',
-    defaultValue: 'false',
-    version: '4.0.0已废弃'
-  },
-  {
-    argument: 'checked',
-    description: '是否勾选',
-    type: 'boolean',
-    defaultValue: 'false',
-    version: '4.0.0已废弃'
   },
   {
     argument: 'children',
     description: '子集',
     type: 'TreeNodeOptions[]',
     defaultValue: '[]'
-  },
-  {
-    argument: 'parentKey',
-    description: '父节点的nodeKey, 组件内部自动设置',
-    type: 'string | number | null',
-    defaultValue: 'null'
-  },
+  }
 ];
 
-export { columns, methodColumns, propData, eventData, methodData, nodeOptionData };
+const slotData = [
+  {
+    argument: 'node',
+    description: '自定义节点',
+    type: 'RenderNodeFunc'
+  },
+  {
+    argument: 'icon',
+    description: '自定义图标',
+    type: 'RenderIconFunc'
+  },
+ 
+];
+
+export { columns, methodColumns, propData, eventData, methodData, nodeOptionData, slotData };

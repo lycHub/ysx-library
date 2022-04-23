@@ -13,28 +13,24 @@ interface CurrentState {
 function useCheckState(defaultCheckedKeys: NodeKey[], { checkedKeys, halfCheckedKeys, checkStrictly, key2TreeNode }: CurrentState) {
   checkedKeys.clear();
   halfCheckedKeys.clear();
-  // checkedKeys = new Set(defaultCheckedKeys);
-  if (!checkStrictly) {
-    defaultCheckedKeys.forEach(key => {
-      if (!checkedKeys.has(key)) {
-        const node = key2TreeNode[key];
-        // console.log('node :>> ', node);
-        if (node) {
-          updateCheckedState({
-            node,
-            checked: true,
-            checkedKeys,
-            halfCheckedKeys,
-            key2TreeNode
-          });
-        } else {
-          checkedKeys.add(key);
-        }
+  defaultCheckedKeys.forEach(key => {
+    if (!checkedKeys.has(key)) {
+      const node = key2TreeNode[key];
+      // console.log('node :>> ', node);
+      if (node) {
+        updateCheckedState({
+          node,
+          checked: true,
+          checkedKeys,
+          halfCheckedKeys,
+          key2TreeNode,
+          checkStrictly
+        });
+      } else {
+        checkedKeys.add(key);
       }
-    });
-  } else {
-    defaultCheckedKeys.forEach(key => checkedKeys.add(key));
-  }
+    }
+  });
   // console.log('halfCheckedKeys :>> ', halfCheckedKeys);
 }
 
@@ -46,22 +42,25 @@ function updateCheckedState(options: {
   checkedKeys: Set<NodeKey>;
   halfCheckedKeys: Set<NodeKey>;
   key2TreeNode: KeyNodeMap;
+  checkStrictly: boolean;
 }) {
-  const { node, checked, checkedKeys, halfCheckedKeys, key2TreeNode } = options;
+  const { node, checked, checkedKeys, halfCheckedKeys, key2TreeNode, checkStrictly } = options;
   checkedKeys[addOrDelete(checked)](node.key)
   halfCheckedKeys.delete(node.key);
-  updateChildrenCheckState({
-    node,
-    checked,
-    checkedKeys,
-    halfCheckedKeys
-  });
-  updateUpwards({
-    node,
-    key2TreeNode,
-    checkedKeys,
-    halfCheckedKeys
-  });
+  if (!checkStrictly) {
+    updateChildrenCheckState({
+      node,
+      checked,
+      checkedKeys,
+      halfCheckedKeys
+    });
+    updateUpwards({
+      node,
+      key2TreeNode,
+      checkedKeys,
+      halfCheckedKeys
+    });
+  }
 }
 
 

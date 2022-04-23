@@ -1,4 +1,4 @@
-@import url('./highlight.github.css');
+@import url('highlight.js/styles/default.css');
 @import url('./iconfont.css');
 @import url('./variable.css');
 @import url('ant-design-vue/dist/antd.css');

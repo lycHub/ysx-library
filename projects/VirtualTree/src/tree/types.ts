@@ -11,12 +11,8 @@ type NodeKey = string | number;
 interface TreeNodeOptions {
   nodeKey: NodeKey;
   name: string;
-  level?: number;
-  loading?: boolean;
   hasChildren?: boolean;
   children?: TreeNodeOptions[];
-  parentKey?: NodeKey | null;
-  parentKeys?: NodeKey[];
 }
 
 interface TreeNodeInstance {

@@ -1,16 +1,54 @@
-# Vue 3 + Typescript + Vite
+## Virtual Tree
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+> Vue3 虚拟树组件
 
-## Recommended IDE Setup
+### 安装
+```
+npm i @ysx/vue-virtual-tree
+```
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+### 基本使用
+```vue
+<template>
+  <a-button @click="selectedNode">获取选中节点</a-button>
+  <VirTree
+    ref="virTree"
+    :source="list"
+    :default-selected-key="defaultSelectedKey"
+  />
+</template>
 
-## Type Support For `.vue` Imports in TS
+<script setup lang="tsx">
+  import { TreeNodeOptions, VirTree, TreeContext } from '@ysx/vue-virtual-tree';
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+  function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
+      const list = [];
+      for (let i = 0; i < h; i += 1) {
+        const nodeKey = `${path}-${i}`;
+        const treeNode: TreeNodeOptions  = {
+          nodeKey,
+          name: nodeKey,
+          children: []
+        };
 
-1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+        if (level > 0) {
+          treeNode.children = recursion(nodeKey, level - 1);
+        }
+        list.push(treeNode);
+      }
+      return list;
+    }
+    let list = $ref(recursion());
+    let defaultSelectedKey = $ref('0-2');
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+    const virTree = $ref<TreeContext>();
+      
+    const selectedNode = () => {
+      const node = virTree!.getSelectedNode();
+      console.log('selected node', node);
+    }
+</script>
+
+```
+
+### [demo & doc]()

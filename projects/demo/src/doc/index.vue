@@ -6,7 +6,7 @@
         <div class="install">
           <a-typography-title :level="4">安装</a-typography-title>
           <a-typography-paragraph>
-            <pre>npm i vue-virtual-tree</pre>
+            <pre>npm i @ysx/vue-virtual-tree</pre>
           </a-typography-paragraph>
         </div>
         <div class="notice">
@@ -51,14 +51,14 @@
             title="异步加载数据"
             desc="点击展开节点，动态加载数据。"
             code-type="asyncData">
-            <!-- <async-data-demo /> -->
+            <async-data-demo />
           </demo-box>
           <demo-box
             id="custom-icon-demo"
             title="自定义图标"
             desc="自定义展开、收起图标"
             code-type="customIcon">
-            <!-- <custom-icon-demo /> -->
+            <custom-icon-demo />
           </demo-box>
         </a-col>
         <a-col :span="12">
@@ -67,14 +67,21 @@
             title="可勾选"
             desc="showCheckbox属性开启勾选，默认父子节点联动，设置checkStrictly属性，可让父子节点不做联动"
             code-type="checkbox">
-            <!-- <checkbox-demo /> -->
+            <checkbox-demo />
           </demo-box>
           <demo-box
             id="custom-node-demo"
             title="自定义渲染节点"
-            desc="绑定render函数自定义节点，参数data为当前node数据。注意：如果改变了默认的高度(size), 需要传入size属性"
+            desc="绑定render函数或使用slot自定义节点，参数data为当前node数据。注意：如果改变了默认的高度(size), 需要传入size属性"
             code-type="customNode">
-            <!-- <custom-node-demo /> -->
+            <custom-node-demo />
+          </demo-box>
+          <demo-box
+              id="virtual-demo"
+              title="虚拟树"
+              desc="传入 props.virtual 使用虚拟tree，高度为 size * remain"
+              code-type="customNode">
+              <virtual-demo />
           </demo-box>
         </a-col>
       </a-row>
@@ -98,6 +105,15 @@
         :pagination="false"
         :row-class-name="rowClsName"
       />
+      <br />
+      <a-typography-title :level="4">Slots</a-typography-title>
+      <a-table
+        :columns="columns"
+        :data-source="slotData"
+        rowKey="argument"
+        :pagination="false"
+        :row-class-name="rowClsName"
+      />
     </section>
   </div>
 </template>
@@ -106,11 +122,16 @@
   import {defineComponent} from 'vue';
   import DemoBox from './DemoBox.vue';
   import BaseDemo from './BaseDemo.vue';
-  import { columns, eventData, methodColumns, methodData, nodeOptionData, propData } from './tableData';
+  import CheckboxDemo from './CheckboxDemo.vue';
+  import AsyncDataDemo from './AsyncDataDemo.vue';
+  import CustomNodeDemo from './CustomNodeDemo.vue';
+  import CustomIconDemo from './CustomIconDemo.vue';
+  import VirtualDemo from './VirtualDemo.vue';
+  import { columns, eventData, methodColumns, methodData, nodeOptionData, propData, slotData } from './tableData';
 
   export default defineComponent({
     name: 'DocContainer',
-    components: { DemoBox, BaseDemo, },
+    components: { DemoBox, BaseDemo, CheckboxDemo, AsyncDataDemo, CustomNodeDemo, CustomIconDemo, VirtualDemo },
     setup() {
       const rowClsName = (_: any, index: number) => ([5, 6, 7, 8].includes(index) ? 'table-row-abandoned' : null);
 
@@ -119,6 +140,7 @@
         eventData,
         methodData,
         nodeOptionData,
+        slotData,
         columns,
         methodColumns,
         rowClsName

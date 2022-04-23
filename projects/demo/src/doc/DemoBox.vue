@@ -8,7 +8,7 @@
       <div class="desc">
         <p>{{ desc }}</p>
       </div>
-      <div class="actions">
+      <!-- <div class="actions">
         <a-tooltip>
           <template #title>{{ toggleBtnLabel }}</template>
           <span class="act" @click="toggleExpand">
@@ -16,11 +16,20 @@
           </span>
         </a-tooltip>
         <a-typography-paragraph class="act" style="display: inline-block" :copyable="{ text: preCode.source }" />
+      </div> -->
+
+      <div class="actions">
+        <a-tooltip>
+          <template #title>查看代码</template>
+          <span class="act" @click="toggleExpand">
+            <a><i class="iconfont iconcode"></i></a>
+          </span>
+        </a-tooltip>
       </div>
     </div>
-    <div class="highlight-wrap" v-show="toggleBtnLabel === '收起'">
+    <!-- <div class="highlight-wrap" v-show="toggleBtnLabel === '收起'">
       <div class="highlight" v-html="preCode.highlight"></div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -32,6 +41,7 @@ interface PreCode {
 }
 
 import code from './HighlightCodes.json';
+// import code from './code.ts';
 
 export default defineComponent({
   name: 'DemoBox',

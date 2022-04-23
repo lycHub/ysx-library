@@ -6,6 +6,7 @@
     "build": "vue-tsc --noEmit && vite build && npm run build:types",
     "build:types": "tsc --project tsconfig.type.json"
   },
+  "files": ["dist"],
   "types": "./dist/typings/tree/index.d.ts",
   "exports": {
     ".": {

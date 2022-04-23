@@ -258,7 +258,8 @@ watch(() => props.defaultExpandedKeys, newVal => {
         checked: newChecked,
         checkedKeys,
         halfCheckedKeys,
-        key2TreeNode
+        key2TreeNode,
+        checkStrictly: props.checkStrictly
       });
       emit('checkChange', { state: newChecked, node });
     }
