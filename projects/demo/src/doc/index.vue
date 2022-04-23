@@ -6,7 +6,7 @@
         <div class="install">
           <a-typography-title :level="4">安装</a-typography-title>
           <a-typography-paragraph>
-            <pre>npm i @ysx/vue-next-tree</pre>
+            <pre>npm i @ysx-libs/vue-virtual-tree</pre>
           </a-typography-paragraph>
         </div>
         <div class="notice">

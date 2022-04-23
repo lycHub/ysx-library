@@ -1,5 +1,5 @@
 {
-  "name": "@ysx/vue-next-tree",
+  "name": "@ysx-libs/vue-virtual-tree",
   "version": "0.0.0",
   "scripts": {
     "build:dev": "vite build --watch --emptyOutDir=false",
@@ -10,8 +10,8 @@
   "types": "./dist/typings/tree/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-next-tree.es.js",
-      "require": "./dist/vue-next-tree.umd.js"
+      "import": "./dist/vue-virtual-tree.es.js",
+      "require": "./dist/vue-virtual-tree.umd.js"
     },
     "./style.css": "./dist/style.css"
   },

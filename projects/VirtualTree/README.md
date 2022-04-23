@@ -4,7 +4,7 @@
 
 ### 安装
 ```
-npm i @ysx/vue-next-tree
+npm i @ysx-libs/vue-virtual-tree
 ```
 
 ### 基本使用
@@ -19,7 +19,7 @@ npm i @ysx/vue-next-tree
 </template>
 
 <script setup lang="tsx">
-  import { TreeNodeOptions, VirTree, TreeContext } from '@ysx/vue-next-tree';
+  import { TreeNodeOptions, VirTree, TreeContext } from '@ysx-libs/vue-virtual-tree';
 
   function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
