@@ -1,41 +1,37 @@
-
 <template>
   App
-  <div class="btn">
-    <button @click="getExpandedKeys">获取展开节点</button>
-    <button @click="getSelectedNode">获取选中节点</button>
-    <button @click="getCheckedNodes">获取勾选节点</button>
-    <button @click="getHalfCheckedNodes">获取半选节点</button>
-  </div>
-  <VirTree
-    ref="virTree"
+  <a-button>Add</a-button>
+  <vir-tree
     :source="list"
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
-    :virtual="{ size: 26, remain: 8 }"
+    :render-node="renderNode"
+    :render-icon="renderIcon"
     :default-disabled-keys="defaultDisabledKeys"
     :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
-    :default-checked-keys="defaultCheckedKeys"
-    @expand-change="expandChange"
-    @select-change="selectChange"
-    @check-change="checkChange">
-  </VirTree>
+    :default-checked-keys="defaultCheckedKeys">
+    <template #node="node">
+      <b style="color: green;"><i>{{ node.name }}</i></b>
+    </template>
+    <template #icon="{ loading, expanded }">
+      <span>ico-{{ expanded }}</span>
+    </template>
+  </vir-tree>
 </template>
 
 <script setup lang="tsx">
   import { onMounted } from 'vue';
-  import { EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from '@ysx/vue-virtual-tree';
+  import { TreeNodeOptions, VirTree, BaseTreeNode } from '@ysx/vue-virtual-tree';
 
-  function recursion(path = '0', level = 3, h = 10): TreeNodeOptions[] {
+  function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
       for (let i = 0; i < h; i += 1) {
         const nodeKey = `${path}-${i}`;
         const treeNode: TreeNodeOptions  = {
           nodeKey,
           name: nodeKey,
-          children: [],
-          hasChildren: true
+          children: []
         };
 
         if (level > 0) {
@@ -46,16 +42,13 @@
       return list;
     }
 
-    const showCheckbox = true;
+    const showCheckbox = false;
     const checkStrictly = false;
-
-
     let list = $ref(recursion());
     let defaultDisabledKeys = $ref(['0-3-1']);
     let defaultSelectedKey = $ref('');
     let defaultExpandedKeys = $ref(['0-1-1']);
-    let defaultCheckedKeys = $ref<string[]>(['0-1-0', '0-1-1', '0-1-2', '0-1-3', '0-2-1', '0-2-0-0']);
-    // let defaultCheckedKeys = $ref<string[]>(['0-1', '0-4']);
+    let defaultCheckedKeys = $ref<string[]>(['0-1-0', '0-1-1', '0-1-2', '0-1-3', '0-1-4',]);
     setTimeout(() => {
       // defaultExpandedKeys = [];
       // defaultCheckedKeys = ['0-2'];
@@ -66,45 +59,10 @@
     });
 
 
-    function expandChange(arg: EventParams) {
-        console.log('expandChange :>> ', arg);
-      }
-      function selectChange(arg: SelectEventParams) {
-        console.log('selectChange :>> ', arg);
-      }
-      function checkChange(arg: EventParams) {
-        console.log('checkChange :>> ', arg);
-      }
-     
-      // 
-      const virTree = $ref<TreeContext>();
-      const getExpandedKeys = () => {
-        console.log('getExpandedKeys :>> ');
-		    const keys = virTree!.getExpandedKeys();
-        console.log('expanded keys', keys);
-      }
-      
-      const getSelectedNode = () => {
-		    const node = virTree!.getSelectedNode();
-        console.log('selected node', node);
-      }
-      const getCheckedNodes = () => {
-		    const node = virTree!.getCheckedNodes();
-        console.log('checked nodes', node);
-      }
-      const getHalfCheckedNodes = () => {
-		    const node = virTree!.getHalfCheckedNodes();
-        console.log('half checked nodes', node);
-      }
+    function renderNode(node: BaseTreeNode) {
+      return <div style="padding: 0 4px;"><b style="color: #f60;">{ node.name }</b></div>
+    }
+    function renderIcon({ expanded }: any) {
+      return <div>i-{ expanded.toString() }</div>;
+    }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

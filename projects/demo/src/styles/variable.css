@@ -1,0 +1,17 @@
+.vir-tree {
+  --white-color: #fff;
+  --border-color: #dcdee2;
+  --dash-border-color: #f0f0f0;
+  --primary-color: #2d8cf0;
+  --assist-color: #bae7ff;
+  --disable-color: #c5c8ce;
+  --text-color: #333;
+  --gray-color-tree: #e7eaef;
+
+  --font-size-base: 14px;
+  --font-size-mid: var(--font-size-base) + 2;
+  --font-size-large: var(--font-size-base) + 4;
+  --font-size-huge: var(--font-size-base) + 10;
+}
+
+
