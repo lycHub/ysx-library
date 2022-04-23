@@ -1,11 +1,11 @@
 <template>
   <div class="vir-tree">
     <RecycleScroller
-        v-if="virtual?.height"
+        v-if="virtualHeight"
         class="vir-tree-wrap"
-        :style="{ height: virtual.height + 'px', border: '1px solid' }"
+        :style="{ height: virtualHeight + 'px', border: '1px solid' }"
         :items="visibleList"
-        :item-size="26"
+        :item-size="props.virtual?.size"
         key-field="key"
         v-slot="{ item }">
         <tree-node
@@ -156,6 +156,13 @@ const visibleList = $computed(() => {
     return isRoot || isVisibleNode;
   });
 });
+
+const virtualHeight = $computed(() => {
+  if (props.virtual) {
+    return +(props.virtual.size * props.virtual.remain) || 0;
+  }
+  return 0;
+})
 
 
 let expandedKeys = $ref(new Set<NodeKey>());

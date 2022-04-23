@@ -12,7 +12,7 @@
     :source="list"
     :show-checkbox="showCheckbox"
     :check-strictly="checkStrictly"
-    :virtual="{ height: 200 }"
+    :virtual="{ size: 26, remain: 8 }"
     :default-disabled-keys="defaultDisabledKeys"
     :default-selected-key="defaultSelectedKey"
     :default-expanded-keys="defaultExpandedKeys"
