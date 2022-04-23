@@ -23,7 +23,7 @@
         />
     </RecycleScroller>
 
-    <div class="vir-tree-wrap" v-else style="border: 1px solid red;">
+    <div class="vir-tree-wrap" v-else>
       <tree-node
         v-for="item of visibleList"
         :key="item.key"
@@ -232,9 +232,9 @@ watch(() => props.defaultExpandedKeys, newVal => {
     }, {
       immediate: true
     });
-     const selectedNode = $computed(() => key2TreeNode[Array.from(selectedKeys.values())[0]]);
+    const selectedNode = $computed(() => key2TreeNode[Array.from(selectedKeys.values())[0]]);
     function selectChange(node: BaseTreeNode) {
-      const preSelectedNode = selectedNode;
+      const preSelectedNode = key2TreeNode[Array.from(selectedKeys.values())[0]];
       let currentNode: TypeWithUndefined<BaseTreeNode>;
       if (selectedKeys.has(node.key)) {
         selectedKeys.clear();

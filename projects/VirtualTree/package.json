@@ -18,7 +18,9 @@
     "vue": "^3.2.25"
   },
   "dependencies": {
-    "@vitejs/plugin-vue-jsx": "^1.3.10",
     "vue-virtual-scroller": "^2.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue-jsx": "^1.3.10"
   }
 }
