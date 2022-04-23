@@ -13,6 +13,7 @@
         <a-anchor-link href="#async-dada-demo" title="异步加载" />
         <a-anchor-link href="#custom-node-demo" title="自定义渲染节点" />
         <a-anchor-link href="#custom-icon-demo" title="自定义图标" />
+        <a-anchor-link href="#virtual-demo" title="虚拟树" />
         <a-anchor-link href="#api" title="API" />
       </a-anchor>
     </a-layout-content>

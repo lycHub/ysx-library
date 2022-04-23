@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build --base=//vue-tree-4gi26kh195ddd24f-1257117519.tcloudbaseapp.com/docs/tree/",
     "preview": "vite preview"
   },
   "peerDependencies": {
