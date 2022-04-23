@@ -9,5 +9,8 @@ export default defineConfig({
       reactivityTransform: true
     }),
     vueJsx()
-  ]
+  ],
+  build: {
+    outDir: 'dist-tree'
+  }
 });
