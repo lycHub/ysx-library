@@ -1,10 +1,10 @@
-## Virtual Tree
+## Vue Virtual Tree
 
 > Vue3 虚拟树组件
 
 ### 安装
 ```
-npm i @ysx/vue-virtual-tree
+npm i @ysx/vue-next-tree
 ```
 
 ### 基本使用
@@ -19,7 +19,7 @@ npm i @ysx/vue-virtual-tree
 </template>
 
 <script setup lang="tsx">
-  import { TreeNodeOptions, VirTree, TreeContext } from '@ysx/vue-virtual-tree';
+  import { TreeNodeOptions, VirTree, TreeContext } from '@ysx/vue-next-tree';
 
   function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];

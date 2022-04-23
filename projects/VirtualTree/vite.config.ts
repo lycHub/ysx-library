@@ -13,8 +13,8 @@ export default defineConfig({
     lib: {
       // entry: join(dirname(import.meta.url), 'src/index.ts'),
       entry: 'src/index.ts',
-      name: 'VueVirtualTree',
-      fileName: format => `vue-virtual-tree.${format}.js`
+      name: 'VueNextTree',
+      fileName: format => `vue-next-tree.${format}.js`
     },
     rollupOptions: {
       external: ['vue'],

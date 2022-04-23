@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="tsx">
-import { TreeNodeOptions, VirTree, TreeContext } from '@ysx/vue-virtual-tree';
+import { TreeNodeOptions, VirTree, TreeContext } from '@ysx/vue-next-tree';
 
 function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
   const list = [];

@@ -2,5 +2,5 @@
 @import url('./iconfont.css');
 @import url('./variable.css');
 @import url('ant-design-vue/dist/antd.css');
-@import url('@ysx/vue-virtual-tree/style.css');
+@import url('@ysx/vue-next-tree/style.css');
 @import url('./reset.css');

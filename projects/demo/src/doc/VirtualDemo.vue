@@ -10,7 +10,7 @@
 
 <script setup lang="tsx">
   import { onMounted } from 'vue';
-  import { EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from '@ysx/vue-virtual-tree';
+  import { EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from '@ysx/vue-next-tree';
 
   function recursion(path = '0', level = 3, h = 10): TreeNodeOptions[] {
       const list = [];
