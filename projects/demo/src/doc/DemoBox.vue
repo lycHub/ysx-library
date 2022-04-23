@@ -22,7 +22,7 @@
         <a-tooltip>
           <template #title>查看代码</template>
           <span class="act" @click="toggleExpand">
-            <a><i class="iconfont iconcode"></i></a>
+            <a :href="href" target="_blank"><i class="iconfont iconcode"></i></a>
           </span>
         </a-tooltip>
       </div>
@@ -57,7 +57,11 @@ export default defineComponent({
     codeType: {
       type: String,
       default: ''
-    }
+    },
+    href: {
+      type: String,
+      default: ''
+    },
   },
   emits: [],
   setup(props, { emit }) {

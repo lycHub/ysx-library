@@ -2,7 +2,7 @@
   <a-layout class="vue-tree-demo app-layout">
     <a-layout-header class="header">
       <h2 class="title">Vue virtual tree</h2>
-      <a class="link" href="//github.com/lycHub/vue-virtual-tree" target="_blank">github</a>
+      <a class="link" href="//github.com/lycHub/ysx-library" target="_blank">github</a>
     </a-layout-header>
     <a-layout-content class="content">
       <doc-container />

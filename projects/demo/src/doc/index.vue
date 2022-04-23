@@ -43,21 +43,24 @@
             id="base-demo"
             title="基本用法"
             desc="展开、选中、禁用的基本功能"
-            code-type="base">
+            code-type="base"
+            href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/BaseDemo.vue">
             <base-demo />
           </demo-box>
           <demo-box
             id="async-dada-demo"
             title="异步加载数据"
             desc="点击展开节点，动态加载数据。"
-            code-type="asyncData">
+            code-type="asyncData"
+            href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/AsyncDataDemo.vue">
             <async-data-demo />
           </demo-box>
           <demo-box
             id="custom-icon-demo"
             title="自定义图标"
             desc="自定义展开、收起图标"
-            code-type="customIcon">
+            code-type="customIcon"
+             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CustomIconDemo.vue">
             <custom-icon-demo />
           </demo-box>
         </a-col>
@@ -66,21 +69,24 @@
             id="checkbox-demo"
             title="可勾选"
             desc="showCheckbox属性开启勾选，默认父子节点联动，设置checkStrictly属性，可让父子节点不做联动"
-            code-type="checkbox">
+            code-type="checkbox"
+             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CheckboxDemo.vue">
             <checkbox-demo />
           </demo-box>
           <demo-box
             id="custom-node-demo"
             title="自定义渲染节点"
             desc="绑定render函数或使用slot自定义节点，参数data为当前node数据。注意：如果改变了默认的高度(size), 需要传入size属性"
-            code-type="customNode">
+            code-type="customNode"
+             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CustomNodeDemo.vue">
             <custom-node-demo />
           </demo-box>
           <demo-box
               id="virtual-demo"
               title="虚拟树"
               desc="传入 props.virtual 使用虚拟tree，高度为 size * remain"
-              code-type="customNode">
+              code-type="customNode"
+               href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/VirtualDemo.vue">
               <virtual-demo />
           </demo-box>
         </a-col>
@@ -114,6 +120,8 @@
         :pagination="false"
         :row-class-name="rowClsName"
       />
+      <br />
+      <a href="//github.com/lycHub/ysx-library/blob/master/projects/VirtualTree/src/tree/types.ts" target="_blank">类型定义</a>
     </section>
   </div>
 </template>
