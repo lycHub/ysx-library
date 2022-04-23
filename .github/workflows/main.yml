@@ -16,7 +16,7 @@ jobs:
       - name: Install and Build
         run: |
           pnpm install -r -F @ysx-libs/virtual-tree-demo
-          npm run-script build:demo
+          pnpm build:demo
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
