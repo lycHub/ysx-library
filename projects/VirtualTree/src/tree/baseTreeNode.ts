@@ -1,5 +1,5 @@
 import { NodeKey, TreeNodeOptions } from "./types";
-import { TypeWithUndefined } from "./utils/types";
+import { TypeWithUndefined } from "../utils/types";
 
 export class BaseTreeNode {
   readonly key: NodeKey;

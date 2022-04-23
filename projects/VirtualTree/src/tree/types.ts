@@ -1,6 +1,6 @@
 import { Slots } from 'vue';
 import { BaseTreeNode } from './baseTreeNode';
-import { TypeWithUndefined } from './utils/types';
+import { TypeWithUndefined } from '../utils/types';
 
 type NodeKey = string | number;
 
@@ -62,4 +62,4 @@ interface VirtualConfig {
   remain: number;
 }
 
-export type { TreeNodeOptions, NodeKey, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, RenderNodeFunc, RenderIconFunc, LoadDataFunc, TreeContext, VirtualConfig };
+export type { BaseTreeNode, TreeNodeOptions, NodeKey, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, RenderNodeFunc, RenderIconFunc, LoadDataFunc, TreeContext, VirtualConfig };

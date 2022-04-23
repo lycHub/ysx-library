@@ -3,7 +3,7 @@
     <RecycleScroller
         v-if="virtualHeight"
         class="vir-tree-wrap"
-        :style="{ height: virtualHeight + 'px', border: '1px solid' }"
+        :style="{ height: virtualHeight + 'px' }"
         :items="visibleList"
         :item-size="props.virtual?.size"
         key-field="key"
@@ -51,8 +51,8 @@ import { BaseTreeNode } from './baseTreeNode';
 import { EventParams, KeyNodeMap, LoadDataFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions, VirtualConfig } from './types';
 import TreeNode from './node.vue';
 import { updateCheckedState, useCheckState } from './hooks/useCheckState';
-import { addOrDelete } from './utils';
-import { TypeWithUndefined } from './utils/types';
+import { addOrDelete } from '../utils';
+import { TypeWithUndefined } from '../utils/types';
 import { TreeInjectionKey } from './context';
 
 const props = defineProps({

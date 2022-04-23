@@ -1,7 +1,7 @@
 
 import { KeyNodeMap, NodeKey } from '../types';
 import { BaseTreeNode } from '../baseTreeNode';
-import { addOrDelete } from '../utils';
+import { addOrDelete } from '../../utils';
 
 interface CurrentState {
   checkedKeys: Set<NodeKey>,

@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { PropType, Slot, defineComponent, inject } from 'vue';
-import VirCheckBox from './checkbox/index.vue';
+import VirCheckBox from '../checkbox/index.vue';
 import RenderNode from './renderNode';
 import renderIcon from './renderIcon';
 import { BaseTreeNode } from './baseTreeNode';

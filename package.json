@@ -3,19 +3,24 @@
   "version": "1.0.0",
   "description": "vue3 tree virtual-tree",
   "main": "index.js",
-  "private":"true",
+  "private": "true",
   "scripts": {
     "start:demo": "pnpm -C ./projects/demo start",
-    "build:demo": "pnpm -C ./projects/demo build"
+    "build:demo": "pnpm -C ./projects/demo build",
+    "build:tree": "pnpm -C ./projects/VirtualTree build"
   },
-  "keywords": ["vue3", "tree"],
+  "keywords": [
+    "vue3",
+    "tree"
+  ],
   "author": "ysx",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^17.0.25",
     "@vitejs/plugin-vue": "^2.3.0",
     "typescript": "^4.5.4",
     "vite": "^2.9.0",
-    "vue-tsc": "^0.29.8",
-    "vue": "^3.2.25"
+    "vue": "^3.2.25",
+    "vue-tsc": "^0.29.8"
   }
 }
