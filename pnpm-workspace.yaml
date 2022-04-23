@@ -1,4 +1,4 @@
 packages:
-  # all packages in subdirs of packages/ and components/
+  # pnpm -r publish -F @ysx-libs/vue-virtual-tree --access=public --git-checks=false
   - 'projects/**'
   - '!**/test/**'

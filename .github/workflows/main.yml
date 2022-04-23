@@ -1,0 +1,26 @@
+name: GitHub Actions Build and Deploy
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        with:
+          persist-credentials: false
+      - name: Install pnpm
+          uses: pnpm/action-setup@v2.2.0
+      - name: Install and Build
+        run: |
+          pnpm install -r -F @ysx-libs/virtual-tree-demo
+          npm run-script build:demo
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+          BRANCH: gh-pages
+          FOLDER: projects/demo/dist
+          CLEAN: true
