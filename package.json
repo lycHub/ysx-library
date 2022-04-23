@@ -1,6 +1,6 @@
 {
-  "name": "ysx",
-  "version": "1.0.0",
+  "name": "ysx-library",
+  "version": "0.0.0",
   "description": "vue3 tree virtual-tree",
   "main": "index.js",
   "private": "true",

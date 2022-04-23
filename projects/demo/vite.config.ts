@@ -11,6 +11,6 @@ export default defineConfig({
     vueJsx()
   ],
   build: {
-    outDir: 'dist-tree'
+    outDir: '../../deploy/tree'
   }
 });
