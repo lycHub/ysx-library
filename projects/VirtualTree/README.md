@@ -52,4 +52,4 @@ npm i @ysx-libs/vue-virtual-tree
 ```
 
 ### [doc](https://vue-tree-4gi26kh195ddd24f-1257117519.tcloudbaseapp.com/docs/tree)
-### [demo](https://stackblitz.com/edit/vitejs-vite-1j17xa)
+### [demo](https://stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FBaseDemo.vue)
