@@ -44,7 +44,8 @@
             title="基本用法"
             desc="展开、选中、禁用的基本功能"
             code-type="base"
-            href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/BaseDemo.vue">
+            href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/BaseDemo.vue"
+            online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FBaseDemo.vue">
             <base-demo />
           </demo-box>
           <demo-box
@@ -52,7 +53,8 @@
             title="异步加载数据"
             desc="点击展开节点，动态加载数据。"
             code-type="asyncData"
-            href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/AsyncDataDemo.vue">
+            href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/AsyncDataDemo.vue"
+            online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FAsyncDataDemo.vue">
             <async-data-demo />
           </demo-box>
           <demo-box
@@ -60,7 +62,8 @@
             title="自定义图标"
             desc="自定义展开、收起图标"
             code-type="customIcon"
-             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CustomIconDemo.vue">
+             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CustomIconDemo.vue"
+             online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FCustomIconDemo.vue">
             <custom-icon-demo />
           </demo-box>
         </a-col>
@@ -70,7 +73,8 @@
             title="可勾选"
             desc="showCheckbox属性开启勾选，默认父子节点联动，设置checkStrictly属性，可让父子节点不做联动"
             code-type="checkbox"
-             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CheckboxDemo.vue">
+             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CheckboxDemo.vue"
+             online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FCheckboxDemo.vue">
             <checkbox-demo />
           </demo-box>
           <demo-box
@@ -78,7 +82,8 @@
             title="自定义渲染节点"
             desc="绑定render函数或使用slot自定义节点，参数data为当前node数据。注意：如果改变了默认的高度(size), 需要传入size属性"
             code-type="customNode"
-             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CustomNodeDemo.vue">
+             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/CustomNodeDemo.vue"
+             online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FCustomNodeDemo.vue">
             <custom-node-demo />
           </demo-box>
           <demo-box
@@ -86,7 +91,8 @@
               title="虚拟树"
               desc="传入 props.virtual 使用虚拟tree，高度为 size * remain"
               code-type="customNode"
-               href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/VirtualDemo.vue">
+               href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/VirtualDemo.vue"
+               online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FVirtualDemo.vue">
               <virtual-demo />
           </demo-box>
         </a-col>

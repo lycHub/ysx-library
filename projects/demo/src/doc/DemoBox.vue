@@ -21,30 +21,29 @@
       <div class="actions">
         <a-tooltip>
           <template #title>查看代码</template>
-          <span class="act" @click="toggleExpand">
-            <a :href="href" target="_blank"><i class="iconfont iconcode"></i></a>
+          <span class="act">
+            <a :href="href" target="_blank" style="margin-right: 10px;"><i class="iconfont iconcode"></i></a>
+          </span>
+        </a-tooltip>
+        <a-tooltip>
+          <template #title>在线编辑</template>
+          <span class="act">
+            <a :href="online" target="_blank">
+              <edit-outlined />
+            </a>
           </span>
         </a-tooltip>
       </div>
     </div>
-    <!-- <div class="highlight-wrap" v-show="toggleBtnLabel === '收起'">
-      <div class="highlight" v-html="preCode.highlight"></div>
-    </div> -->
   </div>
 </template>
 
 <script lang="tsx">
-import { defineComponent, ref } from 'vue';
-interface PreCode {
-  source: string;
-  highlight: string;
-}
-
-import code from './HighlightCodes.json';
-// import code from './code.ts';
-
+import { defineComponent } from 'vue';
+import { EditOutlined } from '@ant-design/icons-vue';
 export default defineComponent({
   name: 'DemoBox',
+  components: { EditOutlined },
   props: {
     title: {
       type: String,
@@ -62,20 +61,10 @@ export default defineComponent({
       type: String,
       default: ''
     },
-  },
-  emits: [],
-  setup(props, { emit }) {
-    const toggleBtnLabel = ref<'展开' | '收起'>('展开');
-    const preCode = ref<PreCode | null>(null);
-    const toggleExpand = () => {
-      toggleBtnLabel.value = toggleBtnLabel.value === '展开' ? '收起' : '展开';
-    }
-    preCode.value = (code as Record<string, PreCode>)[props.codeType];
-    return {
-      toggleBtnLabel,
-      toggleExpand,
-      preCode
-    }
+    online: {
+      type: String,
+      default: ''
+    },
   }
 });
 </script>
