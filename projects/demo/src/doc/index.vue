@@ -169,7 +169,7 @@
     margin: 0 auto;
     padding: 30px 20px;
     border: 1px solid var(--border-color);
-  
+
   }
 
   .doc-container .sec {

@@ -1,6 +1,6 @@
 {
   "name": "@ysx-libs/vue-virtual-tree",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "build:dev": "vite build --watch --emptyOutDir=false",
     "build": "vue-tsc --noEmit && vite build && npm run build:types",

@@ -107,9 +107,6 @@ watch(() => props.source, newVal => {
     treeData = result.treeData;
     flattenTreeData = result.flattenTreeData;
     key2TreeNode = result.key2TreeNode;
-    // console.log('flattenTreeData :>> ', flattenTreeData);
-    // console.log('key2TreeNode :>> ', key2TreeNode);
-    // console.log('treeData :>> ', treeData);
   }
 }, {
   immediate: true
@@ -174,7 +171,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
 });
 
   let loading = $ref(false);
-  
+
   // state: 点击后的展开状态
   function toggleExpand({ state, node }: EventParams) {
       if (loading) return;
@@ -199,7 +196,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
             node.children = [];
             node.hasChildren = false;
           }
-         
+
         });
       }
       emit('expandChange', { state, node });
@@ -247,7 +244,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
     }
 
 
-   
+
 
 
 
@@ -263,7 +260,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
       });
       emit('checkChange', { state: newChecked, node });
     }
-    
+
     const context = shallowReactive({
       renderNode: props.renderNode,
       renderIcon: props.renderIcon,
@@ -274,7 +271,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
       getCheckedNodes: () => Array.from(checkedKeys).map(key => key2TreeNode[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
       getHalfCheckedNodes: () => Array.from(halfCheckedKeys).map(key => key2TreeNode[key]),
     });
-    
+
     defineExpose(toRaw(context));
     provide(TreeInjectionKey, context);
 </script>

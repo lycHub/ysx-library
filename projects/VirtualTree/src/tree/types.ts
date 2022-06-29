@@ -13,6 +13,7 @@ interface TreeNodeOptions {
   name: string;
   hasChildren?: boolean;
   children?: TreeNodeOptions[];
+  [key: string]: any;
 }
 
 interface TreeNodeInstance {
