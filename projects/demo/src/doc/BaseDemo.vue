@@ -31,7 +31,7 @@
     let defaultSelectedKey = $ref('0-2');
 
     const virTree = $ref<TreeContext>();
-      
+
     const selectedNode = () => {
       const node = virTree!.getSelectedNode();
       console.log('selected node', node);

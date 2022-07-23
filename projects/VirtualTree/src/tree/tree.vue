@@ -126,6 +126,7 @@ const halfCheckedKeys = $ref(new Set<NodeKey>());
 watch(() => props.defaultCheckedKeys, newVal => {
   // console.log('wat defaultCheckedKeys :>> ', newVal);
   if (props.showCheckbox) {
+    // todo: 懒加载会改变key2TreeNode，重新调用useCheckState
     useCheckState(newVal, {
       checkedKeys,
       halfCheckedKeys,
@@ -162,7 +163,6 @@ const virtualHeight = $computed(() => {
 
 let expandedKeys = $ref(new Set<NodeKey>());
 watch(() => props.defaultExpandedKeys, newVal => {
-  // console.log('wat expandedkeys', newVal);
   expandedKeys.clear();
   expandedKeys = new Set(newVal);
 }, {
