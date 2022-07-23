@@ -66,6 +66,15 @@
              online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src%2Fdoc%2FCustomIconDemo.vue">
             <custom-icon-demo />
           </demo-box>
+          <demo-box
+            id="search-demo"
+            title="搜索树"
+            desc="自行实现搜索功能"
+            code-type="search"
+             href="//github.com/lycHub/ysx-library/blob/master/projects/demo/src/doc/SearchDemo.vue"
+             online="//stackblitz.com/edit/vitejs-vite-1j17xa?file=src/doc/SearchDemo.vue">
+            <search-demo />
+          </demo-box>
         </a-col>
         <a-col :span="12">
           <demo-box
@@ -132,7 +141,7 @@
   </div>
 </template>
 
-<script lang="tsx">
+<script lang="ts">
   import {defineComponent} from 'vue';
   import DemoBox from './DemoBox.vue';
   import BaseDemo from './BaseDemo.vue';
@@ -141,11 +150,12 @@
   import CustomNodeDemo from './CustomNodeDemo.vue';
   import CustomIconDemo from './CustomIconDemo.vue';
   import VirtualDemo from './VirtualDemo.vue';
+  import SearchDemo from './SearchDemo.vue';
   import { columns, eventData, methodColumns, methodData, nodeOptionData, propData, slotData } from './tableData';
 
   export default defineComponent({
     name: 'DocContainer',
-    components: { DemoBox, BaseDemo, CheckboxDemo, AsyncDataDemo, CustomNodeDemo, CustomIconDemo, VirtualDemo },
+    components: { DemoBox, BaseDemo, CheckboxDemo, AsyncDataDemo, CustomNodeDemo, CustomIconDemo, VirtualDemo, SearchDemo },
     setup() {
       const rowClsName = (_: any, index: number) => ([5, 6, 7, 8].includes(index) ? 'table-row-abandoned' : null);
 
@@ -169,7 +179,7 @@
     margin: 0 auto;
     padding: 30px 20px;
     border: 1px solid var(--border-color);
-  
+
   }
 
   .doc-container .sec {

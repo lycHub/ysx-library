@@ -20,7 +20,7 @@
           nodeKey,
           name: nodeKey,
           children: [],
-          hasChildren: true
+          hasChildren: level > 0
         };
 
         if (level > 0) {

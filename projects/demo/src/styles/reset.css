@@ -11,11 +11,11 @@ html, body {
 }
 
 body {
-  color: $text-color;
-  font-size: $font-size-base;
+  color: var(--text-color);
+  font-size: var(--font-size-base);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-variant: tabular-nums;
   line-height: 1.5;
-  background-color: $white-color;
+  background-color: var(--white-color);
   font-feature-settings: "tnum";
 }

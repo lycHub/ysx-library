@@ -14,6 +14,7 @@
         <a-anchor-link href="#custom-node-demo" title="自定义渲染节点" />
         <a-anchor-link href="#custom-icon-demo" title="自定义图标" />
         <a-anchor-link href="#virtual-demo" title="虚拟树" />
+        <a-anchor-link href="#search-demo" title="搜索树" />
         <a-anchor-link href="#api" title="API" />
       </a-anchor>
     </a-layout-content>
@@ -45,7 +46,7 @@
       color: var(--white-color);
       height: var(--top-bottom-height);
     }
-    
+
     .app-layout .header .title {
       color: inherit;
       margin: 0;
@@ -58,7 +59,7 @@
       position: relative;
       min-height: calc(100vh - var(--top-bottom-height) * 2);
       background-color: var(--white-color);
-      
+
     }
     .app-layout .content .anchor {
       position: absolute;

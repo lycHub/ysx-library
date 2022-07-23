@@ -39,7 +39,7 @@ importers:
     dependencies:
       '@ant-design/icons-vue': 6.1.0_vue@3.2.33
       '@vitejs/plugin-vue-jsx': 1.3.10
-      '@ysx-libs/vue-virtual-tree': link:../VirtualTree
+      '@ysx-libs/vue-virtual-tree': 0.0.1_vue@3.2.33
       ant-design-vue: 3.2.0_vue@3.2.33
       highlight.js: 11.5.1
 
@@ -1546,6 +1546,15 @@ packages:
   /@xtuc/long/4.2.2:
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
     dev: true
+
+  /@ysx-libs/vue-virtual-tree/0.0.1_vue@3.2.33:
+    resolution: {integrity: sha512-Oc5sKl0cMJxKUbsLJBhzhjq5rQXXg3XJtm/yptBQXsBg/jjTV44Zv7BS9wmGWgIeIt6XytEoSEmJXGKnApdJQA==}
+    peerDependencies:
+      vue: ^3.2.25
+    dependencies:
+      vue: 3.2.33
+      vue-virtual-scroller: 2.0.0-alpha.1_vue@3.2.33
+    dev: false
 
   /accepts/1.3.8:
     resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
@@ -5002,7 +5011,7 @@ packages:
     dev: true
 
   /image-size/0.5.5:
-    resolution: {integrity: sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=}
+    resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
     engines: {node: '>=0.10.0'}
     hasBin: true
     requiresBuild: true
