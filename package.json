@@ -7,10 +7,8 @@
   "scripts": {
     "start:demo": "pnpm -C ./projects/demo start",
     "build:demo": "pnpm -C ./projects/demo build",
-    "postbuild:demo": "pnpm deploy",
     "build-dev:tree": "pnpm -C ./projects/VirtualTree build:dev",
-    "build:tree": "pnpm -C ./projects/VirtualTree build",
-    "deploy": "tcb hosting deploy docs docs"
+    "build:tree": "pnpm -C ./projects/VirtualTree build"
   },
   "keywords": [
     "vue3",
