@@ -7,26 +7,23 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@main # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
-        with:
-          persist-credentials: false
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
-
-      - name: Install and Build
-        uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
-        run: |
-          pnpm install
-          pnpm build:demo
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
-          BRANCH: gh-pages
-          FOLDER: docs
-          CLEAN: true
+      - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2.2.2
+      with:
+        version: 7
+          - name: Use Node.js ${{ matrix.node-version }}
+            uses: actions/setup-node@v2
+            with:
+              node-version: ${{ matrix.node-version }}
+              cache: 'pnpm'
+          - name: Install dependencies
+            run: pnpm install
+          - name: Build demo
+            run: pnpm build:demo
+        - name: Deploy
+          uses: JamesIves/github-pages-deploy-action@3.7.1
+          with:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+            BRANCH: gh-pages
+            FOLDER: docs
+            CLEAN: true
