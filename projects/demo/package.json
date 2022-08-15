@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "vite",
-    "build": "vite build --base=/docs/tree/",
+    "build": "vite build --base=/ysx-library/docs/tree/",
     "preview": "vite preview"
   },
   "peerDependencies": {
