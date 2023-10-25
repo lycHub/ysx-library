@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": "true",
   "scripts": {
-    "start:demo": "pnpm -C ./projects/demo start",
+    "start": "pnpm -C ./projects/demo dev",
     "build:demo": "pnpm -C ./projects/demo build",
     "build-dev:tree": "pnpm -C ./projects/VirtualTree build:dev",
     "build:tree": "pnpm -C ./projects/VirtualTree build"

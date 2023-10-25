@@ -1,12 +1,14 @@
 {
   "name": "@ysx-libs/vue-virtual-tree",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "build:dev": "vite build --watch --emptyOutDir=false",
     "build": "vue-tsc --noEmit && vite build && npm run build:types",
     "build:types": "tsc --project tsconfig.type.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "types": "./dist/typings/tree/index.d.ts",
   "exports": {
     ".": {

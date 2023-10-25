@@ -5,13 +5,12 @@
   user-select: none;
 }
 
-
 .vir-tree-node {
-  padding: 4px 0;
+  margin: 4px 0;
   line-height: normal;
   font-size: var(--font-size-base);
   cursor: pointer;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .vir-tree-node:hover {
@@ -22,12 +21,13 @@
   color: var(--primary-color);
 }
 
-
 .vir-tree-node .node-arrow {
   display: inline-block;
-  margin-right: 4px;
+  margin-right: 2px;
   cursor: pointer;
-  min-width: 16px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
 }
 
 .vir-tree-node .node-arrow .iconfont {
@@ -39,26 +39,22 @@
   transform: rotate(90deg);
 }
 
-
 .vir-tree-node .node-arrow .ico-loading {
   animation: roundLoading 1s linear infinite;
 }
-
 
 .vir-tree-node .node-content {
   display: inline-block;
   vertical-align: top;
 }
 
-
 .vir-tree-node .node-content .node-title {
   padding: 0 6px;
   vertical-align: top;
   color: var(--text-color);
   white-space: nowrap;
-  transition: background-color .2s;
+  transition: background-color 0.2s;
 }
-
 
 .vir-tree-node .node-content .node-title.selected {
   background-color: var(--assist-color);
@@ -68,7 +64,6 @@
   cursor: not-allowed;
   color: var(--disable-color);
 }
-
 
 .node-selected .node-title {
   background-color: #d5e8fc;

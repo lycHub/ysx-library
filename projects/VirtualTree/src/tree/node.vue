@@ -1,7 +1,7 @@
 <template>
   <div class="vir-tree-node" :style="{ paddingLeft }" @click="handleExpand">
 
-    <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
+    <div @click="arrowClick" :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
     </div>
 
@@ -108,12 +108,18 @@ import { TreeInjectionKey } from './context';
     }
 
     const handleExpand = () => {
+      // console.log('handleExpand', showArrow)
       if (showArrow) {
         emit('toggleExpand', {
           state: !treeContext.expandedKeys.has(props.node.key),
           node: props.node
         });
       }
+    }
+
+    const arrowClick = (event: PointerEvent) => {
+      event.stopPropagation();
+      handleExpand();
     }
 
 

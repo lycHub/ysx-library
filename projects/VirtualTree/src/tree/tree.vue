@@ -97,14 +97,12 @@ const props = defineProps({
     (e: 'expandChange', value: EventParams): void;
   }>();
 
-let treeData = $ref<BaseTreeNode[]>([]);
 let flattenTreeData = $ref<BaseTreeNode[]>([]);
 let key2TreeNode = $ref<KeyNodeMap>({});
 
 watch(() => props.source, newVal => {
   // console.log('wat source :>> '); // todo reset states
   const result = useTreeData(newVal);
-  treeData = result.treeData;
   flattenTreeData = result.flattenTreeData;
   key2TreeNode = result.key2TreeNode;
 }, {
