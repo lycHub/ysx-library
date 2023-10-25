@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, PropType, provide, shallowReactive, toRaw, useSlots, watch, watchEffect } from 'vue';
+import { ref, computed, nextTick, PropType, provide, shallowReactive, toRaw, useSlots, watch, watchEffect } from 'vue';
 // @ts-ignore
 import { RecycleScroller } from 'vue-virtual-scroller';
 import { coerceTreeNodes, getFlattenTreeData, getKey2TreeNode, useTreeData } from './hooks/useTreeData';
@@ -97,39 +97,39 @@ const props = defineProps({
     (e: 'expandChange', value: EventParams): void;
   }>();
 
-let flattenTreeData = $ref<BaseTreeNode[]>([]);
-let key2TreeNode = $ref<KeyNodeMap>({});
+const flattenTreeData = ref<BaseTreeNode[]>([]);
+const key2TreeNode = ref<KeyNodeMap>({});
 
 watch(() => props.source, newVal => {
   // console.log('wat source :>> '); // todo reset states
   const result = useTreeData(newVal);
-  flattenTreeData = result.flattenTreeData;
-  key2TreeNode = result.key2TreeNode;
+  flattenTreeData.value = result.flattenTreeData;
+  key2TreeNode.value = result.key2TreeNode;
 }, {
   immediate: true
 });
 
-let disabledKeys = $ref(new Set<NodeKey>());
+const disabledKeys = ref(new Set<NodeKey>());
 watch(() => props.defaultDisabledKeys, newVal => {
-  disabledKeys.clear();
-  disabledKeys = new Set(newVal);
+  disabledKeys.value.clear();
+  disabledKeys.value = new Set(newVal);
 }, {
   immediate: true
 });
 
 
-const checkedKeys = $ref(new Set<NodeKey>());
-const halfCheckedKeys = $ref(new Set<NodeKey>());
+const checkedKeys = ref(new Set<NodeKey>());
+const halfCheckedKeys = ref(new Set<NodeKey>());
 
 watch(() => props.defaultCheckedKeys, newVal => {
   // console.log('wat defaultCheckedKeys :>> ', newVal);
   if (props.showCheckbox) {
     // todo: 懒加载会改变key2TreeNode，重新调用useCheckState
     useCheckState(newVal, {
-      checkedKeys,
-      halfCheckedKeys,
+      checkedKeys: checkedKeys.value,
+      halfCheckedKeys: halfCheckedKeys.value,
       checkStrictly: props.checkStrictly,
-      key2TreeNode
+      key2TreeNode: key2TreeNode.value
     });
     // console.log('checkedKeys :>> ', checkedKeys);
   }
@@ -143,15 +143,15 @@ watchEffect(() => { // 只会调用一次
 });
 
 
-const visibleList = $computed(() => {
-  return flattenTreeData.filter((node) => {
+const visibleList = computed(() => {
+  return flattenTreeData.value.filter((node) => {
     const isRoot = !node.parentKey;
-    const isVisibleNode = node.parentKeys.every(key => expandedKeys.has(key));
+    const isVisibleNode = node.parentKeys.every(key => expandedKeys.value.has(key));
     return isRoot || isVisibleNode;
   });
 });
 
-const virtualHeight = $computed(() => {
+const virtualHeight = computed(() => {
   if (props.virtual) {
     return +(props.virtual.size * props.virtual.remain) || 0;
   }
@@ -159,35 +159,35 @@ const virtualHeight = $computed(() => {
 })
 
 
-let expandedKeys = $ref(new Set<NodeKey>());
+const expandedKeys = ref(new Set<NodeKey>());
 watch(() => props.defaultExpandedKeys, newVal => {
-  expandedKeys.clear();
-  expandedKeys = new Set(newVal);
+  expandedKeys.value.clear();
+  expandedKeys.value = new Set(newVal);
 }, {
   immediate: true
 });
 
-  let loading = $ref(false);
+  const loading = ref(false);
 
   // state: 点击后的展开状态
   function toggleExpand({ state, node }: EventParams) {
-      if (loading) return;
-      expandedKeys[addOrDelete(state)](node.key);
+      if (loading.value) return;
+      expandedKeys.value[addOrDelete(state)](node.key);
       // service.expandedKeys.value.toggle(node.nodeKey);
       if (state && !node.children.length && props.loadData) {
         // console.log('loadData :>> ');
         node.loading = true;
-        loading = true;
+        loading.value = true;
         props.loadData(node, children => {
           node.loading = false;
-          loading = false;
+          loading.value = false;
           if (children.length) {
             lazyLoad(node, children);
-            useCheckState([...checkedKeys], {
-              checkedKeys,
-              halfCheckedKeys,
+            useCheckState([...checkedKeys.value], {
+              checkedKeys: checkedKeys.value,
+              halfCheckedKeys: halfCheckedKeys.value,
               checkStrictly: props.checkStrictly,
-              key2TreeNode
+              key2TreeNode: key2TreeNode.value
             });
           } else {
             node.children = [];
@@ -202,16 +202,16 @@ watch(() => props.defaultExpandedKeys, newVal => {
 
     function lazyLoad(node: BaseTreeNode, children: TreeNodeOptions[]) {
       // console.log('lazyLoad :>> ', node, children);
-      const indexInFlattenData = flattenTreeData.findIndex(item => item.key === node.key);
+      const indexInFlattenData = flattenTreeData.value.findIndex(item => item.key === node.key);
       const childrenData = coerceTreeNodes(children, node);
       node.children = childrenData;
       const childrenFlattenData = getFlattenTreeData(childrenData);
-      flattenTreeData.splice(indexInFlattenData + 1, 0, ...childrenFlattenData);
+      flattenTreeData.value.splice(indexInFlattenData + 1, 0, ...childrenFlattenData);
       const key2ChildrenNode = getKey2TreeNode(childrenFlattenData);
       Object.assign(key2TreeNode, key2ChildrenNode);
       // console.log('childrenFlattenData :>> ', childrenFlattenData, expandedKeys);
       childrenFlattenData.forEach(async item => {
-        if (expandedKeys.has(item.key)) {
+        if (expandedKeys.value.has(item.key)) {
           await nextTick();
           toggleExpand({ state: true, node: item });
         }
@@ -219,40 +219,35 @@ watch(() => props.defaultExpandedKeys, newVal => {
     }
 
 
-    let selectedKeys = $ref(new Set<NodeKey>());
+    const selectedKeys = ref(new Set<NodeKey>());
     watch(() => props.defaultSelectedKey, newVal => {
-      selectedKeys.clear();
-      selectedKeys.add(newVal);
+      selectedKeys.value.clear();
+      selectedKeys.value.add(newVal);
     }, {
       immediate: true
     });
-    const selectedNode = $computed(() => key2TreeNode[Array.from(selectedKeys.values())[0]]);
+    const selectedNode = computed(() => key2TreeNode.value[Array.from(selectedKeys.value.values())[0]]);
     function selectChange(node: BaseTreeNode) {
-      const preSelectedNode = key2TreeNode[Array.from(selectedKeys.values())[0]];
+      const preSelectedNode = key2TreeNode.value[Array.from(selectedKeys.value.values())[0]];
       let currentNode: TypeWithUndefined<BaseTreeNode>;
-      if (selectedKeys.has(node.key)) {
-        selectedKeys.clear();
+      if (selectedKeys.value.has(node.key)) {
+        selectedKeys.value.clear();
       } else {
-        selectedKeys.clear();
-        selectedKeys.add(node.key);
+        selectedKeys.value.clear();
+        selectedKeys.value.add(node.key);
         currentNode = node;
       }
       emit('selectChange', { preSelectedNode, node: currentNode });
     }
 
-
-
-
-
-
     function checkChange(node: BaseTreeNode) {
-      const newChecked = !checkedKeys.has(node.key);
+      const newChecked = !checkedKeys.value.has(node.key);
       updateCheckedState({
         node,
         checked: newChecked,
-        checkedKeys,
-        halfCheckedKeys,
-        key2TreeNode,
+        checkedKeys: checkedKeys.value,
+        halfCheckedKeys: halfCheckedKeys.value,
+        key2TreeNode: key2TreeNode.value,
         checkStrictly: props.checkStrictly
       });
       emit('checkChange', { state: newChecked, node });
@@ -262,11 +257,11 @@ watch(() => props.defaultExpandedKeys, newVal => {
       renderNode: props.renderNode,
       renderIcon: props.renderIcon,
       slots: useSlots(),
-      expandedKeys,
-      getExpandedKeys: () => [...expandedKeys],
-      getSelectedNode: () => selectedNode,
-      getCheckedNodes: () => Array.from(checkedKeys).map(key => key2TreeNode[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
-      getHalfCheckedNodes: () => Array.from(halfCheckedKeys).map(key => key2TreeNode[key]),
+      expandedKeys: expandedKeys.value,
+      getExpandedKeys: () => [...expandedKeys.value],
+      getSelectedNode: () => selectedNode.value,
+      getCheckedNodes: () => Array.from(checkedKeys.value).map(key => key2TreeNode.value[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
+      getHalfCheckedNodes: () => Array.from(halfCheckedKeys.value).map(key => key2TreeNode.value[key]),
     });
 
     defineExpose(toRaw(context));

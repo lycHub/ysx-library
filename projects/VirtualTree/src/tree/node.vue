@@ -28,7 +28,7 @@
 </script>
 
 <script setup lang="ts">
-import { PropType, Slot, defineComponent, inject } from 'vue';
+import { PropType, computed, defineComponent, inject } from 'vue';
 import VirCheckBox from '../checkbox/index.vue';
 import RenderNode from './renderNode';
 import renderIcon from './renderIcon';
@@ -80,7 +80,7 @@ import { TreeInjectionKey } from './context';
   const indent = 18;
   const paddingLeft = props.node.level * indent + 'px';
 
-  const titleCls = $computed(() => {
+  const titleCls = computed(() => {
       let result = 'node-title';
       if (props.selectedKeys.has(props.node.key)) {
         result += ' selected';
@@ -93,7 +93,7 @@ import { TreeInjectionKey } from './context';
 
 
 
-    const showArrow = $computed(() => props.node.hasChildren);
+    const showArrow = computed(() => props.node.hasChildren);
 
 
    const handleSelect = (event: MouseEvent) => {
@@ -117,7 +117,7 @@ import { TreeInjectionKey } from './context';
       }
     }
 
-    const arrowClick = (event: PointerEvent) => {
+    const arrowClick = (event: MouseEvent) => {
       event.stopPropagation();
       handleExpand();
     }

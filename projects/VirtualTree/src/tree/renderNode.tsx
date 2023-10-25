@@ -19,10 +19,10 @@ export default defineComponent({
         const { context, node, titleCls } = toRefs(props);
         return () => {
             return context.value.renderNode
-            ? context.value.renderNode(node.value)
-            : context.value.slots.node
-            ? renderSlot(context.value.slots, 'node', { node: node.value })
-            : <span class={ titleCls.value }>{ node.value.name }</span>;
+                ? context.value.renderNode(node.value)
+                : context.value.slots.node
+                    ? renderSlot(context.value.slots, 'node', { node: node.value })
+                    : <span class={titleCls.value}>{node.value.name}</span>;
         }
     }
 });
