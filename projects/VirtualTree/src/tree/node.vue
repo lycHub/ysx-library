@@ -7,7 +7,7 @@
 
     <vir-check-box
       class="node-content node-check-box"
-      v-if="props.showCheckbox"
+      v-if="props.showCheckbox && nodeShowCheck"
       :disabled="props.disabledKeys.has(props.node.key)"
       :modelValue="props.checkedKeys.has(props.node.key)"
       :halfChecked="props.halfCheckedKeys.has(props.node.key)"
@@ -79,7 +79,8 @@ import { TreeInjectionKey } from './context';
 
   const indent = 18;
   const paddingLeft = props.node.level * indent + 'px';
-
+  
+  const nodeShowCheck = computed(() => props.node.origin.showCheck ?? true);
   const titleCls = computed(() => {
       let result = 'node-title';
       if (props.selectedKeys.has(props.node.key)) {
