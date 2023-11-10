@@ -74,17 +74,18 @@ import { TreeInjectionKey } from './context';
     }
     return props.showCheckbox;
   });
-  console.log('showCheckbox', showCheckbox.value)
+  // console.log('showCheckbox', showCheckbox.value);
 
   const emit = defineEmits<{
     (e: 'selectChange', value: BaseTreeNode): void;
     (e: 'checkChange', value: BaseTreeNode): void;
     (e: 'toggleExpand', value: EventParams): void;
   }>();
+  
   const treeContext = inject(TreeInjectionKey)!;
   const indent = 18;
   const paddingLeft = props.node.level * indent + 'px';
-
+  
   const titleCls = computed(() => {
       let result = 'node-title';
       if (props.selectedKeys.has(props.node.key)) {
