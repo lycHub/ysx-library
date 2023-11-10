@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="tsx">
-import { watch } from 'vue';
+import { watch, ref } from 'vue';
 import {
   BaseTreeNode,
   TreeNodeOptions,
@@ -41,22 +41,18 @@ function recursion(path = '0', level = 3, h = 10): TreeNodeOptions[] {
   return list;
 }
 
+const defaultExpandKeys = ref<NodeKey[]>([]);
+  const searchKey = ref('');
+const list = ref(recursion());
 
-let defaultExpandKeys = $ref<NodeKey[]>([]);
-
-
-let searchKey = $ref('');
-let list = $ref(recursion());
-
-watch(() => searchKey, newVal => {
-  defaultExpandKeys = [];
-  list = searchData(recursion(), newVal);
+watch(() => searchKey.value, newVal => {
+  // console.log('wat searchKey', newVal)
+  defaultExpandKeys.value = [];
+  list.value = searchData(recursion(), newVal);
 });
 
-const UNIQUE_WRAPPERS: [string, string] = ['##==-open_tag-==##', '##==-close_tag-==##'];
-
 function renderNode(node: BaseTreeNode) {
-  const wrapValue = node.name.replace(searchKey, `<span class="node-highlight">$&</span>`);
+  const wrapValue = node.name.replace(searchKey.value, `<span class="node-highlight">$&</span>`);
   return <div innerHTML={ wrapValue }></div>;
 }
 
@@ -69,7 +65,7 @@ function searchData(origin: TreeNodeOptions[], keyword: string) {
       } else if (item.children) {
         const filterData = loop(item.children);
         if (filterData.length) {
-          defaultExpandKeys.push(item.nodeKey);
+          defaultExpandKeys.value.push(item.nodeKey);
           result.push({
             ...item,
             children: filterData

@@ -11,6 +11,7 @@ type NodeKey = string | number;
 interface TreeNodeOptions {
   nodeKey: NodeKey;
   name: string;
+  showCheckbox?: boolean;
   hasChildren?: boolean;
   children?: TreeNodeOptions[];
   [key: string]: any;
@@ -38,7 +39,7 @@ interface SelectEventParams {
 
 
 type RenderNodeFunc = (node: BaseTreeNode) => JSX.Element;
-type RenderIconFunc =(params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element;
+type RenderIconFunc = (params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element;
 type LoadDataFunc = (node: BaseTreeNode, callback: (children: TreeNodeOptions[]) => void) => void;
 
 

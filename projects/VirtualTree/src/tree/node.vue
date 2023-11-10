@@ -4,10 +4,9 @@
     <div @click="arrowClick" :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
     </div>
-
     <vir-check-box
       class="node-content node-check-box"
-      v-if="props.showCheckbox"
+      v-if="showCheckbox"
       :disabled="props.disabledKeys.has(props.node.key)"
       :modelValue="props.checkedKeys.has(props.node.key)"
       :halfChecked="props.halfCheckedKeys.has(props.node.key)"
@@ -68,15 +67,21 @@ import { TreeInjectionKey } from './context';
     }
   });
 
+  const showArrow = computed(() => props.node.hasChildren);
+  const showCheckbox = computed(() => {
+    if (props.node.showCheckbox !== undefined) {
+      return props.node.showCheckbox;
+    }
+    return props.showCheckbox;
+  });
+  console.log('showCheckbox', showCheckbox.value)
 
   const emit = defineEmits<{
     (e: 'selectChange', value: BaseTreeNode): void;
     (e: 'checkChange', value: BaseTreeNode): void;
     (e: 'toggleExpand', value: EventParams): void;
   }>();
-
   const treeContext = inject(TreeInjectionKey)!;
-
   const indent = 18;
   const paddingLeft = props.node.level * indent + 'px';
 
@@ -90,11 +95,6 @@ import { TreeInjectionKey } from './context';
       }
       return result;
     });
-
-
-
-    const showArrow = computed(() => props.node.hasChildren);
-
 
    const handleSelect = (event: MouseEvent) => {
       event.stopPropagation();

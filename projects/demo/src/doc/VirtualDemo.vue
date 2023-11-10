@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="tsx">
-  import { onMounted } from 'vue';
-  import { EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from '@ysx-libs/vue-virtual-tree';
+  import { ref } from 'vue';
+  import { TreeNodeOptions, VirTree } from '@ysx-libs/vue-virtual-tree';
 
   function recursion(path = '0', level = 3, h = 10): TreeNodeOptions[] {
       const list = [];
@@ -31,6 +31,5 @@
       return list;
     }
 
-
-    let list = $ref(recursion());
+    const list = ref(recursion());
 </script>

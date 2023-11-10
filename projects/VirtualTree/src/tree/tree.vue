@@ -101,8 +101,9 @@ const flattenTreeData = ref<BaseTreeNode[]>([]);
 const key2TreeNode = ref<KeyNodeMap>({});
 
 watch(() => props.source, newVal => {
-  // console.log('wat source :>> '); // todo reset states
+  // console.log('wat source :>> ', newVal); // todo reset states
   const result = useTreeData(newVal);
+  // console.log('result', result)
   flattenTreeData.value = result.flattenTreeData;
   key2TreeNode.value = result.key2TreeNode;
 }, {
@@ -123,16 +124,14 @@ const halfCheckedKeys = ref(new Set<NodeKey>());
 
 watch(() => props.defaultCheckedKeys, newVal => {
   // console.log('wat defaultCheckedKeys :>> ', newVal);
-  if (props.showCheckbox) {
-    // todo: 懒加载会改变key2TreeNode，重新调用useCheckState
-    useCheckState(newVal, {
+   // todo: 懒加载会改变key2TreeNode，重新调用useCheckState
+   useCheckState(newVal, {
       checkedKeys: checkedKeys.value,
       halfCheckedKeys: halfCheckedKeys.value,
       checkStrictly: props.checkStrictly,
       key2TreeNode: key2TreeNode.value
     });
     // console.log('checkedKeys :>> ', checkedKeys);
-  }
 }, {
   immediate: true
 });

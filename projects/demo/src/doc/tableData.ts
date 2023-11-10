@@ -175,6 +175,11 @@ const nodeOptionData = [
     type: 'boolean'
   },
   {
+    argument: 'showCheckbox',
+    description: '是否显示checkbox, 优先级高于tree.showCheckbox',
+    type: 'boolean'
+  },
+  {
     argument: 'children',
     description: '子集',
     type: 'TreeNodeOptions[]',
@@ -193,7 +198,7 @@ const slotData = [
     description: '自定义图标',
     type: 'RenderIconFunc'
   },
- 
+
 ];
 
 export { columns, methodColumns, propData, eventData, methodData, nodeOptionData, slotData };

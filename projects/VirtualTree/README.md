@@ -38,13 +38,13 @@ npm i @ysx-libs/vue-virtual-tree
       }
       return list;
     }
-    let list = $ref(recursion());
-    let defaultSelectedKey = $ref('0-2');
+    const list = ref(recursion());
+    const defaultSelectedKey = ref('0-2');
 
-    const virTree = $ref<TreeContext>();
+    const virTree = ref<TreeContext>();
       
     const selectedNode = () => {
-      const node = virTree!.getSelectedNode();
+      const node = virTree.value!.getSelectedNode();
       console.log('selected node', node);
     }
 </script>
