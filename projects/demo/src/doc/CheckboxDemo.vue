@@ -1,8 +1,8 @@
 <template>
   <a-button @click="checkedNode">获取选中节点</a-button>
   <div style="display: flex;">
-    <VirTree ref="virTree" :source="list" :default-checked-keys="defaultCheckedKeys" />
-    <!-- <VirTree ref="virTree2" show-checkbox check-strictly :source="list" :default-checked-keys="defaultCheckedKeys" /> -->
+    <VirTree ref="virTree" :source="list" show-checkbox :default-checked-keys="defaultCheckedKeys" />
+    <VirTree ref="virTree2" :source="list" show-checkbox check-strictly :default-checked-keys="defaultCheckedKeys" />
   </div>
 </template>
 
@@ -17,6 +17,7 @@ function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
     const treeNode: TreeNodeOptions = {
       nodeKey,
       name: nodeKey,
+      // showCheckbox: true,
       children: []
     };
 
@@ -25,7 +26,6 @@ function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
     }
     list.push(treeNode);
   }
-  // console.log('list', list)
   return list;
 }
 const list = ref(recursion());
@@ -37,6 +37,7 @@ const virTree2 = ref<TreeContext>();
 const checkedNode = () => {
   const node = virTree.value!.getCheckedNodes();
   const node2 = virTree2.value!.getCheckedNodes();
-  // console.log('selected node', node, node2);
+  console.log('selected node', node);
+  console.log('selected node 2', node2);
 }
 </script>

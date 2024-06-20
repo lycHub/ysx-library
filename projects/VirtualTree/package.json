@@ -1,6 +1,6 @@
 {
   "name": "@ysx-libs/vue-virtual-tree",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "build:dev": "vite build --watch --emptyOutDir=false",
     "build": "vue-tsc --noEmit && vite build && npm run build:types",
@@ -25,5 +25,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue-jsx": "^1.3.10"
+  },
+  "homepage": "https://github.com/lycHub",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lycHub/vue-virtual-tree"
   }
 }
