@@ -9,6 +9,7 @@
 
 <script setup lang="tsx">
   import { TreeNodeOptions, VirTree, TreeContext } from '@ysx-libs/vue-virtual-tree';
+import { ref } from 'vue';
 
   function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
       const list = [];
@@ -27,13 +28,13 @@
       }
       return list;
     }
-    let list = $ref(recursion());
-    let defaultSelectedKey = $ref('0-2');
+    const list = ref(recursion());
+    const defaultSelectedKey = ref('0-2');
 
-    const virTree = $ref<TreeContext>();
+    const virTree = ref<TreeContext>();
 
     const selectedNode = () => {
-      const node = virTree!.getSelectedNode();
+      const node = virTree.value!.getSelectedNode();
       console.log('selected node', node);
     }
 </script>

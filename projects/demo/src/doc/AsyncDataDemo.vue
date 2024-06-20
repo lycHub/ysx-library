@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="tsx">
-  import { onMounted } from 'vue';
+  import { ref } from 'vue';
   import { BaseTreeNode, EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from '@ysx-libs/vue-virtual-tree';
 
   function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
@@ -28,8 +28,7 @@
     }
 
 
-    let list = $ref(recursion());
-
+    const list = ref(recursion());
 
     function loadData(node: BaseTreeNode, callback: (children: TreeNodeOptions[]) => void) {
         const result: TreeNodeOptions[] = [];

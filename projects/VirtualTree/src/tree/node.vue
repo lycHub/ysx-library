@@ -1,13 +1,12 @@
 <template>
   <div class="vir-tree-node" :style="{ paddingLeft }" @click="handleExpand">
 
-    <div :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
+    <div @click="arrowClick" :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
     </div>
-
     <vir-check-box
       class="node-content node-check-box"
-      v-if="props.showCheckbox"
+      v-if="showCheckbox"
       :disabled="props.disabledKeys.has(props.node.key)"
       :modelValue="props.checkedKeys.has(props.node.key)"
       :halfChecked="props.halfCheckedKeys.has(props.node.key)"
@@ -28,7 +27,7 @@
 </script>
 
 <script setup lang="ts">
-import { PropType, Slot, defineComponent, inject } from 'vue';
+import { PropType, computed, defineComponent, inject } from 'vue';
 import VirCheckBox from '../checkbox/index.vue';
 import RenderNode from './renderNode';
 import renderIcon from './renderIcon';
@@ -68,19 +67,26 @@ import { TreeInjectionKey } from './context';
     }
   });
 
+  const showArrow = computed(() => props.node.hasChildren);
+  const showCheckbox = computed(() => {
+    if (props.node.showCheckbox !== undefined) {
+      return props.node.showCheckbox;
+    }
+    return props.showCheckbox;
+  });
+  // console.log('showCheckbox', showCheckbox.value);
 
   const emit = defineEmits<{
     (e: 'selectChange', value: BaseTreeNode): void;
     (e: 'checkChange', value: BaseTreeNode): void;
     (e: 'toggleExpand', value: EventParams): void;
   }>();
-
+  
   const treeContext = inject(TreeInjectionKey)!;
-
   const indent = 18;
   const paddingLeft = props.node.level * indent + 'px';
-
-  const titleCls = $computed(() => {
+  
+  const titleCls = computed(() => {
       let result = 'node-title';
       if (props.selectedKeys.has(props.node.key)) {
         result += ' selected';
@@ -90,11 +96,6 @@ import { TreeInjectionKey } from './context';
       }
       return result;
     });
-
-
-
-    const showArrow = $computed(() => props.node.hasChildren);
-
 
    const handleSelect = (event: MouseEvent) => {
       event.stopPropagation();
@@ -108,12 +109,18 @@ import { TreeInjectionKey } from './context';
     }
 
     const handleExpand = () => {
+      // console.log('handleExpand', showArrow)
       if (showArrow) {
         emit('toggleExpand', {
           state: !treeContext.expandedKeys.has(props.node.key),
           node: props.node
         });
       }
+    }
+
+    const arrowClick = (event: MouseEvent) => {
+      event.stopPropagation();
+      handleExpand();
     }
 
 

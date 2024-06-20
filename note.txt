@@ -1,8 +1,8 @@
 提交tag:
+git tag v0.0.6
 git push origin [tagname]
 
 build并发布demo：
-https://console.cloud.tencent.com/tcb/hosting/index?envId=vue-tree-4gi26kh195ddd24f&rid=4&moduleName=&tabId=file
-pnpm build:demo --enable-pre-post-scripts
+pnpm build:demo
 
 发布：pnpm -r publish -F @ysx-libs/vue-virtual-tree --access=public --git-checks=false

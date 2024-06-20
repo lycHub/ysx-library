@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
   const props = defineProps({
     modelValue: {
       type: Boolean,
@@ -27,7 +28,7 @@
   }>();
 
 
-  const rootCls = $computed(() => {
+  const rootCls = computed(() => {
       let result = 'vir-checkbox';
       if (props.modelValue) {
         result += ' checked';

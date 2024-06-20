@@ -1,19 +1,21 @@
-
 import { KeyNodeMap, NodeKey } from '../types';
 import { BaseTreeNode } from '../baseTreeNode';
 import { addOrDelete } from '../../utils';
 
 interface CurrentState {
-  checkedKeys: Set<NodeKey>,
-  halfCheckedKeys: Set<NodeKey>,
+  checkedKeys: Set<NodeKey>;
+  halfCheckedKeys: Set<NodeKey>;
   checkStrictly: boolean;
   key2TreeNode: KeyNodeMap;
 }
 
-function useCheckState(defaultCheckedKeys: NodeKey[], { checkedKeys, halfCheckedKeys, checkStrictly, key2TreeNode }: CurrentState) {
+function useCheckState(
+  defaultCheckedKeys: NodeKey[],
+  { checkedKeys, halfCheckedKeys, checkStrictly, key2TreeNode }: CurrentState
+) {
   checkedKeys.clear();
   halfCheckedKeys.clear();
-  defaultCheckedKeys.forEach(key => {
+  defaultCheckedKeys.forEach((key) => {
     if (!checkedKeys.has(key)) {
       const node = key2TreeNode[key];
       // console.log('node :>> ', node);
@@ -24,7 +26,7 @@ function useCheckState(defaultCheckedKeys: NodeKey[], { checkedKeys, halfChecked
           checkedKeys,
           halfCheckedKeys,
           key2TreeNode,
-          checkStrictly
+          checkStrictly,
         });
       } else {
         checkedKeys.add(key);
@@ -34,8 +36,6 @@ function useCheckState(defaultCheckedKeys: NodeKey[], { checkedKeys, halfChecked
   // console.log('halfCheckedKeys :>> ', halfCheckedKeys);
 }
 
-
-
 function updateCheckedState(options: {
   node: BaseTreeNode;
   checked: boolean;
@@ -44,25 +44,31 @@ function updateCheckedState(options: {
   key2TreeNode: KeyNodeMap;
   checkStrictly: boolean;
 }) {
-  const { node, checked, checkedKeys, halfCheckedKeys, key2TreeNode, checkStrictly } = options;
-  checkedKeys[addOrDelete(checked)](node.key)
+  const {
+    node,
+    checked,
+    checkedKeys,
+    halfCheckedKeys,
+    key2TreeNode,
+    checkStrictly,
+  } = options;
+  checkedKeys[addOrDelete(checked)](node.key);
   halfCheckedKeys.delete(node.key);
   if (!checkStrictly) {
     updateChildrenCheckState({
       node,
       checked,
       checkedKeys,
-      halfCheckedKeys
+      halfCheckedKeys,
     });
     updateUpwards({
       node,
       key2TreeNode,
       checkedKeys,
-      halfCheckedKeys
+      halfCheckedKeys,
     });
   }
 }
-
 
 function updateChildrenCheckState(options: {
   node: BaseTreeNode;
@@ -74,7 +80,7 @@ function updateChildrenCheckState(options: {
   const setFunc = addOrDelete(checked);
   const update = (list: BaseTreeNode[]) => {
     if (list.length) {
-      list.forEach(child => {
+      list.forEach((child) => {
         checkedKeys[setFunc](child.key);
         halfCheckedKeys.delete(child.key);
         if (child.children?.length) {
@@ -82,7 +88,7 @@ function updateChildrenCheckState(options: {
         }
       });
     }
-  }
+  };
   update(node.children);
 }
 
@@ -94,25 +100,29 @@ function updateUpwards(options: {
 }) {
   const { node, checkedKeys, halfCheckedKeys, key2TreeNode } = options;
   const update = (node: BaseTreeNode) => {
-    if (node.parentKey) { // 说明是子节点
+    if (node.parentKey) {
+      // 说明是子节点
       const parentNode = key2TreeNode[node.parentKey];
       const { key: parentKey, children } = parentNode;
-      // console.log('parentNode', parentNode);
       const { checked, indeterminate } = getStateFromNodes({
         nodes: children,
         checkedKeys,
         halfCheckedKeys,
       });
       // console.log('indeterminate :>> ', indeterminate, checked, checkedKeys.has(parentKey));
-      if (checked !== checkedKeys.has(parentKey) || indeterminate !== halfCheckedKeys.has(parentKey)) { // 父节点变了的话，就还要继续向上更新
+      if (
+        checked !== checkedKeys.has(parentKey) ||
+        indeterminate !== halfCheckedKeys.has(parentKey)
+      ) {
+        // 父节点变了的话，就还要继续向上更新
         // this.checkedNodeKeys.value.toggle(parentKey);
-        
+
         checkedKeys[addOrDelete(checked)](parentKey);
         halfCheckedKeys[addOrDelete(indeterminate)](parentKey);
         update(parentNode);
       }
     }
-  }
+  };
   update(node);
 }
 
@@ -146,8 +156,5 @@ function getStateFromNodes(options: {
     indeterminate: indeterminate || (!checked && checkedCount > 0),
   };
 }
-
-
-
 
 export { useCheckState, updateCheckedState };

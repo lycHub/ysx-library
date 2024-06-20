@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": "true",
   "scripts": {
-    "start:demo": "pnpm -C ./projects/demo start",
+    "start": "pnpm -C ./projects/demo dev",
     "build:demo": "pnpm -C ./projects/demo build",
     "build-dev:tree": "pnpm -C ./projects/VirtualTree build:dev",
     "build:tree": "pnpm -C ./projects/VirtualTree build"
@@ -24,5 +24,8 @@
     "vite": "^2.9.0",
     "vue": "^3.2.25",
     "vue-tsc": "^0.29.8"
+  },
+  "dependencies": {
+    "@types/eslint": "7"
   }
 }

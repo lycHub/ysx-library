@@ -1,4 +1,4 @@
-import { defineComponent, PropType, toRefs, renderSlot } from "vue";
+import { defineComponent, PropType, toRefs, renderSlot, computed } from "vue";
 import { BaseTreeNode } from "./baseTreeNode";
 import { TreeContext } from "./types";
 
@@ -15,36 +15,19 @@ export default defineComponent({
     },
   },
   setup({ context, node }) {
-    const { loading, key } = $(toRefs(node));
+    const { loading, key } = toRefs(node);
     const { expandedKeys, renderIcon, slots } = context;
-    const expanded = $computed(() => expandedKeys.has(key));
+    const expanded = computed(() => expandedKeys.has(key.value));
     return () => {
-        return renderIcon
-        ? renderIcon({ node, loading, expanded })
+      return renderIcon
+        ? renderIcon({ node, loading: loading.value, expanded: expanded.value })
         : slots.icon
-        ? renderSlot(slots, 'icon', { node, loading, expanded })
-        : <div class="def-arrow">
+          ? renderSlot(slots, 'icon', { node, loading: loading.value, expanded: expanded.value })
+          : <div class="def-arrow">
             {
-                loading ? <i class="iconfont iconloading ico-loading" /> : <i class="iconfont iconExpand"></i>
+              loading.value ? <i class="iconfont iconloading ico-loading" /> : <i class="iconfont iconExpand"></i>
             }
-        </div>;
+          </div>;
     };
-  },
-  /* setup(props) {
-        const expanded = $computed(() => props.context.expandedKeys.has(props.node.key));
-        watch(() => props.node.loading, newVal => {
-            console.log('wat loading :>> ', newVal, props.node.key);
-        });
-        return () => {
-            return props.context.renderIcon
-            ? props.context.renderIcon({ node: props.node, loading: props.node.loading, expanded })
-            : props.context.slots.icon
-            ? props.context.slots.icon({ node: props.node, loading: props.node.loading, expanded })
-            : <div class="def-arrow">
-                {
-                    props.node.loading ? <i class="iconfont iconloading ico-loading" /> : <i class="iconfont iconExpand"></i>
-                }
-            </div>;
-        }
-    } */
+  }
 });

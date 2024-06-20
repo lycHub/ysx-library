@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="tsx">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { TreeNodeOptions, VirTree, BaseTreeNode } from '@ysx-libs/vue-virtual-tree';
 
 function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
@@ -32,8 +32,7 @@ function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
   return list;
 }
 
-let list = $ref(recursion());
-
+const list = ref(recursion());
 
 function renderNode(node: BaseTreeNode) {
   return <div style="padding: 0 4px;"><b style="color: #f60;">{node.name}</b></div>

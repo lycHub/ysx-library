@@ -1,4 +1,3 @@
-
 import { KeyNodeMap, TreeNodeOptions } from '../types';
 import { BaseTreeNode } from '../baseTreeNode';
 
@@ -9,23 +8,33 @@ function useTreeData(source: TreeNodeOptions[]) {
   return { treeData, flattenTreeData, key2TreeNode };
 }
 
-
-function coerceTreeNodes(source: TreeNodeOptions[], parent?: BaseTreeNode): BaseTreeNode[] {
-    const recursion = (list: TreeNodeOptions[], parentNode?: BaseTreeNode): BaseTreeNode[] => {
-      return list.map(item => {
-        const node = item instanceof BaseTreeNode ? item : new BaseTreeNode(item, parentNode);
-        node.children = item.children?.length ? recursion(item.children, node) : [];
-        node.hasChildren = item.hasChildren || node.children.length > 0;
-        return node;
-      });
-    }
-    return recursion(source, parent);
+function coerceTreeNodes(
+  source: TreeNodeOptions[],
+  parent?: BaseTreeNode
+): BaseTreeNode[] {
+  const recursion = (
+    list: TreeNodeOptions[],
+    parentNode?: BaseTreeNode
+  ): BaseTreeNode[] => {
+    return list.map((item) => {
+      const node =
+        item instanceof BaseTreeNode
+          ? item
+          : new BaseTreeNode(item, parentNode);
+      node.children = item.children?.length
+        ? recursion(item.children, node)
+        : [];
+      node.hasChildren = item.hasChildren || node.children.length > 0;
+      return node;
+    });
+  };
+  return recursion(source, parent);
 }
 
 function getFlattenTreeData(tree: BaseTreeNode[]): BaseTreeNode[] {
   const nodes: BaseTreeNode[] = [];
   function recursion(list: BaseTreeNode[]) {
-    list.forEach(node => {
+    list.forEach((node) => {
       nodes.push(node);
       recursion(node.children);
     });
@@ -33,9 +42,6 @@ function getFlattenTreeData(tree: BaseTreeNode[]): BaseTreeNode[] {
   recursion(tree);
   return nodes;
 }
-
-
-
 
 function getKey2TreeNode(flattenTreeData: BaseTreeNode[]) {
   const key2TreeNode: KeyNodeMap = {};

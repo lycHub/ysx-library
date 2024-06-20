@@ -1,15 +1,14 @@
 <template>
   <a-button @click="checkedNode">获取选中节点</a-button>
   <div style="display: flex;">
-
-    <VirTree ref="virTree" show-checkbox :source="list" :default-checked-keys="defaultCheckedKeys" />
-
-    <VirTree ref="virTree" show-checkbox check-strictly :source="list" :default-checked-keys="defaultCheckedKeys" />
+    <VirTree ref="virTree" :source="list" show-checkbox :default-checked-keys="defaultCheckedKeys" />
+    <VirTree ref="virTree2" :source="list" show-checkbox check-strictly :default-checked-keys="defaultCheckedKeys" />
   </div>
 </template>
 
 <script setup lang="tsx">
-import { TreeNodeOptions, VirTree, TreeContext } from '@ysx-libs/vue-virtual-tree';
+import { ref } from 'vue';
+import { TreeNodeOptions, TreeContext, VirTree } from '@ysx-libs/vue-virtual-tree';
 
 function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
   const list = [];
@@ -18,6 +17,7 @@ function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
     const treeNode: TreeNodeOptions = {
       nodeKey,
       name: nodeKey,
+      // showCheckbox: true,
       children: []
     };
 
@@ -28,13 +28,16 @@ function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
   }
   return list;
 }
-let list = $ref(recursion());
-let defaultCheckedKeys = $ref<string[]>(['0-0', '0-1-0', '0-1-1', '0-1-2', '0-1-3', '0-1-4',]);
+const list = ref(recursion());
+const defaultCheckedKeys = ref<string[]>(['0-0', '0-1-0', '0-1-1', '0-1-2', '0-1-3', '0-1-4',]);
 
-const virTree = $ref<TreeContext>();
+const virTree = ref<TreeContext>();
+const virTree2 = ref<TreeContext>();
 
 const checkedNode = () => {
-  const node = virTree!.getCheckedNodes();
+  const node = virTree.value!.getCheckedNodes();
+  const node2 = virTree2.value!.getCheckedNodes();
   console.log('selected node', node);
+  console.log('selected node 2', node2);
 }
 </script>
