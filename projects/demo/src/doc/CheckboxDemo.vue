@@ -8,7 +8,7 @@
 
 <script setup lang="tsx">
 import { ref } from 'vue';
-import { TreeNodeOptions, TreeContext, VirTree } from '@ysx-libs/vue-virtual-tree';
+import VirTree, { TreeNodeOptions, TreeContext } from '@ysx-libs/vue-virtual-tree';
 
 function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
   const list = [];

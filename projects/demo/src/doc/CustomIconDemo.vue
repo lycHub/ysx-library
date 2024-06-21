@@ -1,4 +1,3 @@
-
 <template>
   <div style="display: flex;">
     <VirTree :source="list" show-checkbox :render-icon="renderIcon" :load-data="loadData" />
@@ -14,7 +13,7 @@
 
 <script setup lang="tsx">
 import { onMounted, ref } from 'vue';
-import { BaseTreeNode, EventParams, SelectEventParams, TreeContext, TreeNodeOptions, VirTree } from '@ysx-libs/vue-virtual-tree';
+import VirTree, { BaseTreeNode, TreeNodeOptions } from '@ysx-libs/vue-virtual-tree';
 
 function recursion(path = '0', level = 3, h = 6): TreeNodeOptions[] {
   const list = [];

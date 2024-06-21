@@ -1,6 +1,6 @@
 {
   "name": "@ysx-libs/vue-virtual-tree",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "scripts": {
     "build:dev": "vite build --watch --emptyOutDir=false",
@@ -11,15 +11,15 @@
     "dist",
     "LICENSE"
   ],
-  "types": "./dist/typings/tree/index.d.ts",
+  "types": "./dist/typings/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/typings/tree/index.d.ts",
+        "types": "./dist/typings/index.d.ts",
         "default": "./dist/vue-virtual-tree.es.js"
       },
       "require": {
-        "types": "./dist/typings/tree/index.d.ts",
+        "types": "./dist/typings/index.d.ts",
         "default": "./dist/vue-virtual-tree.umd.js"
       }
     },
