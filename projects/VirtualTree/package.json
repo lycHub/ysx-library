@@ -1,13 +1,14 @@
 {
   "name": "@ysx-libs/vue-virtual-tree",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "build:dev": "vite build --watch --emptyOutDir=false",
     "build": "vue-tsc --noEmit && vite build && npm run build:types",
     "build:types": "tsc --project tsconfig.type.json"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "types": "./dist/typings/tree/index.d.ts",
   "exports": {
@@ -29,6 +30,7 @@
   "homepage": "https://github.com/lycHub",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lycHub/vue-virtual-tree"
-  }
+    "url": "https://github.com/lycHub/ysx-library/blob/master/projects/VirtualTree"
+  },
+  "license": "MIT"
 }
