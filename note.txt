@@ -5,4 +5,4 @@ git push origin [tagname]
 build并发布demo：
 pnpm build:demo
 
-发布：pnpm -r publish -F @ysx-libs/vue-virtual-tree --access=public --git-checks=false
+发布：pnpm publish -F @ysx-libs/vue-virtual-tree --access=public --git-checks=false

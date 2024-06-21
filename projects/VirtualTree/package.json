@@ -1,6 +1,7 @@
 {
   "name": "@ysx-libs/vue-virtual-tree",
-  "version": "0.0.7",
+  "version": "0.0.8",
+  "type": "module",
   "scripts": {
     "build:dev": "vite build --watch --emptyOutDir=false",
     "build": "vue-tsc --noEmit && vite build && npm run build:types",
@@ -13,8 +14,14 @@
   "types": "./dist/typings/tree/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-virtual-tree.es.js",
-      "require": "./dist/vue-virtual-tree.umd.js"
+      "import": {
+        "types": "./dist/typings/tree/index.d.ts",
+        "default": "./dist/vue-virtual-tree.es.js"
+      },
+      "require": {
+        "types": "./dist/typings/tree/index.d.ts",
+        "default": "./dist/vue-virtual-tree.umd.js"
+      }
     },
     "./style.css": "./dist/style.css"
   },
