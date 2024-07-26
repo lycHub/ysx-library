@@ -148,7 +148,7 @@ watch(() => props.defaultExpandedKeys, newVal => {
 const loading = ref(false);
 
 // state: 点击后的展开状态
-function toggleExpand({ state, node }: EventParams) {
+function toggleExpand({ state, node, source }: EventParams) {
   if (loading.value) return;
   expandedKeys.value[addOrDelete(state)](node.key);
   // service.expandedKeys.value.toggle(node.nodeKey);
@@ -175,7 +175,7 @@ function toggleExpand({ state, node }: EventParams) {
 
     });
   }
-  emit('expandChange', { state, node });
+  emit('expandChange', { state, node, source: source || 'click' });
 }
 
 
@@ -241,7 +241,7 @@ const context = shallowReactive({
   getCheckedNodes: () => Array.from(checkedKeys.value).map(key => key2TreeNode.value[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
   getHalfCheckedNodes: () => Array.from(halfCheckedKeys.value).map(key => key2TreeNode.value[key]),
   toggleExpand: (nodeKey: NodeKey, state?: boolean) =>
-    toggleExpand({ state: state ?? !expandedKeys.value.has(nodeKey), node: key2TreeNode.value[nodeKey] })
+    toggleExpand({ state: state ?? !expandedKeys.value.has(nodeKey), node: key2TreeNode.value[nodeKey], source: 'api' })
 });
 
 defineExpose(toRaw(context));
