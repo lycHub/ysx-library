@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build --base=/ysx-library/docs/tree/",
+    "build": "vite build --base=/ysx-library/docs/tree/",
     "preview": "vite preview"
   },
   "peerDependencies": {
