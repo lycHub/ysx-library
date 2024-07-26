@@ -5,8 +5,8 @@ import { TypeWithUndefined } from '../utils/types';
 type NodeKey = string | number;
 
 /*
-* 用户传入的source必须要有 key, name
-* */
+ * 用户传入的source必须要有 key, name
+ * */
 
 interface TreeNodeOptions {
   nodeKey: NodeKey;
@@ -22,26 +22,29 @@ interface TreeNodeInstance {
   halfChecked: () => boolean;
 }
 
-
 type KeyNodeMap = Record<NodeKey, BaseTreeNode>;
-
 
 interface EventParams {
   state: boolean;
   node: BaseTreeNode;
+  source?: 'api' | 'click';
 }
-
 
 interface SelectEventParams {
   preSelectedNode: TypeWithUndefined<BaseTreeNode>;
   node: TypeWithUndefined<BaseTreeNode>;
 }
 
-
 type RenderNodeFunc = (node: BaseTreeNode) => JSX.Element;
-type RenderIconFunc = (params: { node: BaseTreeNode; loading: boolean; expanded: boolean; }) => JSX.Element;
-type LoadDataFunc = (node: BaseTreeNode, callback: (children: TreeNodeOptions[]) => void) => void;
-
+type RenderIconFunc = (params: {
+  node: BaseTreeNode;
+  loading: boolean;
+  expanded: boolean;
+}) => JSX.Element;
+type LoadDataFunc = (
+  node: BaseTreeNode,
+  callback: (children: TreeNodeOptions[]) => void
+) => void;
 
 type TreeContext = Readonly<{
   renderNode: TypeWithUndefined<RenderNodeFunc>;
@@ -52,12 +55,25 @@ type TreeContext = Readonly<{
   getCheckedNodes: () => BaseTreeNode[];
   getHalfCheckedNodes: () => BaseTreeNode[];
   getExpandedKeys: () => NodeKey[];
+  toggleExpand: (nodeKey: NodeKey, state?: boolean) => void;
 }>;
-
 
 interface VirtualConfig {
   size: number;
   remain: number;
 }
 
-export type { BaseTreeNode, TreeNodeOptions, NodeKey, TreeNodeInstance, KeyNodeMap, EventParams, SelectEventParams, RenderNodeFunc, RenderIconFunc, LoadDataFunc, TreeContext, VirtualConfig };
+export type {
+  BaseTreeNode,
+  TreeNodeOptions,
+  NodeKey,
+  TreeNodeInstance,
+  KeyNodeMap,
+  EventParams,
+  SelectEventParams,
+  RenderNodeFunc,
+  RenderIconFunc,
+  LoadDataFunc,
+  TreeContext,
+  VirtualConfig,
+};

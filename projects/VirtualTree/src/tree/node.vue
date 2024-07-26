@@ -1,5 +1,5 @@
 <template>
-  <div class="vir-tree-node" :style="{ paddingLeft }" @click="handleExpand">
+  <div class="vir-tree-node" :style="treeNodeStyle" @click="handleExpand">
 
     <div @click="arrowClick" :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
@@ -44,7 +44,7 @@ import { TreeInjectionKey } from './context';
       type: Object as PropType<Set<NodeKey>>,
       required: true
     },
-    
+
     expandedKeys: {
       type: Object as PropType<Set<NodeKey>>,
       required: true
@@ -64,7 +64,11 @@ import { TreeInjectionKey } from './context';
     showCheckbox: {
       type: Boolean,
       default: false
-    }
+   },
+   indentType: {
+      type: String as PropType<("padding" | "margin")>,
+      default: "padding"
+   }
   });
 
   const showArrow = computed(() => props.node.hasChildren);
@@ -81,11 +85,14 @@ import { TreeInjectionKey } from './context';
     (e: 'checkChange', value: BaseTreeNode): void;
     (e: 'toggleExpand', value: EventParams): void;
   }>();
-  
+
   const treeContext = inject(TreeInjectionKey)!;
   const indent = 18;
-  const paddingLeft = props.node.level * indent + 'px';
-  
+
+  const treeNodeStyle = computed(() => ({
+    [`${props.indentType}Left`]: props.node.level * indent + 'px',
+  }));
+
   const titleCls = computed(() => {
       let result = 'node-title';
       if (props.selectedKeys.has(props.node.key)) {
