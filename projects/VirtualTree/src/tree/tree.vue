@@ -4,15 +4,15 @@
       :items="visibleList" :item-size="props.virtual?.size" key-field="key" v-slot="{ item }">
       <tree-node :node="item" :key="item.key" :show-checkbox="showCheckbox" :selected-keys="selectedKeys"
         :disabled-keys="disabledKeys" :expanded-keys="expandedKeys" :checked-keys="checkedKeys"
-        :half-checked-keys="halfCheckedKeys" @toggleExpand="toggleExpand" @selectChange="selectChange"
-        @checkChange="checkChange" />
+        :half-checked-keys="halfCheckedKeys" :indent-type="indentType" @toggleExpand="toggleExpand"
+        @selectChange="selectChange" @checkChange="checkChange" />
     </RecycleScroller>
 
     <div class="vir-tree-wrap" v-else>
       <tree-node v-for="item of visibleList" :key="item.key" :node="item" :show-checkbox="showCheckbox"
         :selected-keys="selectedKeys" :disabled-keys="disabledKeys" :expanded-keys="expandedKeys"
-        :checked-keys="checkedKeys" :half-checked-keys="halfCheckedKeys" @toggleExpand="toggleExpand"
-        @selectChange="selectChange" @checkChange="checkChange" />
+        :checked-keys="checkedKeys" :half-checked-keys="halfCheckedKeys" :indent-type="indentType"
+        @toggleExpand="toggleExpand" @selectChange="selectChange" @checkChange="checkChange" />
     </div>
   </div>
 </template>
@@ -58,6 +58,10 @@ const props = defineProps({
   checkStrictly: {
     type: Boolean,
     default: false
+  },
+  indentType: {
+    type: String as PropType<("padding" | "margin")>,
+    default: "padding"
   },
   renderNode: Function as PropType<RenderNodeFunc>,
   renderIcon: Function as PropType<RenderIconFunc>,
@@ -236,6 +240,8 @@ const context = shallowReactive({
   getSelectedNode: () => selectedNode.value,
   getCheckedNodes: () => Array.from(checkedKeys.value).map(key => key2TreeNode.value[key]).filter(Boolean), // 懒加载的情况下未必能拿到node
   getHalfCheckedNodes: () => Array.from(halfCheckedKeys.value).map(key => key2TreeNode.value[key]),
+  toggleExpand: (nodeKey: NodeKey, state?: boolean) =>
+    toggleExpand({ state: state ?? !expandedKeys.value.has(nodeKey), node: key2TreeNode.value[nodeKey] })
 });
 
 defineExpose(toRaw(context));
