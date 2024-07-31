@@ -35,6 +35,12 @@ interface SelectEventParams {
   node: TypeWithUndefined<BaseTreeNode>;
 }
 
+interface FocusEventParams {
+  node: BaseTreeNode | null
+
+};
+
+type OnKeydownFunc = (event: KeyboardEvent, node: BaseTreeNode) => void;
 type RenderNodeFunc = (node: BaseTreeNode) => JSX.Element;
 type RenderIconFunc = (params: {
   node: BaseTreeNode;
@@ -70,10 +76,12 @@ export type {
   TreeNodeInstance,
   KeyNodeMap,
   EventParams,
+  FocusEventParams,
   SelectEventParams,
   RenderNodeFunc,
   RenderIconFunc,
   LoadDataFunc,
+  OnKeydownFunc,
   TreeContext,
   VirtualConfig,
 };

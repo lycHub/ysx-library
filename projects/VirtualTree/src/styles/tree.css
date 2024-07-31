@@ -5,6 +5,10 @@
   user-select: none;
 }
 
+.vir-tree:focus {
+  outline: none;
+}
+
 .vir-tree-node {
   margin: 4px 0;
   line-height: normal;

@@ -1,5 +1,5 @@
 <template>
-  <div class="vir-tree">
+  <div class="vir-tree" tabindex="0" @keydown="handleKeyboardNavigation" @focusin="onFocusIn" @focusout="onFocusOut">
     <RecycleScroller v-if="virtualHeight" class="vir-tree-wrap" :style="{ height: virtualHeight + 'px' }"
       :items="visibleList" :item-size="props.virtual?.size" key-field="key" v-slot="{ item }">
       <tree-node :node="item" :key="item.key" :show-checkbox="showCheckbox" :selected-keys="selectedKeys"
@@ -23,7 +23,7 @@ import { ref, computed, nextTick, PropType, provide, shallowReactive, toRaw, use
 import { RecycleScroller } from 'vue-virtual-scroller';
 import { coerceTreeNodes, getFlattenTreeData, getKey2TreeNode, useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
-import { EventParams, KeyNodeMap, LoadDataFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions, VirtualConfig } from './types';
+import { EventParams, FocusEventParams, KeyNodeMap, LoadDataFunc, OnKeydownFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions, VirtualConfig } from './types';
 import TreeNode from './node.vue';
 import { updateCheckedState, useCheckState } from './hooks/useCheckState';
 import { addOrDelete } from '../utils';
@@ -66,6 +66,7 @@ const props = defineProps({
   renderNode: Function as PropType<RenderNodeFunc>,
   renderIcon: Function as PropType<RenderIconFunc>,
   loadData: Function as PropType<LoadDataFunc>,
+  onKeydown: Function as PropType<OnKeydownFunc>,
   virtual: Object as PropType<VirtualConfig>
 });
 
@@ -74,6 +75,7 @@ const emit = defineEmits<{
   (e: 'selectChange', value: SelectEventParams): void;
   (e: 'checkChange', value: EventParams): void;
   (e: 'expandChange', value: EventParams): void;
+  (e: 'focusChange', value: FocusEventParams): void;
 }>();
 
 const flattenTreeData = ref<BaseTreeNode[]>([]);
@@ -96,7 +98,6 @@ watch(() => props.defaultDisabledKeys, newVal => {
 }, {
   immediate: true
 });
-
 
 const checkedKeys = ref(new Set<NodeKey>());
 const halfCheckedKeys = ref(new Set<NodeKey>());
@@ -205,6 +206,63 @@ watch(() => props.defaultSelectedKey, newVal => {
   immediate: true
 });
 const selectedNode = computed(() => key2TreeNode.value[Array.from(selectedKeys.value.values())[0]]);
+
+const focusKey = ref<NodeKey>();
+
+function focusChange(node?: BaseTreeNode) {
+  if (!node) {
+    return;
+  }
+  focusKey.value = node.key;
+  emit('focusChange', { node })
+}
+
+function onFocusOut(event: FocusEvent) {
+  // remove focus
+  focusKey.value = undefined;
+  emit('focusChange', { node: null });
+}
+
+function onFocusIn(event: FocusEvent) {
+  // select first element if nothing is selected
+  if (!focusKey.value) {
+    focusChange(flattenTreeData.value?.at(0));
+  }
+}
+
+function handleKeyboardNavigation(event: KeyboardEvent) {
+  const { key } = event;
+
+  if (!focusKey.value) {
+    return;
+  }
+
+  const currentFocusedNode = key2TreeNode.value[focusKey.value];
+
+  const getNextNode = (node: BaseTreeNode, offset: number) => {
+    if (!node) {
+      return;
+    }
+    const index = visibleList.value.findIndex(({ key }) => key === node.key);
+    return visibleList.value?.[index + offset];
+  };
+
+  switch (key) {
+    case "ArrowUp":
+      focusChange(getNextNode(currentFocusedNode, -1));
+      event.preventDefault();
+      break;
+    case "ArrowDown":
+      focusChange(getNextNode(currentFocusedNode, 1));
+      event.preventDefault();
+      break;
+  }
+
+  if (props.onKeydown) {
+    props.onKeydown(event, currentFocusedNode);
+  }
+}
+
 function selectChange(node: BaseTreeNode) {
   const preSelectedNode = key2TreeNode.value[Array.from(selectedKeys.value.values())[0]];
   let currentNode: TypeWithUndefined<BaseTreeNode>;
