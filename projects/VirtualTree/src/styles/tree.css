@@ -64,6 +64,10 @@
   background-color: var(--assist-color);
 }
 
+.vir-tree-node .node-content .node-title.focused {
+  outline: 2px solid var(--assist-color);
+}
+
 .vir-tree-node .node-content .node-title.disabled {
   cursor: not-allowed;
   color: var(--disable-color);

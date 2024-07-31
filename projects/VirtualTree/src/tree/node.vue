@@ -44,7 +44,9 @@ import { TreeInjectionKey } from './context';
       type: Object as PropType<Set<NodeKey>>,
       required: true
     },
-
+    focusKey: {
+      type: [String, Number] as PropType<NodeKey>
+    },
     expandedKeys: {
       type: Object as PropType<Set<NodeKey>>,
       required: true
@@ -95,6 +97,9 @@ import { TreeInjectionKey } from './context';
 
   const titleCls = computed(() => {
       let result = 'node-title';
+      if (props.focusKey === props.node.key) {
+        result += ' focused';
+      }
       if (props.selectedKeys.has(props.node.key)) {
         result += ' selected';
       }

@@ -27,7 +27,7 @@ type KeyNodeMap = Record<NodeKey, BaseTreeNode>;
 interface EventParams {
   state: boolean;
   node: BaseTreeNode;
-  source?: 'api' | 'click';
+  source?: 'api' | 'click' | 'key';
 }
 
 interface SelectEventParams {
@@ -37,8 +37,12 @@ interface SelectEventParams {
 
 interface FocusEventParams {
   node: BaseTreeNode | null
+}
 
-};
+interface KeydownEvent {
+  event: KeyboardEvent;
+  node: BaseTreeNode;
+}
 
 type OnKeydownFunc = (event: KeyboardEvent, node: BaseTreeNode) => void;
 type RenderNodeFunc = (node: BaseTreeNode) => JSX.Element;
@@ -81,7 +85,7 @@ export type {
   RenderNodeFunc,
   RenderIconFunc,
   LoadDataFunc,
-  OnKeydownFunc,
+  KeydownEvent,
   TreeContext,
   VirtualConfig,
 };

@@ -3,14 +3,14 @@
     <RecycleScroller v-if="virtualHeight" class="vir-tree-wrap" :style="{ height: virtualHeight + 'px' }"
       :items="visibleList" :item-size="props.virtual?.size" key-field="key" v-slot="{ item }">
       <tree-node :node="item" :key="item.key" :show-checkbox="showCheckbox" :selected-keys="selectedKeys"
-        :disabled-keys="disabledKeys" :expanded-keys="expandedKeys" :checked-keys="checkedKeys"
+        :disabled-keys="disabledKeys" :expanded-keys="expandedKeys" :checked-keys="checkedKeys" :focus-key="focusKey"
         :half-checked-keys="halfCheckedKeys" :indent-type="indentType" @toggleExpand="toggleExpand"
         @selectChange="selectChange" @checkChange="checkChange" />
     </RecycleScroller>
 
     <div class="vir-tree-wrap" v-else>
       <tree-node v-for="item of visibleList" :key="item.key" :node="item" :show-checkbox="showCheckbox"
-        :selected-keys="selectedKeys" :disabled-keys="disabledKeys" :expanded-keys="expandedKeys"
+        :selected-keys="selectedKeys" :disabled-keys="disabledKeys" :expanded-keys="expandedKeys" :focus-key="focusKey"
         :checked-keys="checkedKeys" :half-checked-keys="halfCheckedKeys" :indent-type="indentType"
         @toggleExpand="toggleExpand" @selectChange="selectChange" @checkChange="checkChange" />
     </div>
@@ -23,7 +23,7 @@ import { ref, computed, nextTick, PropType, provide, shallowReactive, toRaw, use
 import { RecycleScroller } from 'vue-virtual-scroller';
 import { coerceTreeNodes, getFlattenTreeData, getKey2TreeNode, useTreeData } from './hooks/useTreeData';
 import { BaseTreeNode } from './baseTreeNode';
-import { EventParams, FocusEventParams, KeyNodeMap, LoadDataFunc, OnKeydownFunc, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions, VirtualConfig } from './types';
+import { EventParams, FocusEventParams, KeyNodeMap, LoadDataFunc, KeydownEvent, NodeKey, RenderIconFunc, RenderNodeFunc, SelectEventParams, TreeNodeOptions, VirtualConfig } from './types';
 import TreeNode from './node.vue';
 import { updateCheckedState, useCheckState } from './hooks/useCheckState';
 import { addOrDelete } from '../utils';
@@ -66,7 +66,6 @@ const props = defineProps({
   renderNode: Function as PropType<RenderNodeFunc>,
   renderIcon: Function as PropType<RenderIconFunc>,
   loadData: Function as PropType<LoadDataFunc>,
-  onKeydown: Function as PropType<OnKeydownFunc>,
   virtual: Object as PropType<VirtualConfig>
 });
 
@@ -76,6 +75,7 @@ const emit = defineEmits<{
   (e: 'checkChange', value: EventParams): void;
   (e: 'expandChange', value: EventParams): void;
   (e: 'focusChange', value: FocusEventParams): void;
+  (e: 'keydown', value: KeydownEvent): void;
 }>();
 
 const flattenTreeData = ref<BaseTreeNode[]>([]);
@@ -247,20 +247,52 @@ function handleKeyboardNavigation(event: KeyboardEvent) {
     return visibleList.value?.[index + offset];
   };
 
+  const arrowRight = () => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (currentFocusedNode.hasChildren) {
+      if (expandedKeys.value.has(currentFocusedNode.key)) {
+        focusChange(getNextNode(currentFocusedNode, 1));
+      } else {
+        toggleExpand({ node: currentFocusedNode, state: true, source: 'key' });
+      }
+    }
+  };
+
+  const arrowLeft = () => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (expandedKeys.value.has(currentFocusedNode.key)) {
+      toggleExpand({ node: currentFocusedNode, state: false, source: 'key' });
+    } else {
+      if (currentFocusedNode.parentKey) {
+        focusChange(key2TreeNode.value[currentFocusedNode.parentKey]);
+      }
+    }
+  };
+
+
   switch (key) {
     case "ArrowUp":
-      focusChange(getNextNode(currentFocusedNode, -1));
       event.preventDefault();
+      focusChange(getNextNode(currentFocusedNode, -1));
       break;
     case "ArrowDown":
-      focusChange(getNextNode(currentFocusedNode, 1));
       event.preventDefault();
+      focusChange(getNextNode(currentFocusedNode, 1));
+      break;
+    case "ArrowLeft":
+      event.preventDefault();
+      arrowLeft();
+      break;
+    case "ArrowRight":
+      event.preventDefault();
+      arrowRight();
       break;
   }
 
-  if (props.onKeydown) {
-    props.onKeydown(event, currentFocusedNode);
-  }
+  emit("keydown", { event, node: currentFocusedNode });
 }
 
 function selectChange(node: BaseTreeNode) {
