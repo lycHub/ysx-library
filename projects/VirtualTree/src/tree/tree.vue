@@ -222,12 +222,9 @@ function onFocusOut() {
   emit('focusChange', { node: null });
 }
 
-function onFocusIn(event: FocusEvent) {
-  const target = event.target as HTMLDivElement;
-  const nodeKey = target.dataset.nodeKey;
-  if (!focusKey.value && nodeKey) {
-    const node = flattenTreeData.value.find(item => item.key === nodeKey);
-    focusChange(node);
+function onFocusIn() {
+  if (!focusKey.value) {
+    focusChange(flattenTreeData.value?.at(0));
   }
 }
 

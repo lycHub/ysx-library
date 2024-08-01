@@ -1,5 +1,5 @@
 <template>
-  <div class="vir-tree-node" tabindex="0" :data-node-key="props.node.key" :style="treeNodeStyle" @click="handleExpand">
+  <div class="vir-tree-node" :style="treeNodeStyle" @click="handleExpand">
 
     <div @click="arrowClick" :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
