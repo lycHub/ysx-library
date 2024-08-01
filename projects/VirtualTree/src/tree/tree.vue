@@ -217,16 +217,17 @@ function focusChange(node?: BaseTreeNode) {
   emit('focusChange', { node })
 }
 
-function onFocusOut(event: FocusEvent) {
-  // remove focus
+function onFocusOut() {
   focusKey.value = undefined;
   emit('focusChange', { node: null });
 }
 
 function onFocusIn(event: FocusEvent) {
-  // select first element if nothing is selected
-  if (!focusKey.value) {
-    focusChange(flattenTreeData.value?.at(0));
+  const target = event.target as HTMLDivElement;
+  const nodeKey = target.dataset.nodeKey;
+  if (!focusKey.value && nodeKey) {
+    const node = flattenTreeData.value.find(item => item.key === nodeKey);
+    focusChange(node);
   }
 }
 

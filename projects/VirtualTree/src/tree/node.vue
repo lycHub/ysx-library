@@ -1,17 +1,13 @@
 <template>
-  <div class="vir-tree-node" :style="treeNodeStyle" @click="handleExpand">
+  <div class="vir-tree-node" tabindex="0" :data-node-key="props.node.key" :style="treeNodeStyle" @click="handleExpand">
 
     <div @click="arrowClick" :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
     </div>
-    <vir-check-box
-      class="node-content node-check-box"
-      v-if="showCheckbox"
-      :disabled="props.disabledKeys.has(props.node.key)"
-      :modelValue="props.checkedKeys.has(props.node.key)"
-      :halfChecked="props.halfCheckedKeys.has(props.node.key)"
-      @change="handleCheckChange">
-        <render-node title-cls="node-title" :context="treeContext" :node="props.node" />
+    <vir-check-box class="node-content node-check-box" v-if="showCheckbox"
+      :disabled="props.disabledKeys.has(props.node.key)" :modelValue="props.checkedKeys.has(props.node.key)"
+      :halfChecked="props.halfCheckedKeys.has(props.node.key)" @change="handleCheckChange">
+      <render-node :title-cls="titleCls" :context="treeContext" :node="props.node" />
     </vir-check-box>
     <div class="node-content node-text" v-else @click="handleSelect">
       <render-node :title-cls="titleCls" :context="treeContext" :node="props.node" />
@@ -21,9 +17,9 @@
 
 
 <script lang="ts">
-    export default defineComponent({
-        name: 'TreeNode'
-    })
+export default defineComponent({
+  name: 'TreeNode'
+})
 </script>
 
 <script setup lang="ts">
@@ -35,105 +31,105 @@ import { BaseTreeNode } from './baseTreeNode';
 import { EventParams, NodeKey } from './types';
 import { TreeInjectionKey } from './context';
 
- const props = defineProps({
-   node: {
-      type: Object as PropType<BaseTreeNode>,
-      required: true
-    },
-    selectedKeys: {
-      type: Object as PropType<Set<NodeKey>>,
-      required: true
-    },
-    focusKey: {
-      type: [String, Number] as PropType<NodeKey>
-    },
-    expandedKeys: {
-      type: Object as PropType<Set<NodeKey>>,
-      required: true
-    },
-    disabledKeys: {
-      type: Object as PropType<Set<NodeKey>>,
-      required: true
-    },
-    checkedKeys: {
-     type: Set as PropType<Set<NodeKey>>,
-      required: true
-    },
-    halfCheckedKeys: {
-     type: Set as PropType<Set<NodeKey>>,
-      required: true
-    },
-    showCheckbox: {
-      type: Boolean,
-      default: false
-   },
-   indentType: {
-      type: String as PropType<("padding" | "margin")>,
-      default: "padding"
-   }
-  });
+const props = defineProps({
+  node: {
+    type: Object as PropType<BaseTreeNode>,
+    required: true
+  },
+  selectedKeys: {
+    type: Object as PropType<Set<NodeKey>>,
+    required: true
+  },
+  focusKey: {
+    type: [String, Number] as PropType<NodeKey>
+  },
+  expandedKeys: {
+    type: Object as PropType<Set<NodeKey>>,
+    required: true
+  },
+  disabledKeys: {
+    type: Object as PropType<Set<NodeKey>>,
+    required: true
+  },
+  checkedKeys: {
+    type: Set as PropType<Set<NodeKey>>,
+    required: true
+  },
+  halfCheckedKeys: {
+    type: Set as PropType<Set<NodeKey>>,
+    required: true
+  },
+  showCheckbox: {
+    type: Boolean,
+    default: false
+  },
+  indentType: {
+    type: String as PropType<("padding" | "margin")>,
+    default: "padding"
+  }
+});
 
-  const showArrow = computed(() => props.node.hasChildren);
-  const showCheckbox = computed(() => {
-    if (props.node.showCheckbox !== undefined) {
-      return props.node.showCheckbox;
-    }
-    return props.showCheckbox;
-  });
-  // console.log('showCheckbox', showCheckbox.value);
+const showArrow = computed(() => props.node.hasChildren);
+const showCheckbox = computed(() => {
+  if (props.node.showCheckbox !== undefined) {
+    return props.node.showCheckbox;
+  }
+  return props.showCheckbox;
+});
+// console.log('showCheckbox', showCheckbox.value);
 
-  const emit = defineEmits<{
-    (e: 'selectChange', value: BaseTreeNode): void;
-    (e: 'checkChange', value: BaseTreeNode): void;
-    (e: 'toggleExpand', value: EventParams): void;
-  }>();
+const emit = defineEmits<{
+  (e: 'selectChange', value: BaseTreeNode): void;
+  (e: 'checkChange', value: BaseTreeNode): void;
+  (e: 'toggleExpand', value: EventParams): void;
+}>();
 
-  const treeContext = inject(TreeInjectionKey)!;
-  const indent = 18;
+const treeContext = inject(TreeInjectionKey)!;
+const indent = 18;
 
-  const treeNodeStyle = computed(() => ({
-    [`${props.indentType}Left`]: props.node.level * indent + 'px',
-  }));
+const treeNodeStyle = computed(() => ({
+  [`${props.indentType}Left`]: props.node.level * indent + 'px',
+}));
 
-  const titleCls = computed(() => {
-      let result = 'node-title';
-      if (props.focusKey === props.node.key) {
-        result += ' focused';
-      }
-      if (props.selectedKeys.has(props.node.key)) {
-        result += ' selected';
-      }
-      if (props.disabledKeys.has(props.node.key)) {
-        result += ' disabled';
-      }
-      return result;
+const titleCls = computed(() => {
+  let result = 'node-title';
+  if (props.focusKey === props.node.key) {
+    result += ' focused';
+  }
+  if (props.selectedKeys.has(props.node.key)) {
+    result += ' selected';
+  }
+  if (props.disabledKeys.has(props.node.key)) {
+    result += ' disabled';
+  }
+  return result;
+});
+
+const handleSelect = (event: MouseEvent) => {
+  event.stopPropagation();
+  if (!props.disabledKeys.has(props.node.key)) {
+    emit('selectChange', props.node);
+  }
+}
+
+const handleCheckChange = () => {
+  emit('checkChange', props.node);
+}
+
+const handleExpand = () => {
+  // console.log('handleExpand', showArrow)
+  if (showArrow) {
+    emit('toggleExpand', {
+      state: !treeContext.expandedKeys.has(props.node.key),
+      node: props.node
     });
+  }
+}
 
-   const handleSelect = (event: MouseEvent) => {
-      event.stopPropagation();
-      if (!props.disabledKeys.has(props.node.key)) {
-        emit('selectChange', props.node);
-      }
-    }
-
-    const handleCheckChange = () => {
-      emit('checkChange', props.node);
-    }
-
-    const handleExpand = () => {
-      // console.log('handleExpand', showArrow)
-      if (showArrow) {
-        emit('toggleExpand', {
-          state: !treeContext.expandedKeys.has(props.node.key),
-          node: props.node
-        });
-      }
-    }
-
-    const arrowClick = (event: MouseEvent) => {
-      event.stopPropagation();
-      handleExpand();
-    }
+const arrowClick = (event: MouseEvent) => {
+  event.stopPropagation();
+  handleExpand();
+}
 
 
 </script>

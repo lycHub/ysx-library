@@ -1,6 +1,6 @@
 import { Slots } from 'vue';
 import { BaseTreeNode } from './baseTreeNode';
-import { TypeWithUndefined } from '../utils/types';
+import { TypeWithNull, TypeWithUndefined } from '../utils/types';
 
 type NodeKey = string | number;
 
@@ -36,7 +36,7 @@ interface SelectEventParams {
 }
 
 interface FocusEventParams {
-  node: BaseTreeNode | null
+  node: TypeWithNull<BaseTreeNode>;
 }
 
 interface KeydownEvent {

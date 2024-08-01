@@ -143,6 +143,16 @@ const eventData = [
     description: '展开收起时触发',
     type: 'EventParams',
   },
+  {
+    name: 'focusChange',
+    description: '聚焦目标变化时触发',
+    type: 'FocusEventParams',
+  },
+  {
+    name: 'keydown',
+    description: '按下键盘触发',
+    type: 'KeydownEvent',
+  },
 ];
 const methodData = [
   {
