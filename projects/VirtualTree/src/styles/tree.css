@@ -5,6 +5,10 @@
   user-select: none;
 }
 
+.vir-tree:focus {
+  outline: none;
+}
+
 .vir-tree-node {
   margin: 4px 0;
   line-height: normal;
@@ -58,6 +62,10 @@
 
 .vir-tree-node .node-content .node-title.selected {
   background-color: var(--assist-color);
+}
+
+.vir-tree-node .node-content .node-title.focused {
+  outline: 2px solid var(--assist-color);
 }
 
 .vir-tree-node .node-content .node-title.disabled {
