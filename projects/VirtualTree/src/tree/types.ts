@@ -1,6 +1,6 @@
 import { Slots } from 'vue';
 import { BaseTreeNode } from './baseTreeNode';
-import { TypeWithUndefined } from '../utils/types';
+import { TypeWithNull, TypeWithUndefined } from '../utils/types';
 
 type NodeKey = string | number;
 
@@ -27,7 +27,7 @@ type KeyNodeMap = Record<NodeKey, BaseTreeNode>;
 interface EventParams {
   state: boolean;
   node: BaseTreeNode;
-  source?: 'api' | 'click';
+  source?: 'api' | 'click' | 'key';
 }
 
 interface SelectEventParams {
@@ -35,6 +35,16 @@ interface SelectEventParams {
   node: TypeWithUndefined<BaseTreeNode>;
 }
 
+interface FocusEventParams {
+  node: TypeWithNull<BaseTreeNode>;
+}
+
+interface KeydownEvent {
+  event: KeyboardEvent;
+  node: BaseTreeNode;
+}
+
+type OnKeydownFunc = (event: KeyboardEvent, node: BaseTreeNode) => void;
 type RenderNodeFunc = (node: BaseTreeNode) => JSX.Element;
 type RenderIconFunc = (params: {
   node: BaseTreeNode;
@@ -70,10 +80,12 @@ export type {
   TreeNodeInstance,
   KeyNodeMap,
   EventParams,
+  FocusEventParams,
   SelectEventParams,
   RenderNodeFunc,
   RenderIconFunc,
   LoadDataFunc,
+  KeydownEvent,
   TreeContext,
   VirtualConfig,
 };
