@@ -4,14 +4,14 @@
       :items="visibleList" :item-size="props.virtual?.size" key-field="key" v-slot="{ item }">
       <tree-node :node="item" :key="item.key" :show-checkbox="showCheckbox" :selected-keys="selectedKeys"
         :disabled-keys="disabledKeys" :expanded-keys="expandedKeys" :checked-keys="checkedKeys" :focus-key="focusKey"
-        :half-checked-keys="halfCheckedKeys" :indent-type="indentType" @toggleExpand="toggleExpand"
+        :half-checked-keys="halfCheckedKeys" @toggleExpand="toggleExpand"
         @selectChange="selectChange" @checkChange="checkChange" />
     </RecycleScroller>
 
     <div class="vir-tree-wrap" v-else>
       <tree-node v-for="item of visibleList" :key="item.key" :node="item" :show-checkbox="showCheckbox"
         :selected-keys="selectedKeys" :disabled-keys="disabledKeys" :expanded-keys="expandedKeys" :focus-key="focusKey"
-        :checked-keys="checkedKeys" :half-checked-keys="halfCheckedKeys" :indent-type="indentType"
+        :checked-keys="checkedKeys" :half-checked-keys="halfCheckedKeys"
         @toggleExpand="toggleExpand" @selectChange="selectChange" @checkChange="checkChange" />
     </div>
   </div>
@@ -58,10 +58,6 @@ const props = defineProps({
   checkStrictly: {
     type: Boolean,
     default: false
-  },
-  indentType: {
-    type: String as PropType<("padding" | "margin")>,
-    default: "padding"
   },
   renderNode: Function as PropType<RenderNodeFunc>,
   renderIcon: Function as PropType<RenderIconFunc>,
