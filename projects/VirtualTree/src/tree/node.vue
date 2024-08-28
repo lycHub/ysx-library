@@ -1,5 +1,5 @@
 <template>
-  <div class="vir-tree-node" tabindex="0" :data-node-key="props.node.key" :style="treeNodeStyle" @click="handleExpand">
+  <div class="vir-tree-node" :style="treeNodeStyle" @click="handleExpand">
 
     <div @click="arrowClick" :class="['node-arrow', props.expandedKeys.has(props.node.key) ? 'expanded' : '']">
       <render-icon :context="treeContext" :node="props.node" v-if="showArrow" />
@@ -62,10 +62,6 @@ const props = defineProps({
   showCheckbox: {
     type: Boolean,
     default: false
-  },
-  indentType: {
-    type: String as PropType<("padding" | "margin")>,
-    default: "padding"
   }
 });
 
@@ -85,10 +81,9 @@ const emit = defineEmits<{
 }>();
 
 const treeContext = inject(TreeInjectionKey)!;
-const indent = 18;
 
 const treeNodeStyle = computed(() => ({
-  [`${props.indentType}Left`]: props.node.level * indent + 'px',
+  '--vir-tree-level': props.node.level,
 }));
 
 const titleCls = computed(() => {
