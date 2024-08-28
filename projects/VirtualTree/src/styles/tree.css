@@ -10,6 +10,7 @@
 }
 
 .vir-tree-node {
+  padding-left: calc(var(--vir-tree-level, 0) * var(--vir-tree-indent, 18px));
   margin: 4px 0;
   line-height: normal;
   font-size: var(--font-size-base);
