@@ -120,12 +120,6 @@ const propData = [
     type: 'VirtualConfig',
     defaultValue: '',
   },
-  {
-    argument: 'indentType',
-    description: '设置用margin还是padding缩进',
-    type: 'margin | padding',
-    defaultValue: 'padding',
-  },
 ];
 const eventData = [
   {
