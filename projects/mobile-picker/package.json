@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "tsc && vite",
-    "preview": "vite preview",
-    "build:dev": "vite build --watch --emptyOutDir=false",
-    "build": "vite build && npm run build:types",
-    "build:types": "tsc --project tsconfig.type.json"
+    "start": "concurrently \"pnpm copyFiles:watch\" \"pnpm build:types:watch\" \"pnpm build:watch\"",
+    "build:watch": "vite build --watch --emptyOutDir=false",
+    "build:types:watch": "tsc --project tsconfig.type.json --watch",
+    "copyFiles:watch": "gulp -f gulpfile.dev.js",
+    "build": "vite build && tsc --project tsconfig.type.json && gulp"
   },
   "files": [
     "dist",
@@ -25,12 +25,18 @@
         "types": "./dist/typings/index.d.ts",
         "default": "./dist/mobile-picker.umd.js"
       }
-    }
+    },
+    "./style.css": "./dist/style.css"
   },
   "homepage": "https://github.com/lycHub",
   "repository": {
     "type": "git",
     "url": "https://github.com/lycHub/ysx-library/blob/master/projects/mobile-picker"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "gulp": "^5.0.0",
+    "gulp-cli": "^3.0.0"
+  }
 }

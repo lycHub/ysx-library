@@ -12,7 +12,7 @@
     "start:playground": "pnpm -C ./projects/playground start",
     "build:playground": "pnpm -C ./projects/playground build",
     "build:picker": "pnpm -C ./projects/mobile-picker build",
-    "build-dev:picker": "pnpm -C ./projects/mobile-picker build:dev"
+    "start:picker": "pnpm -C ./projects/mobile-picker start"
   },
   "keywords": [
     "vue3",
