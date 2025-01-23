@@ -1,0 +1,36 @@
+{
+  "name": "@ysx-libs/mobile-picker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsc && vite",
+    "preview": "vite preview",
+    "build:dev": "vite build --watch --emptyOutDir=false",
+    "build": "vite build && npm run build:types",
+    "build:types": "tsc --project tsconfig.type.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "types": "./dist/typings/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/typings/index.d.ts",
+        "default": "./dist/mobile-picker.es.js"
+      },
+      "require": {
+        "types": "./dist/typings/index.d.ts",
+        "default": "./dist/mobile-picker.umd.js"
+      }
+    }
+  },
+  "homepage": "https://github.com/lycHub",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lycHub/ysx-library/blob/master/projects/mobile-picker"
+  },
+  "license": "MIT"
+}
