@@ -2,10 +2,10 @@ import './style.scss';
 import { Picker } from '@ysx-libs/mobile-picker';
 import { genItems } from './util';
 
-let options = genItems(16);
+let data = [genItems(16)];
 let value: number[] = [];
 
-renderList();
+renderPickerViews();
 renderLabel();
 bindActs();
 const pickerInstance = new Picker('#mobile-picker', {
@@ -29,37 +29,50 @@ function bindActs() {
 }
 
 function changeIndexes() {
-  value = [20];
+  value = [2];
 
   value = pickerInstance.setIndexes(value);
   renderLabel();
 }
 
 function changeList() {
-  options = genItems(5);
-  renderList();
+  data = [genItems(5)];
+  renderPickerViews();
 
-  value = pickerInstance.refresh();
-  renderLabel();
+  pickerInstance.refresh();
+  // renderLabel();
 }
 
 function renderLabel() {
   const valueNode = document.querySelector('.act-box .value span');
   if (valueNode) {
-    const label = value.map((event) => options[event]);
+    const label = value.map((event, index) => data[index][event]);
     valueNode.textContent = label.join('，');
   }
 }
 
-function renderList() {
-  const itemContainer = document.querySelector(
-    '#mobile-picker .mobile-picker-view-item-container'
+function renderPickerViews() {
+  const pickerViewContainer = document.querySelector(
+    '#mobile-picker .mobile-picker-view-container'
   );
-  if (itemContainer) {
-    let childrenStr = '';
-    options.forEach((item) => {
-      childrenStr += `<div class="mobile-picker-view-item">${item}</div>`;
+  if (pickerViewContainer) {
+    let pickerViewStr = '';
+    data.forEach((listItem) => {
+      const itemStr = getListHtmlStr(listItem);
+      pickerViewStr += `<div class="mobile-picker-view">
+          <div class="mobile-picker-view-item-container">
+            ${itemStr}
+          </div>
+        </div>`;
     });
-    itemContainer.innerHTML = childrenStr;
+    pickerViewContainer.innerHTML = pickerViewStr;
   }
+}
+
+function getListHtmlStr(list: string[]) {
+  let str = '';
+  list.forEach((item) => {
+    str += `<div class="mobile-picker-view-item">${item}</div>`;
+  });
+  return str;
 }

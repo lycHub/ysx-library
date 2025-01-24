@@ -19,9 +19,12 @@ export class Picker {
     this.#initPickerView();
   }
 
-  #initPickerView() {
-    //  #pickerViewInstances
+  #initPickerView(value?: number[]) {
+    if (value) {
+      this.innerOptions.selectedIndexes = value;
+    }
     const viewNodes = this.rootNode!.querySelectorAll('.mobile-picker-view');
+    console.log('viewNodes :>> ', viewNodes);
     viewNodes.forEach((item, index) => {
       const viewInstance = new PickerView(item as HTMLElement, {
         ...this.innerOptions,
@@ -59,13 +62,7 @@ export class Picker {
   }
 
   refresh(event?: number[]) {
-    if (event) {
-      this.innerOptions.selectedIndexes = event;
-    }
-    const validIndexes: number[] = [];
-    this.#pickerViewInstances.forEach((item, index) => {
-      validIndexes.push(item.refresh(this.innerOptions.selectedIndexes[index]));
-    });
-    return validIndexes;
+    this.#initPickerView(event);
+    console.log('this.#pickerViewInstances :>> ', this.#pickerViewInstances);
   }
 }

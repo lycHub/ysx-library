@@ -75,6 +75,7 @@ export class PickerView {
 
     this.#init();
     this.#initEvents();
+    this.setIndex(this.options.selectedIndex);
   }
 
   #init() {
@@ -95,12 +96,7 @@ export class PickerView {
       limitMaxScrollY: maxScrollY + this.options.moveThreshold,
     };
 
-    // console.log('metaInfo', this.metaInfo);
-
-    this.innerSelectedIndex = validSelectedIndex(
-      this.options.selectedIndex,
-      this.metaInfo.items!.length - 1
-    );
+    console.log('metaInfo', this.metaInfo);
   }
 
   #initEvents() {
@@ -142,12 +138,13 @@ export class PickerView {
     return validIndex;
   }
 
-  refresh(event: number) {
+  /* refresh(event: number) {
+    console.log('refresh', event);
     this.#transitionDuration();
     this.#needToUpdatedIndex = -1;
     this.#init();
     return this.setIndex(event);
-  }
+  } */
 
   #startHandler(event: PointEventType) {
     const clientCoordinate = getClientCoordinateFromEvent(event);
