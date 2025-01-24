@@ -13,6 +13,7 @@
   ],
   "description": "vanilla playground",
   "dependencies": {
-    "@ysx-libs/mobile-picker": "workspace:*"
+    "@ysx-libs/mobile-picker": "workspace:*",
+    "crypto-random-string": "^5.0.0"
   }
 }

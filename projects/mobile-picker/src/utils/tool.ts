@@ -8,6 +8,11 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
+export function validSelectedIndex(value: number, itemCount: number) {
+  const numValue = value || 0;
+  return clamp(numValue, 0, itemCount);
+}
+
 export function exceedBoundary(value: number, min: number, max: number) {
   return value > max || value < min;
 }

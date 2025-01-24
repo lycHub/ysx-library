@@ -22,11 +22,14 @@ export class Picker {
   #initPickerView() {
     //  #pickerViewInstances
     const viewNodes = this.rootNode!.querySelectorAll('.mobile-picker-view');
-    viewNodes.forEach((item) => {
-      const viewInstance = new PickerView(
-        item as HTMLElement,
-        this.innerOptions
-      );
+    viewNodes.forEach((item, index) => {
+      const viewInstance = new PickerView(item as HTMLElement, {
+        ...this.innerOptions,
+        selectedIndex: this.innerOptions.selectedIndexes[0],
+        onChange: (event) => {
+          this.#handleChange(event, index);
+        },
+      });
       this.#pickerViewInstances.push(viewInstance);
     });
 
@@ -37,5 +40,32 @@ export class Picker {
         `${itemHeight}px`
       );
     }
+  }
+
+  #handleChange(event: number, index: number) {
+    this.innerOptions.selectedIndexes[index] = event;
+    this.innerOptions.onChange?.(this.innerOptions.selectedIndexes);
+  }
+
+  setIndexes(event: number[]) {
+    this.innerOptions.selectedIndexes = event;
+    const validIndexes: number[] = [];
+    event.forEach((item, index) => {
+      if (this.#pickerViewInstances[index]) {
+        validIndexes.push(this.#pickerViewInstances[index].setIndex(item));
+      }
+    });
+    return validIndexes;
+  }
+
+  refresh(event?: number[]) {
+    if (event) {
+      this.innerOptions.selectedIndexes = event;
+    }
+    const validIndexes: number[] = [];
+    this.#pickerViewInstances.forEach((item, index) => {
+      validIndexes.push(item.refresh(this.innerOptions.selectedIndexes[index]));
+    });
+    return validIndexes;
   }
 }

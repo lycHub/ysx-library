@@ -12,12 +12,21 @@ export interface MomentumConfig {
   deceleration: number;
 }
 
-export interface PickerOptions {
-  selectedIndexes: number[];
-  onChange?(event: number[]): void;
+export interface PickerBaseOptions {
   usePointerEvents: boolean;
   scrollShape:
     | PickerDefScrollShape
     | ((y: number, itemHeight: number, items?: NodeList) => void);
   moveThreshold: number;
+  momentum: MomentumConfig | false;
+}
+
+export interface PickerViewOptions extends PickerBaseOptions {
+  selectedIndex: number;
+  onChange(event: number): void;
+}
+
+export interface PickerOptions extends PickerBaseOptions {
+  selectedIndexes: number[];
+  onChange?(event: number[]): void;
 }

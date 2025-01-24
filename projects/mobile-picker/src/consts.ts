@@ -11,6 +11,7 @@ export const DefaultMomentumConfig: MomentumConfig = {
 export const DefaultOptions: PickerOptions = {
   selectedIndexes: [],
   usePointerEvents: false,
-  scrollShape: 'flat',
+  scrollShape: 'scale',
   moveThreshold: 20,
+  momentum: DefaultMomentumConfig,
 };
