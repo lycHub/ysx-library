@@ -1,0 +1,48 @@
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.image {
+  display: inline-block;
+  width: 100%;
+}
+
+.btn-group {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.btn-group.center {
+  justify-content: center;
+}
+
+.btn-group.center.full .btn {
+  flex: 1;
+}
+
+.ellipsis {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.none {
+  display: none;
+}
+
+.inline-auto {
+  margin-inline: auto;
+}
+
+.select-no-pop {
+  display: none;
+}

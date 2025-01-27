@@ -1,3 +1,3 @@
-import { cpCss } from './gulpfile.dev';
+import { cpCss } from './gulpfile.dev.js';
 
 export default cpCss;

@@ -1,4 +1,5 @@
 .mobile-picker {
+  --overlay-color: rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.8);
   --spacing-xs: 6px;
   --picker-overlay-border-color: #e6ebf0;
   position: relative;
@@ -60,22 +61,14 @@
   content: "";
   display: block;
   flex-grow: 1;
-  background: linear-gradient(
-    0,
-    hsla(0, 0%, 100%, 0.4),
-    hsla(0, 0%, 100%, 0.8)
-  );
+  background: linear-gradient(0, var(--overlay-color));
 }
 
 .mobile-picker .mobile-picker-overlay::after {
   content: "";
   display: block;
   flex-grow: 1;
-  background: linear-gradient(
-    180deg,
-    hsla(0, 0%, 100%, 0.4),
-    hsla(0, 0%, 100%, 0.8)
-  );
+  background: linear-gradient(180deg, var(--overlay-color));
 }
 
 .mobile-picker .mobile-picker-overlay .mobile-picker-overlay-mid {

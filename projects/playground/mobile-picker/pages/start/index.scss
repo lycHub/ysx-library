@@ -1,0 +1,12 @@
+
+@import '../../../share/styles/style.scss';
+@import "@ysx-libs/mobile-picker/style.css";
+@import 'highlight.js/styles/default.css';
+
+.page.start {
+  .mobile-picker {
+    --overlay-color: rgba(var(--mdui-color-surface-container), 0.4), rgba(var(--mdui-color-surface-container), 0.8);
+    --picker-overlay-border-color: rgb(var(--mdui-color-surface-variant));
+  }
+}
+

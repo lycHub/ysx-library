@@ -12,21 +12,46 @@ export interface MomentumConfig {
   deceleration: number;
 }
 
+export interface ClickToSelectConfig {
+  duration: number;
+}
+
+export interface InnerClickToSelectConfig extends ClickToSelectConfig {
+  enable: boolean;
+}
+
+export interface MouseWheelConfig {
+  speed: number;
+  discreteTime: number;
+}
+
+export interface InnerMouseWheelConfig extends MouseWheelConfig {
+  enable: boolean;
+}
+
+export type ShapeFunc = (y: number, itemHeight: number, items?: HTMLCollection) => void;
+
 export interface PickerBaseOptions {
   usePointerEvents: boolean;
   scrollShape:
-    | PickerDefScrollShape
-    | ((y: number, itemHeight: number, items?: NodeList) => void);
+  | PickerDefScrollShape
+  | ShapeFunc;
   moveThreshold: number;
   momentum: MomentumConfig | false;
+  itemClassName: string;
+  clickToSelect: boolean | ClickToSelectConfig;
+  mouseWheel: boolean | MouseWheelConfig;
 }
 
+export type ChangeTrigger = 'click' | 'drag' | 'init' | 'api' | 'wheel' | '';
 export interface PickerViewOptions extends PickerBaseOptions {
   selectedIndex: number;
-  onChange(event: number): void;
+  onChange(event: number, trigger: ChangeTrigger): void;
 }
+
+
 
 export interface PickerOptions extends PickerBaseOptions {
   selectedIndexes: number[];
-  onChange?(event: number[]): void;
+  onChange?(event: number[], trigger: ChangeTrigger, colIndex: number): void;
 }

@@ -1,7 +1,7 @@
 {
   "name": "@ysx-libs/mobile-picker",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "start": "concurrently \"pnpm copyFiles:watch\" \"pnpm build:types:watch\" \"pnpm build:watch\"",
@@ -34,6 +34,16 @@
     "url": "https://github.com/lycHub/ysx-library/blob/master/projects/mobile-picker"
   },
   "license": "MIT",
+  "author": {
+    "name": "ysx",
+    "email": "1120805364@qq.com",
+    "url": "https://github.com/lycHub"
+  },
+  "keywords": [
+    "mobile-picker",
+    "typescript"
+  ],
+  "description": "A mobile list picker plugin, use vanilla ts",
   "devDependencies": {
     "concurrently": "^9.1.2",
     "gulp": "^5.0.0",

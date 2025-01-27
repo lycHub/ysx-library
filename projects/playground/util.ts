@@ -5,11 +5,3 @@ export function genItems(length: number) {
     return `${id}-${index + 1}`;
   });
 }
-
-// export function fetchItems(): Promise<SelectOption[][]> {
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve([genItems(16), genItems(5), genItems(2)]);
-//     }, 1000);
-//   });
-// }

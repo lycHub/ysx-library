@@ -11,8 +11,8 @@
     "build:tree": "pnpm -C ./projects/mobile-picker build",
     "start:playground": "pnpm -C ./projects/playground start",
     "build:playground": "pnpm -C ./projects/playground build",
-    "build:picker": "pnpm -C ./projects/mobile-picker build",
-    "start:picker": "pnpm -C ./projects/mobile-picker start"
+    "start:picker": "pnpm -C ./projects/mobile-picker start",
+    "build:picker": "pnpm -C ./projects/mobile-picker build"
   },
   "keywords": [
     "vue3",

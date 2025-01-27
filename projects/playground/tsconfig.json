@@ -20,5 +20,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["portal", "pages", "vite-env.d.ts"],
+  "exclude": ["backup"],
 }

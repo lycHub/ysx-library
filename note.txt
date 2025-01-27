@@ -6,3 +6,6 @@ build并发布demo：
 pnpm build:demo
 
 发布：pnpm publish -F @ysx-libs/vue-virtual-tree --access=public --git-checks=false
+
+
+github设置代理：https://blog.csdn.net/HD243608836/article/details/127869482

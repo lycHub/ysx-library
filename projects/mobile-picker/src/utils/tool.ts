@@ -36,8 +36,17 @@ export function momentum(
   return Math.round(destination);
 }
 
-const DefItemRotate = 25;
+const DefItemRotate = 15;
 const DefItemScale = 0.1;
+
+export function flatItems(items?: HTMLCollection) {
+  if (!items?.length) return;
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < items.length; index++) {
+    const item = items[index] as HTMLDivElement;
+    item.style.transform = 'none';
+  }
+}
 
 function scaleItems(y: number, itemHeight: number, items?: HTMLCollection) {
   if (!items?.length) return;

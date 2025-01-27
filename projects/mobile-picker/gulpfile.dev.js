@@ -1,5 +1,5 @@
 import { src, dest, watch } from 'gulp';
-export function cpCss(cb) {
+export function cpCss() {
   return src('src/style.css').pipe(dest('dist'));
 }
 

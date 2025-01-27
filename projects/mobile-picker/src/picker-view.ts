@@ -4,19 +4,25 @@ import {
   PointEventType,
   PickerDefScrollShape,
   PickerViewOptions,
+  InnerMouseWheelConfig,
+  InnerClickToSelectConfig,
+  ShapeFunc,
+  ChangeTrigger,
 } from './types';
 import {
   clamp,
   DraggingCls,
   DragStartCls,
   exceedBoundary,
+  flatItems,
   momentum,
   ScrollShapeStrategies,
   validSelectedIndex,
 } from './utils/tool';
 import { getClientCoordinateFromEvent } from './utils/coordinateFromEvent';
 import { isFunction } from './utils/is';
-import { DefaultMomentumConfig, TransitionDurationForFix } from './consts';
+import { DefaultClickToSelectConfig, DefaultMomentumConfig, DefaultMouseWheelConfig, TransitionDurationForFix } from './consts';
+import { closest, index } from './utils/dom';
 
 interface MetaInfo {
   itemContainer?: HTMLElement;
@@ -37,7 +43,6 @@ interface DragStartInfo {
 
 export class PickerView {
   #inTransition = false;
-  #needToUpdatedIndex = -1;
   #currentY = 0;
   #ownDocument: ValueOrNull<Document> = null;
   metaInfo: MetaInfo = {
@@ -50,19 +55,30 @@ export class PickerView {
   };
   #dragStartInfo: ValueOrNull<DragStartInfo> = null;
 
+
   #moveEventController: ValueOrNull<AbortController> = null;
   #endEventController: ValueOrNull<AbortController> = null;
+
+  #startEventController: ValueOrNull<AbortController> = null;
   #transitionEndEventController: ValueOrNull<AbortController> = null;
+  #wheelEventController: ValueOrNull<AbortController> = null;
 
   readonly #canPointer: boolean;
   readonly #momentumConfig: PickerViewOptions['momentum'];
   innerSelectedIndex = 0;
+  #wheelEndTimer = 0;
+  readonly #innerClickToSelectConfig: InnerClickToSelectConfig;
+  readonly #innerMouseWheelConfig: InnerMouseWheelConfig;
+  readonly #innerScrollShape: ValueOrNull<ShapeFunc> = null;
+  #changeTrigger: ChangeTrigger = '';
+
+
 
   constructor(
     readonly rootNode: HTMLElement,
     readonly options: PickerViewOptions
   ) {
-    // console.log('PickerView', options);
+    // console.log('PickerView', rootNode, options);
 
     this.#canPointer = options.usePointerEvents
       ? 'PointerEvent' in window && (!Safari || IOS)
@@ -73,9 +89,66 @@ export class PickerView {
         ? false
         : { ...DefaultMomentumConfig, ...options.momentum };
 
+    this.#innerClickToSelectConfig = this.#getClickToSelectConfig(options.clickToSelect);
+    this.#innerMouseWheelConfig = this.#getMouseWheelConfig(options.mouseWheel);
     this.#init();
     this.#initEvents();
+    this.#changeTrigger = 'init';
     this.setIndex(this.options.selectedIndex);
+
+    const { items, itemHeight } = this.metaInfo;
+    if (items) {
+      this.#innerScrollShape = this.#getScrollShape(options.scrollShape, items);
+      if (this.#innerScrollShape) {
+        this.#innerScrollShape(this.#currentY, itemHeight, items);
+      } else {
+        flatItems(items);
+      }
+    }
+  }
+
+  #getClickToSelectConfig(data: PickerViewOptions['clickToSelect']) {
+    if (data) {
+      return data === true ? {
+        ...DefaultClickToSelectConfig,
+        enable: true
+      } : {
+        ...DefaultClickToSelectConfig,
+        ...data,
+        enable: true
+      }
+    }
+    return {
+      ...DefaultClickToSelectConfig,
+      enable: false
+    }
+  }
+
+  #getMouseWheelConfig(data: PickerViewOptions['mouseWheel']) {
+    if (data) {
+      return data === true ? {
+        ...DefaultMouseWheelConfig,
+        enable: true
+      } : {
+        ...DefaultMouseWheelConfig,
+        ...data,
+        enable: true
+      }
+    }
+    return {
+      ...DefaultMouseWheelConfig,
+      enable: false
+    }
+  }
+
+  #getScrollShape(scrollShape: PickerViewOptions['scrollShape'], items: HTMLCollection) {
+    let strategy: ValueOrNull<ShapeFunc> = ScrollShapeStrategies.flat;
+    if (items?.length > 3) {
+      strategy = isFunction(scrollShape)
+        ? scrollShape
+        : ScrollShapeStrategies[scrollShape as PickerDefScrollShape];
+    }
+    return strategy;
   }
 
   #init() {
@@ -96,55 +169,134 @@ export class PickerView {
       limitMaxScrollY: maxScrollY + this.options.moveThreshold,
     };
 
-    console.log('metaInfo', this.metaInfo);
+
+
+
+    // console.log('metaInfo', this.metaInfo);
   }
 
   #initEvents() {
+    this.#startEventController = new AbortController();
     if (this.#canPointer) {
       this.rootNode.addEventListener(
         'pointerdown',
-        this.#startHandler.bind(this)
+        this.#startHandler.bind(this),
+        {
+          signal: this.#startEventController?.signal,
+        }
       );
     } else {
       this.rootNode.addEventListener(
         'touchstart',
-        this.#startHandler.bind(this)
+        this.#startHandler.bind(this),
+        {
+          signal: this.#startEventController?.signal,
+        }
       );
       this.rootNode.addEventListener(
         'mousedown',
-        this.#startHandler.bind(this)
+        this.#startHandler.bind(this),
+        {
+          signal: this.#startEventController?.signal,
+        }
       );
     }
 
+    this.#transitionEndEventController = new AbortController();
     this.metaInfo.itemContainer!.addEventListener(
       'transitionend',
-      this.#transitionEndHandler.bind(this)
+      this.#transitionEndHandler.bind(this),
+      {
+        signal: this.#transitionEndEventController?.signal,
+      }
     );
+
+    const { enable, duration } = this.#innerClickToSelectConfig;
+
+    if (enable) {
+      const { itemClassName } = this.options;
+      this.rootNode.addEventListener('click', event => {
+        const itemNode = closest(event.target as HTMLElement, '.' + itemClassName);
+        if (itemNode) {
+          const i = index(itemNode, '.' + itemClassName);
+          this.#changeTrigger = 'click';
+          this.setIndex(i, duration);
+        }
+      });
+    }
+
+    if (this.#innerMouseWheelConfig.enable) {
+      this.#wheelEventController = new AbortController();
+      this.rootNode.addEventListener('wheel', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.#wheelHandler(event);
+      }, {
+        signal: this.#wheelEventController?.signal
+      });
+    }
+
   }
 
-  setIndex(event: number) {
+  #wheelHandler(event: WheelEvent) {
+    const { deltaY, deltaMode, } = event;
+    let wheelY = 0;
+    if (deltaMode === 1) {
+      wheelY = -deltaY * this.#innerMouseWheelConfig.speed;
+    } else {
+      wheelY = -deltaY
+    }
+    // console.log('object :>> ', y);
+    const { limitMinScrollY, limitMaxScrollY, minScrollY, maxScrollY } = this.metaInfo;
+    let newY = this.#currentY + wheelY;
+
+    if (exceedBoundary(newY, minScrollY, maxScrollY)) {
+      newY = clamp(
+        this.#currentY + wheelY / 3,
+        limitMinScrollY,
+        limitMaxScrollY
+      );
+    }
+
+    this.#transitionDuration(300);
+    this.#transitionY(newY);
+    // console.log('newY>>>', newY, limitMinScrollY);
+    this.#wheelEndDetector();
+  }
+  #wheelEndDetector() {
+    window.clearTimeout(this.#wheelEndTimer)
+    this.#wheelEndTimer = window.setTimeout(() => {
+      const { index, y } = this.#findNearestItem(this.#currentY);
+      const { limitMinScrollY, limitMaxScrollY } = this.metaInfo;
+      const newY = clamp(y, limitMinScrollY, limitMaxScrollY);
+      this.#transitionDuration(TransitionDurationForFix);
+      this.#transitionY(newY);
+      this.#changeTrigger = 'wheel';
+      this.#handleChange(index);
+
+    }, this.#innerMouseWheelConfig.discreteTime)
+  }
+
+  #handleChange(index: number) {
+    this.#saveIndex(index);
+    this.options.onChange(index, this.#changeTrigger);
+  }
+
+  setIndex(event: number, duration = 0) {
     if (!this.metaInfo.items?.length) return this.innerSelectedIndex;
+    this.#changeTrigger = this.#changeTrigger || 'api';
     const validIndex = validSelectedIndex(
       event,
       this.metaInfo.items.length - 1
     );
     if (this.innerSelectedIndex !== validIndex) {
-      this.#transitionDuration();
-      this.#needToUpdatedIndex = -1;
-      this.#saveIndex(validIndex);
+      this.#transitionDuration(duration);
       const y = this.#findYByIndex(validIndex);
       this.#transitionY(y);
+      this.#handleChange(validIndex);
     }
     return validIndex;
   }
-
-  /* refresh(event: number) {
-    console.log('refresh', event);
-    this.#transitionDuration();
-    this.#needToUpdatedIndex = -1;
-    this.#init();
-    return this.setIndex(event);
-  } */
 
   #startHandler(event: PointEventType) {
     const clientCoordinate = getClientCoordinateFromEvent(event);
@@ -152,7 +304,6 @@ export class PickerView {
       return;
     }
     this.#transitionDuration();
-    this.#needToUpdatedIndex = -1;
 
     this.rootNode.classList.add(DragStartCls);
 
@@ -167,7 +318,6 @@ export class PickerView {
     this.#ownDocument = target.ownerDocument;
     this.#moveEventController = new AbortController();
     this.#endEventController = new AbortController();
-    this.#transitionEndEventController = new AbortController();
 
     if (this.#canPointer) {
       this.rootNode.setPointerCapture((event as PointerEvent).pointerId);
@@ -299,10 +449,11 @@ export class PickerView {
     // console.log('end newY', index, newY);
 
     if (newY !== this.#currentY) {
+      this.#changeTrigger = 'drag';
       newY = clamp(newY, limitMinScrollY, limitMaxScrollY);
       this.#transitionDuration(duration);
       this.#transitionY(newY);
-      this.#needToUpdatedIndex = selectedIndex;
+      this.#handleChange(selectedIndex);
     }
     this.#cleanup();
   }
@@ -312,12 +463,7 @@ export class PickerView {
     //  todo: onScrollEnd
     const fixedY = this.#fixedBoundaryPosition();
     if (fixedY === null) {
-      this.#transitionDuration(0);
-      if (this.#needToUpdatedIndex > -1) {
-        this.#saveIndex(this.#needToUpdatedIndex);
-        this.options.onChange(this.#needToUpdatedIndex);
-        this.#needToUpdatedIndex = -1;
-      }
+      this.#transitionDuration();
     } else {
       this.#transitionDuration(TransitionDurationForFix);
       this.#transitionY(fixedY);
@@ -374,31 +520,32 @@ export class PickerView {
     this.rootNode.style.setProperty('--picker-transit-y', `${y}px`);
     this.#currentY = y;
     const { items, itemHeight } = this.metaInfo;
-    const { scrollShape } = this.options;
-    let strategy: ValueOrNull<
-      (y: number, itemHeight: number, items?: HTMLCollection) => void
-    > = ScrollShapeStrategies.flat;
-    if (items!.length > 3) {
-      strategy = isFunction(scrollShape)
-        ? scrollShape
-        : ScrollShapeStrategies[scrollShape as PickerDefScrollShape];
-    }
-    if (strategy) {
-      strategy(y, itemHeight, items);
+    if (this.#innerScrollShape) {
+      this.#innerScrollShape(y, itemHeight, items);
     }
   }
 
   #cleanup() {
+    console.log('cleanup');
     this.rootNode.classList.remove(DragStartCls);
     this.rootNode.classList.remove(DraggingCls);
     this.#dragStartInfo = null;
 
-    this.#moveEventController!.abort();
-    this.#endEventController!.abort();
-    this.#transitionEndEventController!.abort();
+    this.#moveEventController?.abort();
     this.#moveEventController = null;
+
+    this.#endEventController?.abort();
     this.#endEventController = null;
+  }
+
+  destroy() {
+    this.#cleanup();
+    this.#startEventController?.abort();
+    this.#startEventController = null;
+    this.#transitionEndEventController?.abort();
     this.#transitionEndEventController = null;
-    // todo: 解绑transitionEnd 和 start
+    this.#wheelEventController?.abort();
+    this.#wheelEventController = null;
+    this.#changeTrigger = '';
   }
 }

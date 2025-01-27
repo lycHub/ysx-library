@@ -1,0 +1,49 @@
+:root {
+  color-scheme: auto;
+  interpolate-size: allow-keywords;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-size: var(--mdui-typescale-title-small-size);
+  color: var(--mdui-color-on-background);
+  font-weight: var(--mdui-typescale-display-large-weight);
+  background-color: rgb(var(--mdui-color-surface-container));
+  letter-spacing: var(--mdui-typescale-body-large-tracking);
+
+  /* 禁用自带的下拉刷新，微信内嵌浏览器似乎没这个行为 */
+
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /*  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left); */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.2s;
+}

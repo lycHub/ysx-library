@@ -1,0 +1,14 @@
+
+@import '../../../share/styles/style.scss';
+@import "@ysx-libs/mobile-picker/style.css";
+
+.page.intro {
+  .mobile-picker {
+    --overlay-color: rgba(var(--mdui-color-surface-container), 0.4), rgba(var(--mdui-color-surface-container), 0.8);
+    --picker-overlay-border-color: rgb(var(--mdui-color-surface-variant));
+  }
+ ol {
+    line-height: 1.8;
+  }
+}
+
