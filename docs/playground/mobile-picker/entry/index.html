@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/ysx-library/docs/playground/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile Picker</title>
+  <script type="module" crossorigin src="/ysx-library/docs/playground/assets/mobilePicker.5bbee9f3.js"></script>
+  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/modulepreload-polyfill.b7f2da20.js">
+  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/tabs.e162c8ee.js">
+  <link rel="stylesheet" href="/ysx-library/docs/playground/assets/mobilePicker.bca69116.css">
+</head>
+
+<body>
+  <div id="mobile-picker">
+    <header class="header">
+      <div class="header-left">
+        <div class="ico ico-menu"><mdui-icon-menu class="ico" /></div>
+        <div class="title">Mobile Picker</div>
+      </div>
+      <div class="header-right">
+        <mdui-dropdown id="theme-dropdown">
+          <div class="theme-dropdown-trigger" slot="trigger"></div>
+       
+          <mdui-menu class="theme-dropdown-menu">
+            <mdui-menu-item data-theme="light">亮色</mdui-menu-item>
+            <mdui-menu-item data-theme="dark">暗色</mdui-menu-item>
+            <mdui-menu-item data-theme="auto">系统</mdui-menu-item>
+          </mdui-menu>
+        </mdui-dropdown>
+      
+        <mdui-dropdown id="components-dropdown">
+          <div class="components-dropdown-trigger" slot="trigger">
+            <mdui-icon-subject class="ico ico-subject"></mdui-icon-subject>
+          </div>
+         
+       
+          <mdui-menu class="components-dropdown-menu">
+            <mdui-menu-item target="_blank" href="//github.com/lycHub/ysx-library/blob/master/projects/VirtualTree/README.md">vue virtual tree</mdui-menu-item>
+            <mdui-list-item headline="mobile picker" active></mdui-list-item>
+          </mdui-menu>
+        </mdui-dropdown>
+       
+        <a class="link" href="//github.com/lycHub/ysx-library" target="_blank">
+          <mdui-icon class="ico" src="/public/github.svg" />
+        </a>
+        
+      </div>
+    </header>
+
+    <mdui-navigation-drawer close-on-overlay-click close-on-esc modal class="aside-drawer">
+      <mdui-list class="aside-menu h-full">
+        <mdui-list-subheader class="aside-menu-header">
+          <b>Mobile Picker</b>
+          <mdui-icon-menu-open class="ico ico-close" />
+        </mdui-list-subheader>
+        <mdui-collapse class="aside-menu-body" accordion>
+          <mdui-collapse-item class="aside-menu-item" value="guide">
+            <mdui-list-item class="aside-menu-item-header" slot="header">
+              <span>指南</span>
+              <mdui-icon-near-me slot="icon"></mdui-icon-near-me>
+              <mdui-icon-arrow-drop-down slot="end-icon"></mdui-icon-arrow-drop-down>
+            </mdui-list-item>
+            <div class="aside-menu-item-body">
+              <mdui-list-item class="aside-menu-item-content" data-parent="guide" data-value="intro">简介</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="guide" data-value="start">快速开始</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="guide" data-value="faq">常见问题</mdui-list-item>
+            </div>
+          </mdui-collapse-item>
+          <mdui-collapse-item class="aside-menu-item" value="demo">
+            <mdui-list-item  slot="header">
+              <span>示例</span>
+              <mdui-icon-layers slot="icon"></mdui-icon-layers>
+              <mdui-icon-arrow-drop-down slot="end-icon"></mdui-icon-arrow-drop-down>
+            </mdui-list-item>
+            <div class="aside-menu-item-body">
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="simple">基本使用</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="clickToSelect">点击选择</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="mousewheel">鼠标滚轮</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="scrollShape">滚动样式</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="controlValue">默认和修改值</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="refreshList">刷新列表</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="multiCols">多列picker</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="comprehensive">综合示例</mdui-list-item>
+            </div>
+          </mdui-collapse-item>
+          <mdui-collapse-item class="aside-menu-item" value="api">
+            <mdui-list-item  slot="header">
+              <span>Api</span>
+              <mdui-icon-functions slot="icon"></mdui-icon-functions>
+              <mdui-icon-arrow-drop-down slot="end-icon"></mdui-icon-arrow-drop-down>
+            </mdui-list-item>
+            <div class="aside-menu-item-body">
+              <mdui-list-item class="aside-menu-item-content" data-parent="api" data-value="options">选项 1</mdui-list-item>
+              <mdui-list-item class="aside-menu-item-content" data-parent="api" data-value="methods">方法</mdui-list-item>
+            </div>
+          </mdui-collapse-item>
+        </mdui-collapse>
+      </mdui-list>
+    
+    </mdui-navigation-drawer>
+
+    <main class="main">
+      <aside class="aside">
+        <mdui-list class="aside-menu h-full">
+          <mdui-collapse class="aside-menu-body" accordion>
+            <mdui-collapse-item class="aside-menu-item" value="guide">
+              <mdui-list-item class="aside-menu-item-header" slot="header">
+                <span>指南</span>
+                <mdui-icon-near-me slot="icon"></mdui-icon-near-me>
+                <mdui-icon-arrow-drop-down slot="end-icon"></mdui-icon-arrow-drop-down>
+              </mdui-list-item>
+              <div class="aside-menu-item-body">
+                <mdui-list-item class="aside-menu-item-content" data-parent="guide" data-value="intro">简介</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="guide" data-value="start">快速开始</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="guide" data-value="faq">常见问题</mdui-list-item>
+              </div>
+            </mdui-collapse-item>
+            <mdui-collapse-item class="aside-menu-item" value="demo">
+              <mdui-list-item  slot="header">
+                <span>示例</span>
+                <mdui-icon-layers slot="icon"></mdui-icon-layers>
+                <mdui-icon-arrow-drop-down slot="end-icon"></mdui-icon-arrow-drop-down>
+              </mdui-list-item>
+              <div class="aside-menu-item-body">
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="simple">基本使用</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="clickToSelect">点击选择</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="mousewheel">鼠标滚轮</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="scrollShape">滚动样式</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="controlValue">默认和修改值</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="refreshList">刷新列表</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="multiCols">多列picker</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="demo" data-value="comprehensive">综合示例</mdui-list-item>
+              </div>
+            </mdui-collapse-item>
+            <mdui-collapse-item class="aside-menu-item" value="api">
+              <mdui-list-item  slot="header">
+                <span>Api</span>
+                <mdui-icon-functions slot="icon"></mdui-icon-functions>
+                <mdui-icon-arrow-drop-down slot="end-icon"></mdui-icon-arrow-drop-down>
+              </mdui-list-item>
+              <div class="aside-menu-item-body">
+                <mdui-list-item class="aside-menu-item-content" data-parent="api" data-value="options">选项</mdui-list-item>
+                <mdui-list-item class="aside-menu-item-content" data-parent="api" data-value="methods">方法</mdui-list-item>
+              </div>
+            </mdui-collapse-item>
+          </mdui-collapse>
+        </mdui-list>
+      </aside>
+      <div class="content">
+        <iframe name="frame" class="iframe w-full h-full" src="../pages/simple/" frameborder="0"></iframe>
+  
+      </div>
+    </main>
+
+ 
+  </div>
+  
+</body>
+
+</html>

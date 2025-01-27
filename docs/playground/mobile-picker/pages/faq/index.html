@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/ysx-library/docs/playground/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>常见问题</title>
+  <script type="module" crossorigin src="/ysx-library/docs/playground/assets/modulepreload-polyfill.b7f2da20.js"></script>
+  <link rel="stylesheet" href="/ysx-library/docs/playground/assets/faq.84aa7915.css">
+</head>
+
+<body>
+  <div class="page faq">
+    <section class="sec">
+      <div class="sec-header">
+        <h2>收费吗？</h2>
+      </div>
+      <div class="sec-body">
+        完全开源
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-header">
+        <h2>为社么要写模板代码？</h2>
+      </div>
+      <div class="sec-body">
+        插件确实可以设计成在new picker()内部生成默认的模板，但这缺乏样式的定制性，所以在入口文件导入内置的样式，然后在html中写模板是更好的选择。
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-header">
+        <h2>点击选择无效？</h2>
+      </div>
+      <div class="sec-body">
+        clickToSelect = true后，
+        内部的click事件是绑在".mobile-picker-view"上的, 
+        也就是".mobile-picker-view-item"的父元素上的，而不是item本身。
+        然后通过itemClassName(默认"mobile-picker-view-item")的值来锁定具体item。
+        所以此功能无效的原因可能是：
+        
+        <ol>
+          <li>item原生绑定了click事件并阻止了冒泡</li>
+          <li>改变了item的classname并且没有正确设置itemClassName</li>
+        </ol>
+      </div>
+    </section>
+   
+    <section class="sec">
+      <div class="sec-header">
+        <h2>scrollShape 在快速滚动时样式有点奇怪？</h2>
+      </div>
+      <div class="sec-body">
+        scrollShape = 'scale' | 'rotate' 时会有这个问题，还没想到更合理的实现，欢迎pr.
+      </div>
+    </section>
+  </div>
+  
+  
+</body>
+
+</html>

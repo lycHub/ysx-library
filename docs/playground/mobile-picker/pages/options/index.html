@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/ysx-library/docs/playground/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>选项</title>
+  <script type="module" crossorigin src="/ysx-library/docs/playground/assets/modulepreload-polyfill.b7f2da20.js"></script>
+  <link rel="stylesheet" href="/ysx-library/docs/playground/assets/main.045b8c75.css">
+</head>
+
+<body>
+  <div class="page options">
+    <section class="sec">
+      <div class="sec-header">
+        <h2>选项</h2>
+      </div>
+      <div class="sec-body">
+        <ul>
+          <li>selectedIndexes：选中的索引值，默认"[]"</li>
+          <li>onChange?(event: number[], trigger: ChangeTrigger, colIndex: number): void：每一列的值变化时触发，参数分别为最新值、触发方式、哪一列引起的变化</li>
+          <li>usePointerEvents：是否使用pointer events，默认false;</li>
+          <li>scrollShape：内置三种滚动样式'scale' | 'flat' | 'rotate'，默认scale，也可传一个函数(ShapeFunc)自定义</li>
+          <li>moveThreshold：滚动到边界的阈值，默认20</li>
+          <li>momentum：惯性滚动的配置，不建议改</li>
+          <li>itemClassName：item类名"mobile-picker-view-item", 与clickToSelect功能有关</li>
+          <li>clickToSelect：点击选择, 默认false, 需要正确设置itemClassName</li>
+          <li>mouseWheel：滚轮选择, 默认false</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  
+  
+</body>
+
+</html>
