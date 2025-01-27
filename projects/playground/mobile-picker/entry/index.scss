@@ -1,0 +1,107 @@
+@use '../../share/styles/var.scss' as var;
+@import '../../share/styles/style.scss';
+
+#mobile-picker {
+  height: 100%;
+  overflow-y: auto;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(var(--mdui-color-surface-container));
+    position: sticky;
+    top: 0;
+    padding: 16px;
+    box-shadow: var(--mdui-elevation-level1);
+    .ico {
+      font-size: 30px;
+      vertical-align: -0.1em;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      column-gap: 8px;
+      cursor: pointer;
+     
+      .title {
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      column-gap: 16px;
+      cursor: pointer;
+
+      .components-dropdown-menu {
+        width: 200px;
+      }
+      .link {
+        color: inherit;
+      }
+    }
+  }
+
+  .aside-menu {
+    --mdui-typescale-label-small-size: 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // background-color: rgb(var(--mdui-color-surface-container));
+    }
+    &-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      .aside-menu-item {
+        &-header {
+          mdui-icon-arrow-drop-down {
+            transition: transform var(--mdui-motion-duration-medium1);
+          }
+        }
+        &-body {
+          padding-left: 2.5rem;
+        }
+      }
+      .aside-menu-item.opened {
+        mdui-icon-arrow-drop-down {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+
+  .main {
+    display: flex;
+    height: calc(100% - 66.5px);
+    overflow: hidden;
+    .aside {
+      display: none;
+      width: 250px;
+      flex-shrink: 0;
+    }
+    .content {
+      flex-grow: 1;
+    }
+  }
+}
+
+@media screen and (min-width: var.$breakpoint-lg) {
+  #mobile-picker  {
+    .header {
+      &-left {
+        .ico-menu {
+          display: none;
+        }
+      }
+    }
+    .main {
+      .aside {
+        display: block;
+      }
+    }
+  }
+}

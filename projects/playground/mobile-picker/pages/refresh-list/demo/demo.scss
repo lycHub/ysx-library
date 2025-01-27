@@ -1,0 +1,7 @@
+@import "@ysx-libs/mobile-picker/style.css";
+
+.mobile-picker {
+  --picker-container-height: 380px;
+  --overlay-color: rgba(var(--mdui-color-surface-container), 0.4), rgba(var(--mdui-color-surface-container), 0.8);
+  --picker-overlay-border-color: rgb(var(--mdui-color-surface-variant));
+}

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>综合示例</title>
+</head>
+
+<body>
+  <div class="page demo simple">
+    <mdui-card class="demo-card" variant="outlined">
+      <div class="demo-card-top">
+        <div>
+          <button id="refresh-all">刷新所有列表</button>
+        <button id="refresh-two">刷新第二列</button>
+        <button id="refresh-two-select">刷新第二列并选中第4项</button>
+        </div>
+        <div class="value">选中的项: <span></span></div>
+       </div>
+        <!-- picker start 根元素 -->
+      <div class="demo-card-mid mobile-picker">
+        <!-- picker view 容器 -->
+       <div class="mobile-picker-view-container">
+  
+          <!-- <div class="mobile-picker-view">
+          <div class="mobile-picker-view-item-container">
+            <div class="mobile-picker-view-item">item1</div>
+          </div>
+        </div> -->
+       </div>
+  
+       <!-- 蒙层 -->
+       <div class="mobile-picker-overlay">
+         <div class="mobile-picker-overlay-mid"></div>
+       </div>
+     </div>
+      <!-- picker end -->
+  
+     <div class="demo-card-bottom">
+      <mdui-tabs class="dcb-tabs" value="js">
+        <mdui-tab value="js">js</mdui-tab>
+        <mdui-tab value="html">html</mdui-tab>
+        <mdui-tab value="css">css</mdui-tab>
+        <mdui-tab value="util">util</mdui-tab>
+      
+    
+        <mdui-tab-panel class="demo-code-content" slot="panel" value="js">
+          <pre><code class="language-ts"></code></pre>
+        </mdui-tab-panel>
+        <mdui-tab-panel class="demo-code-content" slot="panel" value="html">
+          <pre><code class="language-html"></code></pre>
+        </mdui-tab-panel>
+        <mdui-tab-panel class="demo-code-content" slot="panel" value="css">
+          <pre><code class="language-scss"></code></pre>
+        </mdui-tab-panel>
+        <mdui-tab-panel class="demo-code-content" slot="panel" value="util">
+          <pre><code class="language-ts"></code></pre>
+        </mdui-tab-panel>
+      </mdui-tabs>
+      </div>
+    </mdui-card>
+  </div>
+  
+  <script type="module" src="./index.ts"></script>
+</body>
+
+</html>
