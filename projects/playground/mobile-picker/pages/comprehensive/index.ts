@@ -1,5 +1,6 @@
 import './index.scss';
 import './demo/demo.scss';
+import 'mdui/components/button';
 import 'mdui/components/card';
 import 'mdui/components/tabs';
 import 'mdui/components/tab';

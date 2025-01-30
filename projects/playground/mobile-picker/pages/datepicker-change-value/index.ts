@@ -1,5 +1,6 @@
 import './index.scss';
 import './demo/demo.scss';
+import 'mdui/components/text-field';
 import 'mdui/components/button';
 import 'mdui/components/card';
 import 'mdui/components/tabs';
@@ -17,15 +18,17 @@ hljs.registerLanguage('scss', scss);
 
 import htmlStr from './index.html?raw';
 import cssStr from './demo/demo.scss?raw';
+import types from '../../types/date-picker.ts?raw';
+import utils from '../../utils/date.ts?raw';
 import jsStr from './demo/demo.ts?raw';
-import utilStr from '../../../util.ts?raw';
 import { run } from './demo/demo';
 
 const codeMap = {
   html: htmlStr,
   css: cssStr,
   js: jsStr,
-  util: utilStr
+  types,
+  utils
 }
 
 
@@ -36,8 +39,6 @@ function renderCode() {
   tabContents.forEach((tabContent) => {
     tabContent.querySelector('pre code')!.textContent = codeMap[tabContent.value as keyof typeof codeMap];
   });
-
-
 }
 
 

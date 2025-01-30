@@ -12,6 +12,9 @@ export const MenuItemList = [
   { value: 'multiCols', label: '多列picker', parent: 'demo', path: 'multi-cols' },
   { value: 'comprehensive', label: '综合示例', parent: 'demo', path: 'comprehensive' },
   { value: 'datepicker', label: 'DatePicker', parent: 'demo', path: 'datepicker' },
+  { value: 'datepickerChangeValue', label: 'DatePicker(改变值)', parent: 'demo', path: 'datepicker-change-value' },
+  { value: 'datepickerFreeColumns', label: 'DatePicker(自由列)', parent: 'demo', path: 'datepicker-free-columns' },
+  { value: 'datepickerFilterColumns', label: 'DatePicker(过滤列)', parent: 'demo', path: 'datepicker-filter-columns' },
 
   { value: 'options', label: '选项', parent: 'api', path: 'options' },
   { value: 'methods', label: '方法', parent: 'api', path: 'methods' },

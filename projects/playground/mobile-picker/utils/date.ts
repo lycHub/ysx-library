@@ -47,6 +47,7 @@ function genYears(
   selected: Date,
   filter: DateFilterFunc,
 ): GenRes {
+  // todo: 当用户传的value和filter冲突时，是否需要校验selected是否在data中？
   return {
     selected: getYear(selected).toString(),
     data: getDateRangeEnum(1970, 2099, selected, filter),
@@ -134,6 +135,23 @@ export function valueToDate(formattedValue: FormattedValue[]): Date {
 }
 
 
+export function updateMonth(
+  formattedValue: FormattedValue[],
+  filter: DateFilterFunc,
+) {
+  const y = +formattedValue.find((item) => item.type === 'y')!.value;
+  const newOptions = getDateRangeEnum(1, 12, new Date(y), filter);
+  const currentMonthValue = formattedValue.find((item) => item.type === 'M')!.value;
+  const newIndex = newOptions.findIndex(item => item === currentMonthValue);
+  const newValue = newIndex > -1 ? newOptions[newIndex] : newOptions[0];
+  return {
+    newValue,
+    newIndex: Math.max(newIndex, 0),
+    newOptions,
+    valueChanged: newValue !== currentMonthValue,
+  };
+}
+
 export function updateDay(
   formattedValue: FormattedValue[],
   filter?: DateFilterFunc,
@@ -142,13 +160,73 @@ export function updateDay(
   const M = +formattedValue.find((item) => item.type === 'M')!.value - 1;
   const days = getDaysInMonth(new Date(y, M));
   const newOptions = getDateRangeEnum(1, days, new Date(y, M), filter);
-  const d = formattedValue.find((item) => item.type === 'd')!.value;
-  const newIndex = newOptions.findIndex(item => item === d);
+  const currentDayValue = formattedValue.find((item) => item.type === 'd')!.value;
+  const newIndex = newOptions.findIndex(item => item === currentDayValue);
   const newValue = newIndex > -1 ? newOptions[newIndex] : newOptions[0];
   return {
     newValue,
     newIndex: Math.max(newIndex, 0),
     newOptions,
-    valueChanged: newValue !== d,
+    valueChanged: newValue !== currentDayValue,
+  };
+}
+
+export function updateHour(
+  formattedValue: FormattedValue[],
+  filter: DateFilterFunc,
+) {
+  const y = +formattedValue.find((item) => item.type === 'y')!.value;
+  const M = +formattedValue.find((item) => item.type === 'M')!.value - 1;
+  const d = +formattedValue.find((item) => item.type === 'd')!.value;
+  const newOptions = getDateRangeEnum(0, 23, new Date(y, M, d), filter);
+  const currentHourValue = formattedValue.find((item) => item.type === 'H')!.value;
+  const newIndex = newOptions.findIndex(item => item === currentHourValue);
+  const newValue = newIndex > -1 ? newOptions[newIndex] : newOptions[0];
+  return {
+    newValue,
+    newIndex: Math.max(newIndex, 0),
+    newOptions,
+    valueChanged: newValue !== currentHourValue,
+  };
+}
+
+export function updateMinute(
+  formattedValue: FormattedValue[],
+  filter: DateFilterFunc,
+) {
+  const y = +formattedValue.find((item) => item.type === 'y')!.value;
+  const M = +formattedValue.find((item) => item.type === 'M')!.value - 1;
+  const d = +formattedValue.find((item) => item.type === 'd')!.value;
+  const H = +formattedValue.find((item) => item.type === 'H')!.value;
+  const newOptions = getDateRangeEnum(0, 59, new Date(y, M, d, H), filter);
+  const currentMinuteValue = formattedValue.find((item) => item.type === 'm')!.value;
+  const newIndex = newOptions.findIndex(item => item === currentMinuteValue);
+  const newValue = newIndex > -1 ? newOptions[newIndex] : newOptions[0];
+  return {
+    newValue,
+    newIndex: Math.max(newIndex, 0),
+    newOptions,
+    valueChanged: newValue !== currentMinuteValue,
+  };
+}
+
+export function updateSecond(
+  formattedValue: FormattedValue[],
+  filter: DateFilterFunc,
+) {
+  const y = +formattedValue.find((item) => item.type === 'y')!.value;
+  const M = +formattedValue.find((item) => item.type === 'M')!.value - 1;
+  const d = +formattedValue.find((item) => item.type === 'd')!.value;
+  const H = +formattedValue.find((item) => item.type === 'H')!.value;
+  const m = +formattedValue.find((item) => item.type === 'm')!.value;
+  const newOptions = getDateRangeEnum(0, 59, new Date(y, M, d, H, m), filter);
+  const currentSecondValue = formattedValue.find((item) => item.type === 's')!.value;
+  const newIndex = newOptions.findIndex(item => item === currentSecondValue);
+  const newValue = newIndex > -1 ? newOptions[newIndex] : newOptions[0];
+  return {
+    newValue,
+    newIndex: Math.max(newIndex, 0),
+    newOptions,
+    valueChanged: newValue !== currentSecondValue,
   };
 }

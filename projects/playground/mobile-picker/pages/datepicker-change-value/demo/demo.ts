@@ -1,10 +1,10 @@
 import { Picker, } from "@ysx-libs/mobile-picker";
 import { DefaultMode, genOptions, updateDay, validModeList, valueToDate } from "../../../utils/date";
 import { ColumnType, DatePickerOptions, FormattedValue, GenFullRes } from "../../../types/date-picker";
-import { format } from "date-fns";
+import { format, getDate, getHours, getMinutes, getMonth, getSeconds, getYear } from "date-fns";
 
-const defaultProps: DatePickerOptions = {
-  value: null, // 可设默认值比如：new Date(2026, 3, 5, 11, 22)
+let defaultProps: DatePickerOptions = {
+  value: null,
   mode: DefaultMode
 };
 
@@ -32,6 +32,59 @@ export function run() {
         onChange.call(pickerInstance, indexes, colIndex);
       }
     },
+  });
+
+  const formNode = document.getElementById('form');
+  if (formNode) {
+    formNode.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const input = formNode.querySelector('mdui-text-field[type="datetime-local"]') as HTMLInputElement;
+      if (input) {
+        setValue(new Date(input.value));
+        pickerIndexes = valueToPickerIndexes();
+        renderLabel();
+        // console.log('setValue>>>', formattedValue);
+        pickerInstance.setIndexes(pickerIndexes);
+      }
+    });
+  }
+}
+
+
+function setValue(value: Date) {
+  formattedValue.forEach(item => {
+    switch (item.type) {
+      case 'y':
+        const y = getYear(value).toString();
+        item.value = y;
+        item.pickerIndex = allData.y!.data.findIndex((item) => item === y);
+        break;
+      case 'M':
+        const M = (getMonth(value) + 1).toString();
+        item.value = M;
+        item.pickerIndex = allData.M!.data.findIndex((item) => item === M);
+        break;
+      case 'd':
+        const d = getDate(value).toString();
+        item.value = d;
+        item.pickerIndex = allData.d!.data.findIndex((item) => item === d);
+        break;
+      case 'H':
+        const H = getHours(value).toString();
+        item.value = H;
+        item.pickerIndex = allData.H!.data.findIndex((item) => item === H);
+        break;
+      case 'm':
+        const m = getMinutes(value).toString();
+        item.value = m;
+        item.pickerIndex = allData.m!.data.findIndex((item) => item === m);
+        break;
+      case 's':
+        const s = getSeconds(value).toString();
+        item.value = s;
+        item.pickerIndex = allData.s!.data.findIndex((item) => item === s);
+        break;
+    }
   });
 }
 
@@ -91,6 +144,8 @@ function renderLabel() {
     valueNode.textContent = format(selectedDate, 'yyyy/MM/dd HH:mm');
   }
 }
+
+
 
 
 function initData(props: DatePickerOptions) {

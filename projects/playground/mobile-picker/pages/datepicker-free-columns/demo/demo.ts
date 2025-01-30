@@ -1,11 +1,12 @@
 import { Picker, } from "@ysx-libs/mobile-picker";
-import { DefaultMode, genOptions, updateDay, validModeList, valueToDate } from "../../../utils/date";
+import { genOptions, updateDay, validModeList, valueToDate } from "../../../utils/date";
 import { ColumnType, DatePickerOptions, FormattedValue, GenFullRes } from "../../../types/date-picker";
 import { format } from "date-fns";
 
 const defaultProps: DatePickerOptions = {
   value: null, // 可设默认值比如：new Date(2026, 3, 5, 11, 22)
-  mode: DefaultMode
+  // mode决定列的种类和顺序
+  mode: ['d', 'M', 'H'],
 };
 
 let allData: GenFullRes = {};
@@ -46,6 +47,7 @@ function onChange(this: Picker, indexes: number[], colIndex: number) {
   valueTarget.value = allData[type]!.data[indexes[colIndex]];
   valueTarget.pickerIndex = indexes[colIndex];
 
+
   if (type === 'M') {
     const { newValue, newIndex, newOptions, valueChanged } = updateDay(
       formattedValue,
@@ -64,7 +66,6 @@ function onChange(this: Picker, indexes: number[], colIndex: number) {
     }
 
     pickerIndexes = valueToPickerIndexes();
-
     this.refreshColumns([dayIndex], pickerIndexes);
     // this.refreshAll(pickerIndexes);
   }
