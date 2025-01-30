@@ -22,6 +22,7 @@ export default defineConfig({
         controlValue: resolve(dir, 'mobile-picker/pages/control-value/index.html'),
         multiCols: resolve(dir, 'mobile-picker/pages/multi-cols/index.html'),
         comprehensive: resolve(dir, 'mobile-picker/pages/comprehensive/index.html'),
+        datepicker: resolve(dir, 'mobile-picker/pages/datepicker/index.html'),
         options: resolve(dir, 'mobile-picker/pages/options/index.html'),
         methods: resolve(dir, 'mobile-picker/pages/methods/index.html'),
       }

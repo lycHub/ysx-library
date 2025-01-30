@@ -11,6 +11,7 @@ export const MenuItemList = [
   { value: 'refreshList', label: '刷新列表', parent: 'demo', path: 'refresh-list' },
   { value: 'multiCols', label: '多列picker', parent: 'demo', path: 'multi-cols' },
   { value: 'comprehensive', label: '综合示例', parent: 'demo', path: 'comprehensive' },
+  { value: 'datepicker', label: 'DatePicker', parent: 'demo', path: 'datepicker' },
 
   { value: 'options', label: '选项', parent: 'api', path: 'options' },
   { value: 'methods', label: '方法', parent: 'api', path: 'methods' },

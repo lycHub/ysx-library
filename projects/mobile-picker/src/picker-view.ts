@@ -41,18 +41,20 @@ interface DragStartInfo {
   pointY: number;
 }
 
+const defaultMeta = {
+  listContainerHeight: 0,
+  itemHeight: 0,
+  minScrollY: 0,
+  maxScrollY: 0,
+  limitMinScrollY: 0,
+  limitMaxScrollY: 0,
+}
+
 export class PickerView {
   #inTransition = false;
   #currentY = 0;
   #ownDocument: ValueOrNull<Document> = null;
-  metaInfo: MetaInfo = {
-    listContainerHeight: 0,
-    itemHeight: 0,
-    minScrollY: 0,
-    maxScrollY: 0,
-    limitMinScrollY: 0,
-    limitMaxScrollY: 0,
-  };
+  metaInfo: MetaInfo = defaultMeta;
   #dragStartInfo: ValueOrNull<DragStartInfo> = null;
 
 
@@ -95,6 +97,7 @@ export class PickerView {
     this.#initEvents();
     this.#changeTrigger = 'init';
     this.setIndex(this.options.selectedIndex);
+
 
     const { items, itemHeight } = this.metaInfo;
     if (items) {
@@ -289,6 +292,7 @@ export class PickerView {
       event,
       this.metaInfo.items.length - 1
     );
+    // console.log('set validIndex', validIndex, this.innerSelectedIndex);
     if (this.innerSelectedIndex !== validIndex) {
       this.#transitionDuration(duration);
       const y = this.#findYByIndex(validIndex);
@@ -526,7 +530,7 @@ export class PickerView {
   }
 
   #cleanup() {
-    console.log('cleanup');
+    // console.log('cleanup');
     this.rootNode.classList.remove(DragStartCls);
     this.rootNode.classList.remove(DraggingCls);
     this.#dragStartInfo = null;
@@ -547,5 +551,9 @@ export class PickerView {
     this.#wheelEventController?.abort();
     this.#wheelEventController = null;
     this.#changeTrigger = '';
+    this.metaInfo = defaultMeta;
+
+    this.#transitionDuration();
+    this.#transitionY(0);
   }
 }
