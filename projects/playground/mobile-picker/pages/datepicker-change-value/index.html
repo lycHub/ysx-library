@@ -5,30 +5,30 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>综合示例</title>
+  <title>Date picker(改变值)</title>
 </head>
 
 <body>
   <div class="page demo simple">
     <mdui-card class="demo-card" variant="outlined">
       <div class="demo-card-top">
-        <div>
-          <mdui-button id="refresh-all">刷新所有列表</mdui-button>
-          <mdui-button id="refresh-two">刷新第二列</mdui-button>
-          <mdui-button id="refresh-two-select">刷新第二列并选中第4项</mdui-button>
-        </div>
-        <div class="value">选中的项: <span></span></div>
+        <form id="form">
+          <mdui-text-field  type="datetime-local" id="value" label="改变值"></mdui-text-field>
+          <mdui-button  type="submit">改变值</mdui-button>
+        </form>
+       
+        <p class="value">selectedDate: <span></span></p>
        </div>
         <!-- picker start 根元素 -->
       <div class="demo-card-mid mobile-picker">
         <!-- picker view 容器 -->
        <div class="mobile-picker-view-container">
   
-          <!-- <div class="mobile-picker-view">
-          <div class="mobile-picker-view-item-container">
-            <div class="mobile-picker-view-item">item1</div>
-          </div>
-        </div> -->
+        <!-- <div class="mobile-picker-view">
+            <div class="mobile-picker-view-item-container">
+              <div class="mobile-picker-view-item">item1</div>
+            </div>
+          </div> -->
        </div>
   
        <!-- 蒙层 -->
@@ -40,12 +40,19 @@
   
      <div class="demo-card-bottom">
       <mdui-tabs class="dcb-tabs" value="js">
+        <mdui-tab value="types">types</mdui-tab>
+        <mdui-tab value="utils">utils</mdui-tab>
         <mdui-tab value="js">js</mdui-tab>
         <mdui-tab value="html">html</mdui-tab>
         <mdui-tab value="css">css</mdui-tab>
-        <mdui-tab value="util">util</mdui-tab>
       
     
+        <mdui-tab-panel class="demo-code-content" slot="panel" value="types">
+          <pre><code class="language-ts"></code></pre>
+        </mdui-tab-panel>
+        <mdui-tab-panel class="demo-code-content" slot="panel" value="utils">
+          <pre><code class="language-ts"></code></pre>
+        </mdui-tab-panel>
         <mdui-tab-panel class="demo-code-content" slot="panel" value="js">
           <pre><code class="language-ts"></code></pre>
         </mdui-tab-panel>
@@ -54,9 +61,6 @@
         </mdui-tab-panel>
         <mdui-tab-panel class="demo-code-content" slot="panel" value="css">
           <pre><code class="language-scss"></code></pre>
-        </mdui-tab-panel>
-        <mdui-tab-panel class="demo-code-content" slot="panel" value="util">
-          <pre><code class="language-ts"></code></pre>
         </mdui-tab-panel>
       </mdui-tabs>
       </div>

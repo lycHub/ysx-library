@@ -10,6 +10,8 @@
 - 支持滚轮
 - 可点击选择
 
+### [Document](https://lychub.github.io/ysx-library/docs/playground/mobile-picker/entry/)
+
 ### 安装
 ```
  npm add @ysx-libs/mobile-picker
@@ -89,7 +91,4 @@ let selectedIndexes: number[] = [];
             });
 
 ```
-
-
-### [doc](https://lychub.github.io/ysx-library/docs/playground/mobile-picker/entry/)
 

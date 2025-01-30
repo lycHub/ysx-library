@@ -16,6 +16,7 @@
     "@mdui/icons": "^1.0.2",
     "@ysx-libs/mobile-picker": "workspace:*",
     "crypto-random-string": "^5.0.0",
+    "date-fns": "^4.1.0",
     "highlight.js": "^11.5.1",
     "mdui": "^2.1.3"
   }
