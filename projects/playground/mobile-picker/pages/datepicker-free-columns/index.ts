@@ -18,13 +18,13 @@ import htmlStr from './index.html?raw';
 import cssStr from './demo/demo.scss?raw';
 import types from '../../types/date-picker.ts?raw';
 import utils from '../../utils/date.ts?raw';
-import jsStr from './demo/demo.ts?raw';
+import tsStr from './demo/demo.ts?raw';
 import { run } from './demo/demo';
 
 const codeMap = {
   html: htmlStr,
   css: cssStr,
-  js: jsStr,
+  ts: tsStr,
   types,
   utils
 }

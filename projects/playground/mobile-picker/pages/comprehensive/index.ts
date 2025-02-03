@@ -17,7 +17,7 @@ hljs.registerLanguage('scss', scss);
 
 import htmlStr from './index.html?raw';
 import cssStr from './demo/demo.scss?raw';
-import jsStr from './demo/demo.ts?raw';
+import tsStr from './demo/demo.ts?raw';
 import utilStr from '../../../util.ts?raw';
 import { run } from './demo/demo';
 
@@ -25,7 +25,7 @@ const codeMap = {
   util: utilStr,
   html: htmlStr,
   css: cssStr,
-  js: jsStr
+  ts: tsStr
 }
 
 

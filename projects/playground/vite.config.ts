@@ -20,6 +20,7 @@ export default defineConfig({
         mousewheel: resolve(dir, 'mobile-picker/pages/mousewheel/index.html'),
         scrollShape: resolve(dir, 'mobile-picker/pages/scroll-shape/index.html'),
         controlValue: resolve(dir, 'mobile-picker/pages/control-value/index.html'),
+        refreshList: resolve(dir, 'mobile-picker/pages/refresh-list/index.html'),
         multiCols: resolve(dir, 'mobile-picker/pages/multi-cols/index.html'),
         comprehensive: resolve(dir, 'mobile-picker/pages/comprehensive/index.html'),
         datepicker: resolve(dir, 'mobile-picker/pages/datepicker/index.html'),
