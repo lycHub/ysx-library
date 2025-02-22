@@ -13,6 +13,7 @@ import {
   clamp,
   DraggingCls,
   DragStartCls,
+  requestMove,
   exceedBoundary,
   flatItems,
   momentum,
@@ -21,7 +22,13 @@ import {
 } from './utils/tool';
 import { getClientCoordinateFromEvent } from './utils/coordinateFromEvent';
 import { isFunction } from './utils/is';
-import { DefaultClickToSelectConfig, DefaultMomentumConfig, DefaultMouseWheelConfig, TransitionDurationForFix } from './consts';
+import {
+  DefaultClickToSelectConfig,
+  DefaultMomentumConfig,
+  DefaultMouseWheelConfig,
+  TransitionDurationForFix,
+  TransitionDurationForWheel,
+} from './consts';
 import { closest, index } from './utils/dom';
 
 interface MetaInfo {
@@ -48,7 +55,7 @@ const defaultMeta = {
   maxScrollY: 0,
   limitMinScrollY: 0,
   limitMaxScrollY: 0,
-}
+};
 
 export class PickerView {
   #inTransition = false;
@@ -56,7 +63,6 @@ export class PickerView {
   #ownDocument: ValueOrNull<Document> = null;
   metaInfo: MetaInfo = defaultMeta;
   #dragStartInfo: ValueOrNull<DragStartInfo> = null;
-
 
   #moveEventController: ValueOrNull<AbortController> = null;
   #endEventController: ValueOrNull<AbortController> = null;
@@ -74,8 +80,6 @@ export class PickerView {
   readonly #innerScrollShape: ValueOrNull<ShapeFunc> = null;
   #changeTrigger: ChangeTrigger = '';
 
-
-
   constructor(
     readonly rootNode: HTMLElement,
     readonly options: PickerViewOptions
@@ -91,13 +95,14 @@ export class PickerView {
         ? false
         : { ...DefaultMomentumConfig, ...options.momentum };
 
-    this.#innerClickToSelectConfig = this.#getClickToSelectConfig(options.clickToSelect);
+    this.#innerClickToSelectConfig = this.#getClickToSelectConfig(
+      options.clickToSelect
+    );
     this.#innerMouseWheelConfig = this.#getMouseWheelConfig(options.mouseWheel);
     this.#init();
     this.#initEvents();
     this.#changeTrigger = 'init';
     this.setIndex(this.options.selectedIndex);
-
 
     const { items, itemHeight } = this.metaInfo;
     if (items) {
@@ -112,39 +117,46 @@ export class PickerView {
 
   #getClickToSelectConfig(data: PickerViewOptions['clickToSelect']) {
     if (data) {
-      return data === true ? {
-        ...DefaultClickToSelectConfig,
-        enable: true
-      } : {
-        ...DefaultClickToSelectConfig,
-        ...data,
-        enable: true
-      }
+      return data === true
+        ? {
+            ...DefaultClickToSelectConfig,
+            enable: true,
+          }
+        : {
+            ...DefaultClickToSelectConfig,
+            ...data,
+            enable: true,
+          };
     }
     return {
       ...DefaultClickToSelectConfig,
-      enable: false
-    }
+      enable: false,
+    };
   }
 
   #getMouseWheelConfig(data: PickerViewOptions['mouseWheel']) {
     if (data) {
-      return data === true ? {
-        ...DefaultMouseWheelConfig,
-        enable: true
-      } : {
-        ...DefaultMouseWheelConfig,
-        ...data,
-        enable: true
-      }
+      return data === true
+        ? {
+            ...DefaultMouseWheelConfig,
+            enable: true,
+          }
+        : {
+            ...DefaultMouseWheelConfig,
+            ...data,
+            enable: true,
+          };
     }
     return {
       ...DefaultMouseWheelConfig,
-      enable: false
-    }
+      enable: false,
+    };
   }
 
-  #getScrollShape(scrollShape: PickerViewOptions['scrollShape'], items: HTMLCollection) {
+  #getScrollShape(
+    scrollShape: PickerViewOptions['scrollShape'],
+    items: HTMLCollection
+  ) {
     let strategy: ValueOrNull<ShapeFunc> = ScrollShapeStrategies.flat;
     if (items?.length > 3) {
       strategy = isFunction(scrollShape)
@@ -171,9 +183,6 @@ export class PickerView {
       limitMinScrollY: minScrollY - this.options.moveThreshold,
       limitMaxScrollY: maxScrollY + this.options.moveThreshold,
     };
-
-
-
 
     // console.log('metaInfo', this.metaInfo);
   }
@@ -218,8 +227,11 @@ export class PickerView {
 
     if (enable) {
       const { itemClassName } = this.options;
-      this.rootNode.addEventListener('click', event => {
-        const itemNode = closest(event.target as HTMLElement, '.' + itemClassName);
+      this.rootNode.addEventListener('click', (event) => {
+        const itemNode = closest(
+          event.target as HTMLElement,
+          '.' + itemClassName
+        );
         if (itemNode) {
           const i = index(itemNode, '.' + itemClassName);
           this.#changeTrigger = 'click';
@@ -230,27 +242,31 @@ export class PickerView {
 
     if (this.#innerMouseWheelConfig.enable) {
       this.#wheelEventController = new AbortController();
-      this.rootNode.addEventListener('wheel', event => {
-        event.preventDefault();
-        event.stopPropagation();
-        this.#wheelHandler(event);
-      }, {
-        signal: this.#wheelEventController?.signal
-      });
+      this.rootNode.addEventListener(
+        'wheel',
+        (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          this.#wheelHandler(event);
+        },
+        {
+          signal: this.#wheelEventController?.signal,
+        }
+      );
     }
-
   }
 
   #wheelHandler(event: WheelEvent) {
-    const { deltaY, deltaMode, } = event;
+    const { deltaY, deltaMode } = event;
     let wheelY = 0;
     if (deltaMode === 1) {
       wheelY = -deltaY * this.#innerMouseWheelConfig.speed;
     } else {
-      wheelY = -deltaY
+      wheelY = -deltaY;
     }
     // console.log('object :>> ', y);
-    const { limitMinScrollY, limitMaxScrollY, minScrollY, maxScrollY } = this.metaInfo;
+    const { limitMinScrollY, limitMaxScrollY, minScrollY, maxScrollY } =
+      this.metaInfo;
     let newY = this.#currentY + wheelY;
 
     if (exceedBoundary(newY, minScrollY, maxScrollY)) {
@@ -261,23 +277,22 @@ export class PickerView {
       );
     }
 
-    this.#transitionDuration(300);
+    this.#transitionDuration({ duration: TransitionDurationForWheel });
     this.#transitionY(newY);
     // console.log('newY>>>', newY, limitMinScrollY);
     this.#wheelEndDetector();
   }
   #wheelEndDetector() {
-    window.clearTimeout(this.#wheelEndTimer)
+    window.clearTimeout(this.#wheelEndTimer);
     this.#wheelEndTimer = window.setTimeout(() => {
       const { index, y } = this.#findNearestItem(this.#currentY);
       const { limitMinScrollY, limitMaxScrollY } = this.metaInfo;
       const newY = clamp(y, limitMinScrollY, limitMaxScrollY);
-      this.#transitionDuration(TransitionDurationForFix);
+      this.#transitionDuration({ duration: TransitionDurationForFix });
       this.#transitionY(newY);
       this.#changeTrigger = 'wheel';
       this.#handleChange(index);
-
-    }, this.#innerMouseWheelConfig.discreteTime)
+    }, this.#innerMouseWheelConfig.discreteTime);
   }
 
   #handleChange(index: number) {
@@ -294,7 +309,7 @@ export class PickerView {
     );
     // console.log('set validIndex', validIndex, this.innerSelectedIndex);
     if (this.innerSelectedIndex !== validIndex) {
-      this.#transitionDuration(duration);
+      this.#transitionDuration({ duration });
       const y = this.#findYByIndex(validIndex);
       this.#transitionY(y);
       this.#handleChange(validIndex);
@@ -419,6 +434,7 @@ export class PickerView {
       this.metaInfo;
     const fixedY = this.#fixedBoundaryPosition();
     // console.log('fixedY', fixedY);
+    let isMoment = false;
     if (fixedY) {
       newY = fixedY;
     } else {
@@ -433,6 +449,7 @@ export class PickerView {
         absDistY > this.#momentumConfig.distance
       ) {
         // console.log('momentum run', timeDiff, absDistY);
+        isMoment = true;
         const destination = momentum(
           pointY,
           startY,
@@ -455,8 +472,24 @@ export class PickerView {
     if (newY !== this.#currentY) {
       this.#changeTrigger = 'drag';
       newY = clamp(newY, limitMinScrollY, limitMaxScrollY);
-      this.#transitionDuration(duration);
-      this.#transitionY(newY);
+      // todo: 统一用 requestMove ?
+      if (isMoment) {
+        this.#transitionDuration({ duration, setProp: false });
+        requestMove({
+          startPoi: this.#currentY,
+          duration,
+          destPoi: newY,
+          onRunning: (y) => {
+            this.#transitionY(y);
+          },
+          onEnd: () => {
+            this.#transitionEndHandler();
+          },
+        });
+      } else {
+        this.#transitionDuration({ duration });
+        this.#transitionY(newY);
+      }
       this.#handleChange(selectedIndex);
     }
     this.#cleanup();
@@ -469,7 +502,7 @@ export class PickerView {
     if (fixedY === null) {
       this.#transitionDuration();
     } else {
-      this.#transitionDuration(TransitionDurationForFix);
+      this.#transitionDuration({ duration: TransitionDurationForFix });
       this.#transitionY(fixedY);
     }
   }
@@ -511,12 +544,16 @@ export class PickerView {
     return result;
   }
 
-  #transitionDuration(duration = 0) {
+  #transitionDuration(event?: { duration: number; setProp?: boolean }) {
+    const duration = event?.duration || 0;
+    const setProp = event?.setProp === false ? false : true;
     this.#inTransition = duration > 0;
-    this.rootNode.style.setProperty(
-      '--picker-transit-duration',
-      `${duration}ms`
-    );
+    if (setProp) {
+      this.rootNode.style.setProperty(
+        '--picker-transit-duration',
+        `${duration}ms`
+      );
+    }
   }
 
   #transitionY(y: number) {

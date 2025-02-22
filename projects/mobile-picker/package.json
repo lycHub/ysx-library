@@ -1,6 +1,6 @@
 {
   "name": "@ysx-libs/mobile-picker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "scripts": {
     "start": "concurrently \"pnpm copyFiles:watch\" \"pnpm build:types:watch\" \"pnpm build:watch\"",
