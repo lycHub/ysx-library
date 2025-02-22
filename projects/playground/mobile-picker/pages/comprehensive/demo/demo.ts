@@ -15,7 +15,7 @@ export function run() {
       renderLabel();
     },
     mouseWheel: true,
-    clickToSelect: true
+    clickToSelect: true,
   });
 
   const refreshAllBtn = document.getElementById('refresh-all');
@@ -53,7 +53,7 @@ export function run() {
   }
 
   function renderLabel() {
-    const valueNode = document.querySelector('.demo-top .value span');
+    const valueNode = document.querySelector('.demo-card-top .value span');
     if (valueNode) {
       const label = value.map((event, index) => columns[index][event]);
       valueNode.textContent = label.join('，');
@@ -80,7 +80,9 @@ export function run() {
 
   function renderPickerView(index: number) {
     const pickerView = document.querySelector(
-      `.mobile-picker .mobile-picker-view-container .mobile-picker-view:nth-child(${index + 1}) .mobile-picker-view-item-container`
+      `.mobile-picker .mobile-picker-view-container .mobile-picker-view:nth-child(${
+        index + 1
+      }) .mobile-picker-view-item-container`
     );
     if (pickerView) {
       let pickerViewStr = '';
@@ -97,6 +99,4 @@ export function run() {
     });
     return str;
   }
-
 }
-
