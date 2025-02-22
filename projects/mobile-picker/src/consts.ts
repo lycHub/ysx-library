@@ -9,9 +9,9 @@ export const TransitionDurationForFix = 500;
 export const TransitionDurationForWheel = 300;
 export const DefaultMomentumConfig: MomentumConfig = {
   time: 300, // ms
-  distance: 20, // px
-  duration: 2000, // ms
-  deceleration: 0.002, // 减速度
+  distance: 15, // px
+  duration: 2500, // ms
+  deceleration: 0.0015, // 减速度
 };
 
 export const DefaultClickToSelectConfig: ClickToSelectConfig = {
