@@ -224,10 +224,10 @@ export class PickerView {
     );
 
     const { enable, duration } = this.#innerClickToSelectConfig;
-
     if (enable) {
       const { itemClassName } = this.options;
       this.rootNode.addEventListener('click', (event) => {
+        if (this.#inTransition) return;
         const itemNode = closest(
           event.target as HTMLElement,
           '.' + itemClassName
@@ -480,6 +480,7 @@ export class PickerView {
           duration,
           destPoi: newY,
           onRunning: (y) => {
+            // console.log('onRunning', y, newY);
             this.#transitionY(y);
           },
           onEnd: () => {

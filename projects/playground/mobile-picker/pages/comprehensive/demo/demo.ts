@@ -2,6 +2,7 @@ import { Picker } from '@ysx-libs/mobile-picker';
 import { genItems } from '../../../../util';
 
 let columns = [genItems(16), genItems(7), genItems(2)];
+console.log('columns>>>', columns);
 let value: number[] = [];
 
 export function run() {
@@ -9,7 +10,7 @@ export function run() {
   renderLabel();
   const pickerInstance = new Picker('.mobile-picker', {
     selectedIndexes: value,
-    onChange(event) {
+    onChange(event, trigger) {
       // console.log('onChange>>>', event, trigger);
       value = event;
       renderLabel();
