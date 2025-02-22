@@ -34,28 +34,19 @@
       </div>
       <div class="sec-body">
         clickToSelect = true后，
-        内部的click事件是绑在".mobile-picker-view"上的, 
+        内部的click事件是绑在".mobile-picker-view"上的,
         也就是".mobile-picker-view-item"的父元素上的，而不是item本身。
         然后通过itemClassName(默认"mobile-picker-view-item")的值来锁定具体item。
         所以此功能无效的原因可能是：
-        
+
         <ol>
           <li>item原生绑定了click事件并阻止了冒泡</li>
           <li>改变了item的classname并且没有正确设置itemClassName</li>
         </ol>
       </div>
     </section>
-   
-    <section class="sec">
-      <div class="sec-header">
-        <h2>scrollShape 在快速滚动时样式有点奇怪？</h2>
-      </div>
-      <div class="sec-body">
-        scrollShape = 'scale' | 'rotate' 时会有这个问题，还没想到更合理的实现，欢迎pr.
-      </div>
-    </section>
   </div>
-  
+
   <script type="module" src="./index.ts"></script>
 </body>
 

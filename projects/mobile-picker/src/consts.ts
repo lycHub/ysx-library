@@ -1,6 +1,12 @@
-import { ClickToSelectConfig, MomentumConfig, MouseWheelConfig, PickerOptions } from './types';
+import {
+  ClickToSelectConfig,
+  MomentumConfig,
+  MouseWheelConfig,
+  PickerOptions,
+} from './types';
 
 export const TransitionDurationForFix = 500;
+export const TransitionDurationForWheel = 300;
 export const DefaultMomentumConfig: MomentumConfig = {
   time: 300, // ms
   distance: 20, // px
@@ -9,12 +15,12 @@ export const DefaultMomentumConfig: MomentumConfig = {
 };
 
 export const DefaultClickToSelectConfig: ClickToSelectConfig = {
-  duration: 300
+  duration: 300,
 };
 
 export const DefaultMouseWheelConfig: MouseWheelConfig = {
   speed: 20,
-  discreteTime: 400
+  discreteTime: 400,
 };
 
 export const DefaultOptions: PickerOptions = {
@@ -25,9 +31,8 @@ export const DefaultOptions: PickerOptions = {
   momentum: DefaultMomentumConfig,
   itemClassName: 'mobile-picker-view-item',
   clickToSelect: false,
-  mouseWheel: false
+  mouseWheel: false,
 };
-
 
 export enum MouseWheelDirection {
   Default = 0,

@@ -50,29 +50,18 @@ export function flatItems(items?: HTMLCollection) {
 
 function scaleItems(y: number, itemHeight: number, items?: HTMLCollection) {
   if (!items?.length) return;
-  // eslint-disable-next-line no-plusplus
   for (let index = 0; index < items.length; index++) {
     const item = items[index] as HTMLDivElement;
-    // const scale = 1 - DefItemScale * Math.abs(y / itemHeight + index);
-    const scale = clamp(
-      1 - DefItemScale * Math.abs(y / itemHeight + index),
-      0.5,
-      1
-    );
-
+    const scale = 1 - DefItemScale * Math.abs(y / itemHeight + index);
     item.style.transform = `scale(${scale.toFixed(2)})`;
   }
 }
 
 function rotateItems(y: number, itemHeight: number, items?: HTMLCollection) {
   if (!items?.length) return;
-  // eslint-disable-next-line no-plusplus
   for (let index = 0; index < items.length; index++) {
     const item = items[index] as HTMLDivElement;
     const deg = DefItemRotate * (y / itemHeight + index);
-    // const deg =
-    //   DefItemRotate *
-    //   clamp(y / itemHeight + index, -200 / DefItemRotate, 200 / DefItemRotate);
     item.style.transform = `rotateX(${deg.toFixed(0)}deg)`;
   }
 }
@@ -82,3 +71,41 @@ export const ScrollShapeStrategies = {
   scale: scaleItems,
   rotate: rotateItems,
 };
+
+function easeOut(progress: number): number {
+  return 1 - Math.pow(1 - progress, 3);
+}
+
+export function requestMove({
+  startPoi,
+  duration,
+  destPoi,
+  onRunning,
+  onEnd,
+}: {
+  startPoi: number;
+  duration: number;
+  destPoi: number;
+  onRunning(event: number): void;
+  onEnd(): void;
+}) {
+  const startTime = performance.now();
+  let currentPoi = startPoi;
+
+  const step = (timestamp: number) => {
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / duration, 1); // 确保进度不超过1
+
+    const easedProgress = easeOut(progress);
+    currentPoi = startPoi + (destPoi - startPoi) * easedProgress;
+
+    onRunning(currentPoi);
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      onEnd();
+    }
+  };
+  requestAnimationFrame(step);
+}
