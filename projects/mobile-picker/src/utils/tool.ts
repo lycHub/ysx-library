@@ -103,7 +103,6 @@ export function requestMove({
 
     const easedProgress = easeOut(progress);
     currentPoi = startPoi + (destPoi - startPoi) * easedProgress;
-    console.log('cancel onRunning');
     onRunning(currentPoi);
 
     if (progress < 1) {

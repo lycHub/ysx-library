@@ -1,5 +1,4 @@
-import { Picker } from "@ysx-libs/mobile-picker";
-
+import { Picker } from '@ysx-libs/mobile-picker';
 
 let selectedIndexes: number[] = [];
 
@@ -10,11 +9,10 @@ export function run() {
       selectedIndexes = event;
       renderLabel();
     },
-    clickToSelect: true
+    clickToSelect: true,
   });
   renderLabel();
 }
-
 
 function renderLabel() {
   const valueNode = document.querySelector('.demo-card-top .value span');
@@ -22,5 +20,3 @@ function renderLabel() {
     valueNode.textContent = selectedIndexes.join('，');
   }
 }
-
-

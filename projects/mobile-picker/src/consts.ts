@@ -32,6 +32,7 @@ export const DefaultOptions: PickerOptions = {
   itemClassName: 'mobile-picker-view-item',
   clickToSelect: false,
   mouseWheel: false,
+  onlyLeftButton: true,
 };
 
 export enum MouseWheelDirection {

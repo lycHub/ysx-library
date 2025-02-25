@@ -29,18 +29,21 @@ export interface InnerMouseWheelConfig extends MouseWheelConfig {
   enable: boolean;
 }
 
-export type ShapeFunc = (y: number, itemHeight: number, items?: HTMLCollection) => void;
+export type ShapeFunc = (
+  y: number,
+  itemHeight: number,
+  items?: HTMLCollection
+) => void;
 
 export interface PickerBaseOptions {
   usePointerEvents: boolean;
-  scrollShape:
-  | PickerDefScrollShape
-  | ShapeFunc;
+  scrollShape: PickerDefScrollShape | ShapeFunc;
   moveThreshold: number;
   momentum: MomentumConfig | false;
   itemClassName: string;
   clickToSelect: boolean | ClickToSelectConfig;
   mouseWheel: boolean | MouseWheelConfig;
+  onlyLeftButton: boolean;
 }
 
 export type ChangeTrigger = 'click' | 'drag' | 'init' | 'api' | 'wheel' | '';
@@ -48,8 +51,6 @@ export interface PickerViewOptions extends PickerBaseOptions {
   selectedIndex: number;
   onChange(event: number, trigger: ChangeTrigger): void;
 }
-
-
 
 export interface PickerOptions extends PickerBaseOptions {
   selectedIndexes: number[];

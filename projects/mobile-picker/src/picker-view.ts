@@ -323,6 +323,15 @@ export class PickerView {
     if (this.#dragStartInfo || !clientCoordinate) {
       return;
     }
+
+    if (
+      this.options.onlyLeftButton &&
+      event.type === 'mousedown' &&
+      (event as MouseEvent).button !== 0
+    ) {
+      return;
+    }
+
     this.#transitionDuration();
     this.#moveFunc?.cancel?.();
     this.#moveFunc = null;
