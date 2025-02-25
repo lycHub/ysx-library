@@ -91,21 +91,36 @@ export function requestMove({
 }) {
   const startTime = performance.now();
   let currentPoi = startPoi;
+  let id = -1;
+  let isCancelled = false;
 
   const step = (timestamp: number) => {
+    if (isCancelled) {
+      return;
+    }
     const elapsed = timestamp - startTime;
     const progress = Math.min(elapsed / duration, 1); // 确保进度不超过1
 
     const easedProgress = easeOut(progress);
     currentPoi = startPoi + (destPoi - startPoi) * easedProgress;
-
+    console.log('cancel onRunning');
     onRunning(currentPoi);
 
     if (progress < 1) {
-      requestAnimationFrame(step);
+      id = requestAnimationFrame(step);
     } else {
       onEnd();
     }
   };
-  requestAnimationFrame(step);
+  id = requestAnimationFrame(step);
+
+  const cancel = () => {
+    if (!isCancelled) {
+      isCancelled = true;
+      cancelAnimationFrame(id);
+    }
+  };
+  return {
+    cancel,
+  };
 }

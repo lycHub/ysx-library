@@ -74,7 +74,8 @@ export class PickerView {
   readonly #canPointer: boolean;
   readonly #momentumConfig: PickerViewOptions['momentum'];
   innerSelectedIndex = 0;
-  #wheelEndTimer = 0;
+  #wheelEndTimer = -1;
+  #moveFunc: ValueOrNull<ReturnType<typeof requestMove>> = null;
   readonly #innerClickToSelectConfig: InnerClickToSelectConfig;
   readonly #innerMouseWheelConfig: InnerMouseWheelConfig;
   readonly #innerScrollShape: ValueOrNull<ShapeFunc> = null;
@@ -323,6 +324,8 @@ export class PickerView {
       return;
     }
     this.#transitionDuration();
+    this.#moveFunc?.cancel?.();
+    this.#moveFunc = null;
 
     this.rootNode.classList.add(DragStartCls);
 
@@ -475,16 +478,15 @@ export class PickerView {
       // todo: 统一用 requestMove ?
       if (isMoment) {
         this.#transitionDuration({ duration, setProp: false });
-        requestMove({
+        this.#moveFunc = requestMove({
           startPoi: this.#currentY,
           duration,
           destPoi: newY,
           onRunning: (y) => {
-            // console.log('onRunning', y, newY);
             this.#transitionY(y);
           },
           onEnd: () => {
-            this.#transitionEndHandler();
+            this.#transitionY(y);
           },
         });
       } else {
@@ -497,8 +499,6 @@ export class PickerView {
   }
 
   #transitionEndHandler() {
-    // console.log('transitionEndHandler');
-    //  todo: onScrollEnd
     const fixedY = this.#fixedBoundaryPosition();
     if (fixedY === null) {
       this.#transitionDuration();
@@ -593,5 +593,7 @@ export class PickerView {
 
     this.#transitionDuration();
     this.#transitionY(0);
+    this.#moveFunc?.cancel?.();
+    this.#moveFunc = null;
   }
 }
