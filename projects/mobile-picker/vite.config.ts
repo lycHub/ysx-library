@@ -11,14 +11,6 @@ export default defineConfig(({ command }) => {
         name: 'MobilePicker',
         fileName: (format) => `mobile-picker.${format}.js`,
       },
-      // rollupOptions: {
-      //   external: ['vue'],
-      //   output: {
-      //     globals: {
-      //       vue: 'Vue'
-      //     }
-      //   }
-      // }
     },
   };
 });

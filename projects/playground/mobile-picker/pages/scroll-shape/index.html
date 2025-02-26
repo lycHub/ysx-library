@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>鼠标滚轮</title>
+  <title>滚动样式</title>
 </head>
 
 <body>
@@ -14,68 +14,77 @@
       <div class="demo-card-top">
         <fieldset>
           <legend>Select a shape:</legend>
-        
+
           <input type="radio" id="scale" name="shape" value="scale" checked />
           <label for="scale">scale</label>
-        
+
           <input type="radio" id="flat" name="shape" value="flat" />
-            <label for="flat">flat</label>
-        
-            <input type="radio" id="rotate" name="shape" value="rotate" />
-            <label for="rotate">rotate</label>
+          <label for="flat">flat</label>
+
+          <input type="radio" id="rotate" name="shape" value="rotate" />
+          <label for="rotate">rotate</label>
         </fieldset>
-        
+
         <div class="value">selectedIndexes: <span></span></div>
-       </div>
-        <!-- picker start 根元素 -->
+      </div>
+      <!-- picker start 根元素 -->
       <div class="demo-card-mid mobile-picker">
         <!-- picker view 容器 -->
-       <div class="mobile-picker-view-container">
-  
-         <!-- 单列picker view -->
-         <div class="mobile-picker-view">
-           <div class="mobile-picker-view-item-container">
-             <div class="mobile-picker-view-item">item0</div>
-             <div class="mobile-picker-view-item">item1</div>
-             <div class="mobile-picker-view-item">item2</div>
-             <div class="mobile-picker-view-item">item3</div>
-             <div class="mobile-picker-view-item">item4</div>
-             <div class="mobile-picker-view-item">item5</div>
-             <div class="mobile-picker-view-item">item6</div>
-             <div class="mobile-picker-view-item">item7</div>
-             <div class="mobile-picker-view-item">item8</div>
-           </div>
-         </div>
-       </div>
-  
-       <!-- 蒙层 -->
-       <div class="mobile-picker-overlay">
-         <div class="mobile-picker-overlay-mid"></div>
-       </div>
-     </div>
+        <div class="mobile-picker-view-container">
+
+          <!-- 单列picker view -->
+          <div class="mobile-picker-view">
+            <div class="mobile-picker-view-item-container">
+              <div class="mobile-picker-view-item">item0</div>
+              <div class="mobile-picker-view-item">item1</div>
+              <div class="mobile-picker-view-item">item2</div>
+              <div class="mobile-picker-view-item">item3</div>
+              <div class="mobile-picker-view-item">item4</div>
+              <div class="mobile-picker-view-item">item5</div>
+              <div class="mobile-picker-view-item">item6</div>
+              <div class="mobile-picker-view-item">item7</div>
+              <div class="mobile-picker-view-item">item8</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 蒙层 -->
+        <div class="mobile-picker-overlay">
+          <div class="mobile-picker-overlay-mid"></div>
+        </div>
+      </div>
       <!-- picker end -->
-  
-     <div class="demo-card-bottom">
-      <mdui-tabs class="dcb-tabs" value="ts">
-        <mdui-tab value="ts">ts</mdui-tab>
-        <mdui-tab value="html">html</mdui-tab>
-        <mdui-tab value="css">css</mdui-tab>
-      
-    
-        <mdui-tab-panel class="demo-code-content" slot="panel" value="ts">
-          <pre><code class="language-ts"></code></pre>
-        </mdui-tab-panel>
-        <mdui-tab-panel class="demo-code-content" slot="panel" value="html">
-          <pre><code class="language-html"></code></pre>
-        </mdui-tab-panel>
-        <mdui-tab-panel class="demo-code-content" slot="panel" value="css">
-          <pre><code class="language-scss"></code></pre>
-        </mdui-tab-panel>
-      </mdui-tabs>
+
+      <div class="demo-card-bottom">
+        <mdui-tabs class="dcb-tabs" value="ts">
+          <mdui-tab value="ts">ts</mdui-tab>
+          <mdui-tab value="html">html</mdui-tab>
+          <mdui-tab value="css">css</mdui-tab>
+
+
+          <mdui-tab-panel class="demo-code-content" slot="panel" value="ts">
+            <mdui-tooltip trigger="click" content="copied">
+              <mdui-icon-content-copy class="demo-code-copy"></mdui-icon-content-copy>
+            </mdui-tooltip>
+            <pre><code class="language-ts"></code></pre>
+          </mdui-tab-panel>
+          <mdui-tab-panel class="demo-code-content" slot="panel" value="html">
+            <mdui-tooltip trigger="click" content="copied">
+              <mdui-icon-content-copy class="demo-code-copy"></mdui-icon-content-copy>
+            </mdui-tooltip>
+            <pre><code class="language-html"></code></pre>
+          </mdui-tab-panel>
+          <mdui-tab-panel class="demo-code-content" slot="panel" value="css">
+            <mdui-tooltip trigger="click" content="copied">
+              <mdui-icon-content-copy class="demo-code-copy"></mdui-icon-content-copy>
+            </mdui-tooltip>
+            <pre><code class="language-scss"></code></pre>
+          </mdui-tab-panel>
+        </mdui-tabs>
       </div>
     </mdui-card>
   </div>
-  
+
   <script type="module" src="./index.ts"></script>
 </body>
 

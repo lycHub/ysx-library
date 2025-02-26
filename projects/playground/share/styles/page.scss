@@ -6,10 +6,12 @@
   .sec {
     padding: 8px;
     margin-bottom: 18px;
+
     &-header {
       font-size: 18px;
       margin-bottom: 16px;
     }
+
     &-body {
       font-size: 16px;
       line-height: 1.6;
@@ -20,15 +22,26 @@
 .demo {
   &-card {
     display: block;
+
     &-top {
       padding: 10px 16px;
       font-size: 16px;
     }
+
     &-bottom {
       .demo-code-content {
+        position: relative;
         padding: 10px 16px;
+
+        .demo-code-copy {
+          cursor: pointer;
+          position: absolute;
+          right: 20px;
+          top: 30px;
+        }
       }
-     
+
+
     }
   }
 }
