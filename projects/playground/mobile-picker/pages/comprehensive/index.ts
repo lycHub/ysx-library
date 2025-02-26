@@ -5,7 +5,8 @@ import 'mdui/components/card';
 import 'mdui/components/tabs';
 import 'mdui/components/tab';
 import 'mdui/components/tab-panel';
-import type { TabPanel } from 'mdui';
+import 'mdui/components/tooltip';
+import '@mdui/icons/content-copy';
 
 import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -20,30 +21,16 @@ import cssStr from './demo/demo.scss?raw';
 import tsStr from './demo/demo.ts?raw';
 import utilStr from '../../../util.ts?raw';
 import { run } from './demo/demo';
-
-const codeMap = {
-  util: utilStr,
-  html: htmlStr,
-  css: cssStr,
-  ts: tsStr
-}
-
-
-function renderCode() {
-  // const tsStr = hljs.highlight(codeMap.js, { language: 'ts' });
-  // console.log('tsStr>>>', tsStr);
-  const tabContents = document.querySelectorAll('.demo-code-content') as NodeListOf<TabPanel>;
-  tabContents.forEach((tabContent) => {
-    tabContent.querySelector('pre code')!.textContent = codeMap[tabContent.value as keyof typeof codeMap];
-  });
-
-
-}
-
+import { renderCode } from '../../utils/tool';
 
 // 类似页面加载后执行
 customElements.whenDefined('mdui-card').then(() => {
   run();
-  renderCode();
+  renderCode({
+    util: utilStr,
+    html: htmlStr,
+    css: cssStr,
+    ts: tsStr,
+  });
   hljs.highlightAll();
 });
