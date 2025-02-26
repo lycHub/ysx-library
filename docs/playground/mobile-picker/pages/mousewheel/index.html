@@ -6,13 +6,13 @@
   <link rel="icon" type="image/svg+xml" href="/ysx-library/docs/playground/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>鼠标滚轮</title>
-  <script type="module" crossorigin src="/ysx-library/docs/playground/assets/mousewheel.7029bc3a.js"></script>
+  <script type="module" crossorigin src="/ysx-library/docs/playground/assets/mousewheel.9dbea06c.js"></script>
   <link rel="modulepreload" href="/ysx-library/docs/playground/assets/modulepreload-polyfill.b7f2da20.js">
-  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/tabs.6bc04e7b.js">
+  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/index.c7835f9b.js">
+  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/tool.19296855.js">
   <link rel="modulepreload" href="/ysx-library/docs/playground/assets/xml.7ceb4a85.js">
-  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/scss.38479186.js">
-  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/mobile-picker.es.7450b70e.js">
-  <link rel="stylesheet" href="/ysx-library/docs/playground/assets/datepickerFreeColumns.12895fbe.css">
+  <link rel="modulepreload" href="/ysx-library/docs/playground/assets/mobile-picker.es.0a103c63.js">
+  <link rel="stylesheet" href="/ysx-library/docs/playground/assets/multiCols.fb7b3a44.css">
 </head>
 
 <body>
@@ -20,56 +20,65 @@
     <mdui-card class="demo-card" variant="outlined">
       <div class="demo-card-top">
         <p class="value">selectedIndexes: <span></span></p>
-       </div>
-        <!-- picker start 根元素 -->
+      </div>
+      <!-- picker start 根元素 -->
       <div class="demo-card-mid mobile-picker">
         <!-- picker view 容器 -->
-       <div class="mobile-picker-view-container">
-  
-         <!-- 单列picker view -->
-         <div class="mobile-picker-view">
-           <div class="mobile-picker-view-item-container">
-             <div class="mobile-picker-view-item">item0</div>
-             <div class="mobile-picker-view-item">item1</div>
-             <div class="mobile-picker-view-item">item2</div>
-             <div class="mobile-picker-view-item">item3</div>
-             <div class="mobile-picker-view-item">item4</div>
-             <div class="mobile-picker-view-item">item5</div>
-             <div class="mobile-picker-view-item">item6</div>
-             <div class="mobile-picker-view-item">item7</div>
-             <div class="mobile-picker-view-item">item8</div>
-           </div>
-         </div>
-       </div>
-  
-       <!-- 蒙层 -->
-       <div class="mobile-picker-overlay">
-         <div class="mobile-picker-overlay-mid"></div>
-       </div>
-     </div>
+        <div class="mobile-picker-view-container">
+
+          <!-- 单列picker view -->
+          <div class="mobile-picker-view">
+            <div class="mobile-picker-view-item-container">
+              <div class="mobile-picker-view-item">item0</div>
+              <div class="mobile-picker-view-item">item1</div>
+              <div class="mobile-picker-view-item">item2</div>
+              <div class="mobile-picker-view-item">item3</div>
+              <div class="mobile-picker-view-item">item4</div>
+              <div class="mobile-picker-view-item">item5</div>
+              <div class="mobile-picker-view-item">item6</div>
+              <div class="mobile-picker-view-item">item7</div>
+              <div class="mobile-picker-view-item">item8</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 蒙层 -->
+        <div class="mobile-picker-overlay">
+          <div class="mobile-picker-overlay-mid"></div>
+        </div>
+      </div>
       <!-- picker end -->
-  
-     <div class="demo-card-bottom">
-      <mdui-tabs class="dcb-tabs" value="ts">
-        <mdui-tab value="ts">ts</mdui-tab>
-        <mdui-tab value="html">html</mdui-tab>
-        <mdui-tab value="css">css</mdui-tab>
-      
-    
-        <mdui-tab-panel class="demo-code-content" slot="panel" value="ts">
-          <pre><code class="language-ts"></code></pre>
-        </mdui-tab-panel>
-        <mdui-tab-panel class="demo-code-content" slot="panel" value="html">
-          <pre><code class="language-html"></code></pre>
-        </mdui-tab-panel>
-        <mdui-tab-panel class="demo-code-content" slot="panel" value="css">
-          <pre><code class="language-scss"></code></pre>
-        </mdui-tab-panel>
-      </mdui-tabs>
+
+      <div class="demo-card-bottom">
+        <mdui-tabs class="dcb-tabs" value="ts">
+          <mdui-tab value="ts">ts</mdui-tab>
+          <mdui-tab value="html">html</mdui-tab>
+          <mdui-tab value="css">css</mdui-tab>
+
+
+          <mdui-tab-panel class="demo-code-content" slot="panel" value="ts">
+            <mdui-tooltip trigger="click" content="copied">
+              <mdui-icon-content-copy class="demo-code-copy"></mdui-icon-content-copy>
+            </mdui-tooltip>
+            <pre><code class="language-ts"></code></pre>
+          </mdui-tab-panel>
+          <mdui-tab-panel class="demo-code-content" slot="panel" value="html">
+            <mdui-tooltip trigger="click" content="copied">
+              <mdui-icon-content-copy class="demo-code-copy"></mdui-icon-content-copy>
+            </mdui-tooltip>
+            <pre><code class="language-html"></code></pre>
+          </mdui-tab-panel>
+          <mdui-tab-panel class="demo-code-content" slot="panel" value="css">
+            <mdui-tooltip trigger="click" content="copied">
+              <mdui-icon-content-copy class="demo-code-copy"></mdui-icon-content-copy>
+            </mdui-tooltip>
+            <pre><code class="language-scss"></code></pre>
+          </mdui-tab-panel>
+        </mdui-tabs>
       </div>
     </mdui-card>
   </div>
-  
+
   
 </body>
 
